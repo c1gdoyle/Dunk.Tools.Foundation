@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dunk.Tools.Foundation", "Dunk.Tools.Foundation\Dunk.Tools.Foundation.csproj", "{52783250-4513-4EE0-BF69-29166EACA636}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dunk.Tools.Foundation.Test", "Dunk.Tools.Foundation.Test\Dunk.Tools.Foundation.Test.csproj", "{C76124DD-88B4-4165-B869-C951B542D1FF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{52783250-4513-4EE0-BF69-29166EACA636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52783250-4513-4EE0-BF69-29166EACA636}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52783250-4513-4EE0-BF69-29166EACA636}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52783250-4513-4EE0-BF69-29166EACA636}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C76124DD-88B4-4165-B869-C951B542D1FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C76124DD-88B4-4165-B869-C951B542D1FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C76124DD-88B4-4165-B869-C951B542D1FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C76124DD-88B4-4165-B869-C951B542D1FF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {535CED64-0DAF-447C-9528-A694AF9ED589}
+	EndGlobalSection
+EndGlobal
