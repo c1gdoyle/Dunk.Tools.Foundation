@@ -1,0 +1,7 @@
+language: csharp
+mono: none
+dotnet: 3.1
+solution: ./Dunk.Tools.Foundation.sln
+
+script:
+ - bash ./tools/travis-ci-build.sh
