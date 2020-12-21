@@ -44,6 +44,7 @@ namespace Dunk.Tools.Foundation.Comparers
         /// <returns>
         /// A signed integer that indicates the relative values of x and y reveresed.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2234: Reverse comparison is intended")]
         public int Compare(T x, T y)
         {
             return OriginalComparer.Compare(y, x);
