@@ -17,6 +17,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <returns>
         /// A <see cref="IEnumerable{T}"/> containing the elements of the original sequence in random order.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2245: Random is used to reorder enumerable. No security or encryption risk")]
         public static IEnumerable<T> Randomize<T>(this IEnumerable<T> source)
         {
             Random r = new Random();
