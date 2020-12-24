@@ -1,22 +1,17 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Dunk.Tools.Foundation.Collections
 {
     /// <summary>
-    /// A processing queue that manages the number of concurrent operations 
-    /// that can be processed at once. When an operation completes it will attempt to
-    /// start the next operation int the queue.
+    /// A <see cref="IThrottledProcessingQueue"/> implementation that manages the number 
+    /// of concurrent operations that can be processed at once. When an operation 
+    /// completes it will attempt to start the next operation int the queue.
     /// </summary>
-    public class SmartThrottledProcessingQueue
+    public class SmartThrottledProcessingQueue : ThrottledProcessingQueueBase
     {
-        private readonly ConcurrentQueue<Task> _queuedOperations = new ConcurrentQueue<Task>();
-
         private long _operationsInProcess = 0;
-
-        private readonly int _maxOperations;
 
         /// <summary>
         /// Initialises a new default instance of <see cref="SmartThrottledProcessingQueue"/> that
@@ -33,58 +28,16 @@ namespace Dunk.Tools.Foundation.Collections
         /// </summary>
         /// <param name="maxOperations">The maximum numer of operations processed by this queue at once.</param>
         public SmartThrottledProcessingQueue(int maxOperations)
+            :base(maxOperations)
         {
-            if (maxOperations <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(maxOperations),
-                    $"Unable to initialise Throttled-Processing queue. {nameof(maxOperations)} must be at least 1 but was {maxOperations}");
-            }
-            _maxOperations = maxOperations;
         }
 
-        /// <summary>
-        /// Gets the maximum number of concurrent operations supported
-        /// by this queue.
-        /// </summary>
-        public int MaxOperations { get { return _maxOperations; } }
+        #region ThrottledProcessingQueueBase Overrides
+        /// <inheritdoc />
+        public override long OperationsInProcess { get { return _operationsInProcess; } }
 
-        /// <summary>
-        /// Gets the number of operations currently being processed.
-        /// </summary>
-        public long OperationsInProcess { get { return _operationsInProcess; } }
-
-        /// <summary>
-        /// Gets the number of operations currently enqueued for later processing.
-        /// </summary>
-        public long OperationsEnqueued { get { return _queuedOperations.Count; } }
-
-        /// <summary>
-        /// Registers an operation for processing against the current <see cref="TaskScheduler"/>.
-        /// </summary>
-        /// <param name="operation">A task representing the operation.</param>
-        /// <remarks>
-        /// If the number of operations currently in process is less than the <see cref="MaxOperations"/>
-        /// the operation will be started immediately; otherwise the operation will be enqueued for later processing.
-        /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="operation"/> was null.</exception>
-        /// <exception cref="ArgumentException"><paramref name="operation"/> was already started or been completed.</exception>
-        public void RegisterOperation(Task operation)
-        {
-            RegisterOperation(operation, TaskScheduler.Current);
-        }
-
-        /// <summary>
-        /// Registers an operation for processing against a specified <see cref="TaskScheduler"/>.
-        /// </summary>
-        /// <param name="operation">A task representing the operation.</param>
-        /// <param name="scheduler">The scheduler.</param>
-        /// <remarks>
-        /// If the number of operations currently in process is less than the <see cref="MaxOperations"/>
-        /// the operation will be started immediately; otherwise the operation will be enqueued for later processing.
-        /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="operation"/> or <paramref name="scheduler"/> was null.</exception>
-        /// <exception cref="ArgumentException"><paramref name="operation"/> was already started or been completed.</exception>
-        public void RegisterOperation(Task operation, TaskScheduler scheduler)
+        /// <inheritdoc />
+        public override void RegisterOperation(Task operation, TaskScheduler scheduler)
         {
             if (operation == null)
             {
@@ -107,7 +60,7 @@ namespace Dunk.Tools.Foundation.Collections
             if (Interlocked.Read(ref _operationsInProcess) >= MaxOperations)
             {
                 //processing queue is currently full, so enqueue operation for later processing
-                _queuedOperations.Enqueue(operation);
+                QueuedOperations.Enqueue(operation);
             }
             else
             {
@@ -116,6 +69,7 @@ namespace Dunk.Tools.Foundation.Collections
                 operation.Start(scheduler);
             }
         }
+        #endregion ThrottledProcessingQueueBase Overrides
 
         /// <summary>
         /// Updates the processing queue after an operation finishes (either due to success or failure)
@@ -130,7 +84,7 @@ namespace Dunk.Tools.Foundation.Collections
 
             //Attempt to remove and register the next enqueued operation
             Task operation;
-            if (_queuedOperations.TryDequeue(out operation))
+            if (QueuedOperations.TryDequeue(out operation))
             {
                 RegisterOperation(operation);
             }
