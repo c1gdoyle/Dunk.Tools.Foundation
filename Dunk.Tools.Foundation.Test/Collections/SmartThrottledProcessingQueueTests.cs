@@ -69,7 +69,7 @@ namespace Dunk.Tools.Foundation.Test.Collections
             Task operation1 = new Task(() =>
             {
                 //simulate a long running operation
-                Thread.Sleep(TimeSpan.FromSeconds(1));
+                Thread.Sleep(TimeSpan.FromMilliseconds(100));
                 operation1Processed = true;
             });
             Task operation2 = new Task(() =>
@@ -100,7 +100,7 @@ namespace Dunk.Tools.Foundation.Test.Collections
             Task operation1 = new Task(() =>
             {
                 //simulate a long running operation
-                Thread.Sleep(TimeSpan.FromSeconds(1));
+                Thread.Sleep(TimeSpan.FromMilliseconds(100));
                 operation1Processed = true;
                 //divide by zero will throw exception
                 int y = 32 / x;
@@ -132,7 +132,7 @@ namespace Dunk.Tools.Foundation.Test.Collections
             Parallel.For(0, 10, i => queue.RegisterOperation(new Task(() =>
             {
                 //simulate long running operation
-                Thread.Sleep(TimeSpan.FromSeconds(1));
+                Thread.Sleep(TimeSpan.FromMilliseconds(100));
                 operation1Processed = true;
             })));
             queue.RegisterOperation(new Task(() =>
@@ -160,7 +160,7 @@ namespace Dunk.Tools.Foundation.Test.Collections
             Parallel.For(0, 10, i => queue.RegisterOperation(new Task(() =>
             {
                 //simulate long running operation
-                Thread.Sleep(TimeSpan.FromSeconds(1));
+                Thread.Sleep(TimeSpan.FromMilliseconds(100));
                 operation1Processed = true;
 
                 //divide by zero will throw exception
@@ -181,7 +181,12 @@ namespace Dunk.Tools.Foundation.Test.Collections
         [Test]
         public void SmartProcessingQueueOperationsInProcessDoesNotExceedMaxOperations()
         {
+            const int expected = 20;
+
             bool maxOperationsExceeded = false;
+            int operationsProcessed = 0;
+
+            ManualResetEventSlim pause = new ManualResetEventSlim(false);
 
             var queue = new SmartThrottledProcessingQueue(10);
             Random random = new Random();
@@ -189,37 +194,61 @@ namespace Dunk.Tools.Foundation.Test.Collections
             {
                 queue.RegisterOperation(new Task(() =>
                 {
-                    if (queue.MaxOperations > 10)
+                    if (queue.OperationsInProcess == 20)
                     {
                         maxOperationsExceeded = true;
                     }
 
                     //simulate operation running
-                    Thread.Sleep(TimeSpan.FromMilliseconds(random.Next(0, 1000)));
+                    Thread.Sleep(TimeSpan.FromMilliseconds(random.Next(0, 200)));
+
+                    Interlocked.Increment(ref operationsProcessed);
+                    if(operationsProcessed == 20)
+                    {
+                        pause.Set();
+                    }
                 }));
             }
+
+            pause.Wait(TimeSpan.FromSeconds(10));
+
             Assert.IsFalse(maxOperationsExceeded);
+            Assert.AreEqual(expected, operationsProcessed);
         }
 
         [Test]
         public void SmartProcessingQueueOperationsInProcessDoesNotExceedMaxOperationsMultiThreaded()
         {
+            const int expected = 20;
+
             bool maxOperationsExceeded = false;
+            int operationsProcessed = 0;
+
+            ManualResetEventSlim pause = new ManualResetEventSlim(false);
 
             var queue = new SmartThrottledProcessingQueue(10);
             Random random = new Random();
             Parallel.For(0, 20, i => queue.RegisterOperation(new Task(() =>
             {
-                if (queue.MaxOperations > 10)
+                if (queue.OperationsInProcess == 20)
                 {
                     maxOperationsExceeded = true;
                 }
 
                 //simulate operation running
-                Thread.Sleep(TimeSpan.FromMilliseconds(random.Next(0, 1000)));
+                Thread.Sleep(TimeSpan.FromMilliseconds(random.Next(0, 200)));
+
+                Interlocked.Increment(ref operationsProcessed);
+                if (operationsProcessed == 20)
+                {
+                    pause.Set();
+                }
             })));
 
+            pause.Wait(TimeSpan.FromSeconds(10));
+
             Assert.IsFalse(maxOperationsExceeded);
+            Assert.AreEqual(expected, operationsProcessed);
         }
 
         [Test]
