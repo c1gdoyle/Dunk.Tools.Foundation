@@ -265,7 +265,7 @@ namespace Dunk.Tools.Foundation.Test.IO
         [Test]
         public void FileFacadeCreateWithBufferThrowsIfSpecifiedDelegateIsNull()
         {
-            Func<string,int, Stream> fileDelegate = null;
+            Func<string, int, Stream> fileDelegate = null;
 
             Assert.Throws<ArgumentNullException>(() =>
                 FileFacade.CreateWithBuffer = fileDelegate);
@@ -294,7 +294,7 @@ namespace Dunk.Tools.Foundation.Test.IO
         [Test]
         public void FileFacadeCreateWithFileOptionsThrowsIfSpecifiedDelegateIsNull()
         {
-            Func<string,int,FileOptions,Stream> fileDelegate = null;
+            Func<string, int, FileOptions, Stream> fileDelegate = null;
 
             Assert.Throws<ArgumentNullException>(() =>
                 FileFacade.CreateWithFileOptions = fileDelegate);
@@ -849,6 +849,209 @@ namespace Dunk.Tools.Foundation.Test.IO
 
             Assert.Throws<ArgumentNullException>(() =>
                 FileFacade.OpenWrite = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeReadAllBytesInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("ReadAllBytes", new Type[] { typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.ReadAllBytes.Method);
+        }
+
+        [Test]
+        public void FileFacadeReadAllBytesSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("ReadAllBytes", new Type[] { typeof(string) });
+
+            FileFacade.ReadAllBytes = (a) => Array.Empty<byte>();
+
+            Assert.AreNotEqual(method, FileFacade.OpenWrite.Method);
+        }
+
+        [Test]
+        public void FileFacadeReadAllBytesThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, byte[]> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.ReadAllBytes = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeReadAllLinesInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("ReadAllLines", new Type[] { typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.ReadAllLines.Method);
+        }
+
+        [Test]
+        public void FileFacadeReadAllLinesSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("ReadAllLines", new Type[] { typeof(string) });
+
+            FileFacade.ReadAllLines = (a) => Array.Empty<string>();
+
+            Assert.AreNotEqual(method, FileFacade.ReadAllLines.Method);
+        }
+
+        [Test]
+        public void FileFacadeReadAllLinesThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, string[]> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.ReadAllLines = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeReadAllLinesWithEncodingInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("ReadAllLines", new Type[] { typeof(string), typeof(Encoding) });
+
+            Assert.AreEqual(method, FileFacade.ReadAllLinesWithEncoding.Method);
+        }
+
+        [Test]
+        public void FileFacadeReadAllLinesWithEncodingSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("ReadAllLines", new Type[] { typeof(string) });
+
+            FileFacade.ReadAllLinesWithEncoding = (a, b) => Array.Empty<string>();
+
+            Assert.AreNotEqual(method, FileFacade.ReadAllLinesWithEncoding.Method);
+        }
+
+        [Test]
+        public void FileFacadeReadAllLinesWithEncodingThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, Encoding, string[]> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.ReadAllLinesWithEncoding = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeReadAllTextInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("ReadAllText", new Type[] { typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.ReadAllText.Method);
+        }
+
+        [Test]
+        public void FileFacadeReadAllTextSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("ReadAllText", new Type[] { typeof(string) });
+
+            FileFacade.ReadAllText = (a) => string.Empty;
+
+            Assert.AreNotEqual(method, FileFacade.ReadAllText.Method);
+        }
+
+        [Test]
+        public void FileFacadeReadAllTextThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, string> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.ReadAllText = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeReadAllTextWithEncodingInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("ReadAllText", new Type[] { typeof(string), typeof(Encoding) });
+
+            Assert.AreEqual(method, FileFacade.ReadAllTextWithEncoding.Method);
+        }
+
+        [Test]
+        public void FileFacadeReadAllTextWithEncodingSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("ReadAllTextWithEncoding", new Type[] { typeof(string), typeof(Encoding) });
+
+            FileFacade.ReadAllTextWithEncoding = (a, b) => string.Empty;
+
+            Assert.AreNotEqual(method, FileFacade.ReadAllTextWithEncoding.Method);
+        }
+
+        [Test]
+        public void FileFacadeReadAllTextWithEncodingThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, Encoding, string> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.ReadAllTextWithEncoding = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeReadLinesInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("ReadLines", new Type[] { typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.ReadLines.Method);
+        }
+
+        [Test]
+        public void FileFacadeReadLinesSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("ReadLines", new Type[] { typeof(string) });
+
+            FileFacade.ReadLines = (a) => Array.Empty<string>();
+
+            Assert.AreNotEqual(method, FileFacade.ReadLines.Method);
+        }
+
+        [Test]
+        public void FileFacadeReadLinesThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, IEnumerable<string>> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.ReadLines = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeReadLinesWithEncodingInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("ReadLines", new Type[] { typeof(string), typeof(Encoding) });
+
+            Assert.AreEqual(method, FileFacade.ReadLinesWithEncoding.Method);
+        }
+
+        [Test]
+        public void FileFacadeReadLinesWithEncodingSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("ReadLines", new Type[] { typeof(string), typeof(Encoding) });
+
+            FileFacade.ReadLinesWithEncoding = (a, b) => Array.Empty<string>();
+
+            Assert.AreNotEqual(method, FileFacade.ReadLinesWithEncoding.Method);
+        }
+
+        [Test]
+        public void FileFacadeReadLinesWithEncodingThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, Encoding, IEnumerable<string>> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.ReadLinesWithEncoding = fileDelegate);
         }
 
         [SetUp]

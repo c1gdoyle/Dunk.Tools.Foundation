@@ -46,6 +46,13 @@ namespace Dunk.Tools.Foundation.IO
         private static Func<string, Stream> _openRead = File.OpenRead;
         private static Func<string, StreamReader> _openText = File.OpenText;
         private static Func<string, Stream> _openWrite = File.OpenWrite;
+        private static Func<string, byte[]> _readAllBytes = File.ReadAllBytes;
+        private static Func<string, string[]> _readAllLines = File.ReadAllLines;
+        private static Func<string, Encoding, string[]> _readAllLinesWithEncoding = File.ReadAllLines;
+        private static Func<string, string> _readAllText = File.ReadAllText;
+        private static Func<string, Encoding, string> _readAllTextWithEncoding = File.ReadAllText;
+        private static Func<string, IEnumerable<string>> _readLines = File.ReadLines;
+        private static Func<string, Encoding, IEnumerable<string>> _readLinesWithEncoding = File.ReadLines;
 
         /// <summary>
         /// Gets or sets a delegate over the <see cref="File.AppendAllLines(string, IEnumerable{string})"/> method.<br/>
@@ -570,6 +577,132 @@ namespace Dunk.Tools.Foundation.IO
         }
 
         /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.ReadAllBytes(string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, byte[]> ReadAllBytes
+        {
+            get { return _readAllBytes; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(ReadAllBytes)} delegate. value cannot be null");
+                }
+                _readAllBytes = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.ReadAllLines(string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, string[]> ReadAllLines
+        {
+            get { return _readAllLines; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(ReadAllLines)} delegate. value cannot be null");
+                }
+                _readAllLines = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.ReadAllLines(string, Encoding)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, Encoding, string[]> ReadAllLinesWithEncoding
+        {
+            get { return _readAllLinesWithEncoding; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(ReadAllLinesWithEncoding)} delegate. value cannot be null");
+                }
+                _readAllLinesWithEncoding = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.ReadAllText(string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, string> ReadAllText
+        {
+            get { return _readAllText; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(ReadAllText)} delegate. value cannot be null");
+                }
+                _readAllText = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.ReadAllText(string, Encoding)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, Encoding, string> ReadAllTextWithEncoding
+        {
+            get { return _readAllTextWithEncoding; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(ReadAllTextWithEncoding)} delegate. value cannot be null");
+                }
+                _readAllTextWithEncoding = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.ReadLines(string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, IEnumerable<string>> ReadLines
+        {
+            get { return _readLines; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(ReadLines)} delegate. value cannot be null");
+                }
+                _readLines = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.ReadLines(string, Encoding)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, Encoding, IEnumerable<string>> ReadLinesWithEncoding
+        {
+            get { return _readLinesWithEncoding;  }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(ReadLinesWithEncoding)} delegate. value cannot be null");
+                }
+                _readLinesWithEncoding = value;
+            }
+        }
+
+        /// <summary>
         /// Resets the delegates stored in this class to their default <see cref="File"/> 
         /// implementation.
         /// </summary>
@@ -604,6 +737,13 @@ namespace Dunk.Tools.Foundation.IO
             OpenRead = File.OpenRead;
             OpenText = File.OpenText;
             OpenWrite = File.OpenWrite;
+            ReadAllBytes = File.ReadAllBytes;
+            ReadAllLines = File.ReadAllLines;
+            ReadAllLinesWithEncoding = File.ReadAllLines;
+            ReadAllText = File.ReadAllText;
+            ReadAllTextWithEncoding = File.ReadAllText;
+            ReadLines = File.ReadLines;
+            ReadLinesWithEncoding = File.ReadLines;
         }
     }
 }
