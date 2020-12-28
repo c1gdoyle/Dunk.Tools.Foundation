@@ -32,6 +32,14 @@ namespace Dunk.Tools.Foundation.IO
         private static Action<string> _delete = File.Delete;
         private static Action<string> _encrypt = File.Encrypt;
         private static Func<string, bool> _exists = File.Exists;
+        private static Func<string, FileAttributes> _getAttributes = File.GetAttributes;
+        private static Func<string, DateTime> _getCreationTime = File.GetCreationTime;
+        private static Func<string, DateTime> _getCreationTimeUtc = File.GetCreationTimeUtc;
+        private static Func<string, DateTime> _getLastAccessTime = File.GetLastAccessTime;
+        private static Func<string, DateTime> _getLastAccessTimeUtc = File.GetLastAccessTimeUtc;
+        private static Func<string, DateTime> _getLastWriteTime = File.GetLastWriteTime;
+        private static Func<string, DateTime> _getLastWriteTimeUtc = File.GetLastWriteTimeUtc;
+        private static Action<string, string> _move = File.Move;
 
         /// <summary>
         /// Gets or sets a delegate over the <see cref="File.AppendAllLines(string, IEnumerable{string})"/> method.<br/>
@@ -304,6 +312,150 @@ namespace Dunk.Tools.Foundation.IO
         }
 
         /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.GetAttributes(string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, FileAttributes> GetAttributes
+        {
+            get { return _getAttributes; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(GetAttributes)} delegate. value cannot be null");
+                }
+                _getAttributes = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.GetCreationTime(string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, DateTime> GetCreationTime
+        {
+            get { return _getCreationTime; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(GetCreationTime)} delegate. value cannot be null");
+                }
+                _getCreationTime = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.GetCreationTimeUtc(string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, DateTime> GetCreationTimeUtc
+        {
+            get { return _getCreationTimeUtc; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(GetCreationTimeUtc)} delegate. value cannot be null");
+                }
+                _getCreationTimeUtc = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.GetLastAccessTime(string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, DateTime> GetLastAccessTime
+        {
+            get { return _getLastAccessTime; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(GetLastAccessTime)} delegate. value cannot be null");
+                }
+                _getLastAccessTime = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.GetLastAccessTimeUtc(string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, DateTime> GetLastAccessTimeUtc
+        {
+            get { return _getLastAccessTimeUtc; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(GetLastAccessTimeUtc)} delegate. value cannot be null");
+                }
+                _getLastAccessTimeUtc = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.GetLastWriteTime(string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, DateTime> GetLastWriteTime
+        {
+            get { return _getLastWriteTime; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(GetLastWriteTime)} delegate. value cannot be null");
+                }
+                _getLastWriteTime = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.GetLastWriteTimeUtc(string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, DateTime> GetLastWriteTimeUtc
+        {
+            get { return _getLastWriteTimeUtc; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(GetLastWriteTimeUtc)} delegate. value cannot be null");
+                }
+                _getLastWriteTimeUtc = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.Move(string, string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Action<string,string> Move
+        {
+            get { return _move; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(Move)} delegate. value cannot be null");
+                }
+                _move = value;
+            }
+        }
+
+        /// <summary>
         /// Resets the delegates stored in this class to their default <see cref="File"/> 
         /// implementation.
         /// </summary>
@@ -324,6 +476,14 @@ namespace Dunk.Tools.Foundation.IO
             Delete = File.Delete;
             Encrypt = File.Encrypt;
             Exists = File.Exists;
+            GetAttributes = File.GetAttributes;
+            GetCreationTime = File.GetCreationTime;
+            GetCreationTimeUtc = File.GetCreationTimeUtc;
+            GetLastAccessTime = File.GetLastAccessTime;
+            GetLastAccessTimeUtc = File.GetLastAccessTimeUtc;
+            GetLastWriteTime = File.GetLastWriteTime;
+            GetLastWriteTimeUtc = File.GetLastWriteTimeUtc;
+            Move = File.Move;
         }
     }
 }

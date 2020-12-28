@@ -445,6 +445,238 @@ namespace Dunk.Tools.Foundation.Test.IO
                 FileFacade.Exists = fileDelegate);
         }
 
+        [Test]
+        public void FileFacadeGetAttributesInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("GetAttributes", new Type[] { typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.GetAttributes.Method);
+        }
+
+        [Test]
+        public void FileFacadeGetAttributesSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("GetAttributes", new Type[] { typeof(string) });
+
+            FileFacade.GetAttributes = (a) => FileAttributes.Normal;
+
+            Assert.AreNotEqual(method, FileFacade.GetAttributes.Method);
+        }
+
+        [Test]
+        public void FileFacadeGetAttributesThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, FileAttributes> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.GetAttributes = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeGetCreationTimeInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("GetCreationTime", new Type[] { typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.GetCreationTime.Method);
+        }
+
+        [Test]
+        public void FileFacadeGetCreationTimeSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("GetCreationTime", new Type[] { typeof(string) });
+
+            FileFacade.GetCreationTime = (a) => DateTime.Now;
+
+            Assert.AreNotEqual(method, FileFacade.GetCreationTime.Method);
+        }
+
+        [Test]
+        public void FileFacadeGetCreationTimeThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, DateTime> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.GetCreationTime = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeGetCreationTimeUtcInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("GetCreationTimeUtc", new Type[] { typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.GetCreationTimeUtc.Method);
+        }
+
+        [Test]
+        public void FileFacadeGetCreationTimeUtcSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("GetCreationTimeUtc", new Type[] { typeof(string) });
+
+            FileFacade.GetCreationTimeUtc = (a) => DateTime.UtcNow;
+
+            Assert.AreNotEqual(method, FileFacade.GetCreationTimeUtc.Method);
+        }
+
+        [Test]
+        public void FileFacadeGetCreationTimeUtcThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, DateTime> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.GetCreationTimeUtc = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeGetLastAccessTimeInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("GetLastAccessTime", new Type[] { typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.GetLastAccessTime.Method);
+        }
+
+        [Test]
+        public void FileFacadeGetLastAccessTimeSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("GetLastAccessTime", new Type[] { typeof(string) });
+
+            FileFacade.GetLastAccessTime = (a) => DateTime.Now;
+
+            Assert.AreNotEqual(method, FileFacade.GetLastAccessTime.Method);
+        }
+
+        [Test]
+        public void FileFacadeGetLastAccessTimeThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, DateTime> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.GetLastAccessTime = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeGetLastAccessTimeUtcInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("GetLastAccessTimeUtc", new Type[] { typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.GetLastAccessTimeUtc.Method);
+        }
+
+        [Test]
+        public void FileFacadeGetLastAccessTimeUtcSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("GetLastAccessTimeUtc", new Type[] { typeof(string) });
+
+            FileFacade.GetLastAccessTimeUtc = (a) => DateTime.UtcNow;
+
+            Assert.AreNotEqual(method, FileFacade.GetLastAccessTimeUtc.Method);
+        }
+
+        [Test]
+        public void FileFacadeGetLastAccessTimeUtcThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, DateTime> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.GetLastAccessTimeUtc = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeGetLastWriteTimeInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("GetLastWriteTime", new Type[] { typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.GetLastWriteTime.Method);
+        }
+
+        [Test]
+        public void FileFacadeGetLastWriteTimeSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("GetLastWriteTime", new Type[] { typeof(string) });
+
+            FileFacade.GetLastWriteTime = (a) => DateTime.Now;
+
+            Assert.AreNotEqual(method, FileFacade.GetLastWriteTime.Method);
+        }
+
+        [Test]
+        public void FileFacadeGetLastWriteTimeThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, DateTime> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.GetLastWriteTime = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeGetLastWriteTimeUtcInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("GetLastWriteTimeUtc", new Type[] { typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.GetLastWriteTimeUtc.Method);
+        }
+
+        [Test]
+        public void FileFacadeGetLastWriteTimeUtcSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("GetLastWriteTimeUtc", new Type[] { typeof(string) });
+
+            FileFacade.GetLastWriteTimeUtc = (a) => DateTime.UtcNow;
+
+            Assert.AreNotEqual(method, FileFacade.GetLastWriteTimeUtc.Method);
+        }
+
+        [Test]
+        public void FileFacadeThrowsIfSpeciGetLastWriteTimeUtcfiedDelegateIsNull()
+        {
+            Func<string, DateTime> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.GetLastWriteTimeUtc = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeMoveInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Move", new Type[] { typeof(string), typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.Move.Method);
+        }
+
+        [Test]
+        public void FileFacadeMoveSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Move", new Type[] { typeof(string), typeof(string) });
+
+            FileFacade.Move = (a, b) => { };
+
+            Assert.AreNotEqual(method, FileFacade.Exists.Method);
+        }
+
+        [Test]
+        public void FileFacadeMoveThrowsIfSpecifiedDelegateIsNull()
+        {
+            Action<string, string> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.Move = fileDelegate);
+        }
+
         [SetUp]
         public void Setup()
         {
