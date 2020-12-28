@@ -24,19 +24,13 @@ namespace Dunk.Tools.Foundation.IO
         private static Func<string, StreamWriter> _appendText = File.AppendText;
         private static Action<string, string> _copy = File.Copy;
         private static Action<string, string, bool> _copyAndOverwrite = File.Copy;
+        private static Func<string, Stream> _create = File.Create;
+        private static Func<string, int, Stream> _createWithBuffer = File.Create;
+        private static Func<string, int, FileOptions, Stream> _createWithFileOptions = File.Create;
+        private static Func<string, StreamWriter> _createText = File.CreateText;
 
         /// <summary>
         /// Gets or sets a delegate over the <see cref="File.AppendAllLines(string, IEnumerable{string})"/> method.<br/>
-        /// 
-        /// Appends lines to a file, and then closes the file. If the specified file does 
-        /// not exist, this method creates a file, writes the specified lines to the file, 
-        /// and then closes the file.<br/>
-        /// 
-        /// Parameters:<br/>
-        ///  path:
-        ///    The file to append the lines to. The file is created if it doesn't already exist.<br/>        ///
-        ///  contents:
-        ///     The lines to append to the file.<br/>
         ///</summary>
         /// <exception cref="ArgumentNullException">value delegate was null.</exception>
         public static Action<string, IEnumerable<string>> AppendAllLines
@@ -55,18 +49,6 @@ namespace Dunk.Tools.Foundation.IO
 
         /// <summary>
         /// Gets or sets a delegate over the <see cref="File.AppendAllLines(string, IEnumerable{string}, Encoding)"/> method.<br/>
-        /// 
-        /// Appends lines to a file by using a specified encoding, and then closes the file. 
-        /// If the specified file does not exist, this method creates a file, writes the 
-        /// specified lines to the file, and then closes the file.<br/>
-        /// 
-        /// Parameters:<br/>
-        ///  path:
-        ///    The file to append the lines to. The file is created if it doesn't already exist.<br/>
-        ///  contents:
-        ///     The lines to append to the file.<br/>
-        ///  encoding:
-        ///      The character encoding to use.<br/>
         ///</summary>
         /// <exception cref="ArgumentNullException">value delegate was null.</exception>
         public static Action<string, IEnumerable<string>, Encoding> AppendAllLinesWithEncoding
@@ -85,16 +67,6 @@ namespace Dunk.Tools.Foundation.IO
 
         /// <summary>
         /// Gets or sets a delegate over the <see cref="File.AppendAllText(string, string)"/> method.<br/>
-        /// 
-        /// Opens a file, appends the specified string to the file, and then closes the file.
-        /// If the file does not exist, this method creates a file, writes the specified 
-        /// string to the file, then closes the file.<br/>#=
-        /// 
-        /// Parameters:<br/>
-        ///  path:
-        ///     The file to append the specified string to.<br/>
-        ///  contents:
-        ///     The string to append to the file.<br/>
         /// </summary>
         /// <exception cref="ArgumentNullException">value delegate was null.</exception>
         public static Action<string, string> AppendAllText
@@ -113,17 +85,6 @@ namespace Dunk.Tools.Foundation.IO
 
         /// <summary>
         /// Gets or sets a delegate over the <see cref="File.AppendAllText(string, string, Encoding)"/> method.<br/>
-        /// 
-        ///  Appends the specified string to the file, creating the file if it does not already 
-        ///  exist.<br/>
-        ///  
-        /// Parameters:<br/>
-        ///  path:
-        ///     The file to append the specified string to.<br/>
-        ///  contents:
-        ///     The string to append to the file.<br/>
-        ///  encoding:
-        ///     The character encoding to use.<br/>
         /// </summary>
         /// <exception cref="ArgumentNullException">value delegate was null.</exception>
         public static Action<string, string, Encoding> AppendAllTextWithEncoding
@@ -142,13 +103,6 @@ namespace Dunk.Tools.Foundation.IO
 
         /// <summary>
         /// Gets or sets a delegate over the <see cref="File.AppendText(string)"/> method.<br/>
-        /// 
-        /// Creates a System.IO.StreamWriter that appends UTF-8 encoded text to an existing 
-        /// file, or to a new file if the specified file does not exist.<br/>
-        /// 
-        /// Parameters:<br/>
-        ///   path:
-        ///     The path to the file to append to.<br/>
         /// </summary>
         /// <exception cref="ArgumentNullException">value delegate was null.</exception>
         public static Func<string, StreamWriter> AppendText
@@ -167,15 +121,6 @@ namespace Dunk.Tools.Foundation.IO
 
         /// <summary>
         /// Gets or sets a delegate over the <see cref="File.Copy(string, string)"/> method.<br/>
-        ///
-        /// Copies an existing file to a new file. Overwriting a file of the same name is
-        /// not allowed.<br/>
-        /// 
-        /// Parameters:<br/>
-        ///  sourceFileName:
-        ///     The file to copy.<br/>
-        ///  destFileName:
-        ///     The name of the destination file. This cannot be a directory or an existing file.<br/>
         /// </summary>
         /// <exception cref="ArgumentNullException">value delegate was null.</exception>
         public static Action<string, string> Copy
@@ -194,17 +139,6 @@ namespace Dunk.Tools.Foundation.IO
 
         /// <summary>
         /// Gets or sets a delegate over the <see cref="File.Copy(string, string)"/> method.<br/>
-        ///
-        /// Copies an existing file to a new file. Overwriting a file of the same name is
-        /// not allowed.<br/>
-        /// 
-        /// Parameters:<br/>
-        ///  sourceFileName:
-        ///     The file to copy.<br/>
-        ///  destFileName:
-        ///     The name of the destination file. This cannot be a directory or an existing file.<br/>
-        ///  overwrite:
-        ///     true if the destination file can be overwritten; otherwise, false.<br/>
         /// </summary>
         /// <exception cref="ArgumentNullException">value delegate was null.</exception>
         public static Action<string, string, bool> CopyAndOverwrite
@@ -222,6 +156,78 @@ namespace Dunk.Tools.Foundation.IO
         }
 
         /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.Create(string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, Stream> Create
+        {
+            get { return _create; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(Create)} delegate. value cannot be null");
+                }
+                _create = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.Create(string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, int, Stream> CreateWithBuffer
+        {
+            get { return _createWithBuffer; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(CreateWithBuffer)} delegate. value cannot be null");
+                }
+                _createWithBuffer = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.Create(string, int, FileOptions)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, int, FileOptions, Stream> CreateWithFileOptions
+        {
+            get { return _createWithFileOptions; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(CreateWithFileOptions)} delegate. value cannot be null");
+                }
+                _createWithFileOptions = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.CreateText(string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string,StreamWriter> CreateText
+        {
+            get { return _createText; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(CreateText)} delegate. value cannot be null");
+                }
+                _createText = value;
+            }
+        }
+
+        /// <summary>
         /// Resets the delegates stored in this class to their default <see cref="File"/> 
         /// implementation.
         /// </summary>
@@ -234,6 +240,11 @@ namespace Dunk.Tools.Foundation.IO
             AppendText = File.AppendText;
             Copy = File.Copy;
             CopyAndOverwrite = File.Copy;
+            Create = File.Create;
+            CreateWithBuffer = File.Create;
+            CreateWithFileOptions = File.Create;
+            CreateText = File.CreateText;
+
         }
     }
 }

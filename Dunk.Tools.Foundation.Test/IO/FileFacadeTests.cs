@@ -213,6 +213,122 @@ namespace Dunk.Tools.Foundation.Test.IO
                 FileFacade.CopyAndOverwrite = fileDelegate);
         }
 
+        [Test]
+        public void FileFacadeCreateInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Create", new Type[] { typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.Create.Method);
+        }
+
+        [Test]
+        public void FileFacadeCreateSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Create", new Type[] { typeof(string) });
+
+            FileFacade.Create = (a) => new MemoryStream();
+
+            Assert.AreNotEqual(method, FileFacade.CopyAndOverwrite.Method);
+        }
+
+        [Test]
+        public void FileFacadeCreateThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, Stream> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.Create = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeCreateWithBufferInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Create", new Type[] { typeof(string), typeof(int) });
+
+            Assert.AreEqual(method, FileFacade.CreateWithBuffer.Method);
+        }
+
+        [Test]
+        public void FileFacadeCreateWithBufferSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Create", new Type[] { typeof(string), typeof(int) });
+
+            FileFacade.CreateWithBuffer = (a, b) => new MemoryStream();
+
+            Assert.AreNotEqual(method, FileFacade.CreateWithBuffer.Method);
+        }
+
+        [Test]
+        public void FileFacadeCreateWithBufferThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string,int, Stream> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.CreateWithBuffer = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeCreateWithFileOptionsInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Create", new Type[] { typeof(string), typeof(int), typeof(FileOptions) });
+
+            Assert.AreEqual(method, FileFacade.CreateWithFileOptions.Method);
+        }
+
+        [Test]
+        public void FileFacadeCreateWithFileOptionsSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Create", new Type[] { typeof(string), typeof(int), typeof(FileOptions) });
+
+            FileFacade.CreateWithFileOptions = (a, b, c) => new MemoryStream();
+
+            Assert.AreNotEqual(method, FileFacade.CreateWithFileOptions.Method);
+        }
+
+        [Test]
+        public void FileFacadeCreateWithFileOptionsThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string,int,FileOptions,Stream> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.CreateWithFileOptions = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeCreateTextInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("CreateText", new Type[] { typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.CreateText.Method);
+        }
+
+        [Test]
+        public void FileFacadeCreateTextSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("CreateText", new Type[] { typeof(string) });
+
+            FileFacade.CreateText = (a) => null;
+
+            Assert.AreNotEqual(method, FileFacade.CreateText.Method);
+        }
+
+        [Test]
+        public void FileFacadeCreateTextThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, StreamWriter> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.CreateText = fileDelegate);
+        }
+
         [SetUp]
         public void Setup()
         {
