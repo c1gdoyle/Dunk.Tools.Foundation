@@ -53,6 +53,8 @@ namespace Dunk.Tools.Foundation.IO
         private static Func<string, Encoding, string> _readAllTextWithEncoding = File.ReadAllText;
         private static Func<string, IEnumerable<string>> _readLines = File.ReadLines;
         private static Func<string, Encoding, IEnumerable<string>> _readLinesWithEncoding = File.ReadLines;
+        private static Action<string, string, string> _replace = File.Replace;
+        private static Action<string, string, string, bool> _replaceWithIgnoreMetadata = File.Replace;
 
         /// <summary>
         /// Gets or sets a delegate over the <see cref="File.AppendAllLines(string, IEnumerable{string})"/> method.<br/>
@@ -238,7 +240,7 @@ namespace Dunk.Tools.Foundation.IO
         /// Gets or sets a delegate over the <see cref="File.CreateText(string)"/> method.<br/>
         /// </summary>
         /// <exception cref="ArgumentNullException">value delegate was null.</exception>
-        public static Func<string,StreamWriter> CreateText
+        public static Func<string, StreamWriter> CreateText
         {
             get { return _createText; }
             set
@@ -454,7 +456,7 @@ namespace Dunk.Tools.Foundation.IO
         /// Gets or sets a delegate over the <see cref="File.Move(string, string)"/> method.<br/>
         /// </summary>
         /// <exception cref="ArgumentNullException">value delegate was null.</exception>
-        public static Action<string,string> Move
+        public static Action<string, string> Move
         {
             get { return _move; }
             set
@@ -690,7 +692,7 @@ namespace Dunk.Tools.Foundation.IO
         /// <exception cref="ArgumentNullException">value delegate was null.</exception>
         public static Func<string, Encoding, IEnumerable<string>> ReadLinesWithEncoding
         {
-            get { return _readLinesWithEncoding;  }
+            get { return _readLinesWithEncoding; }
             set
             {
                 if (value == null)
@@ -699,6 +701,42 @@ namespace Dunk.Tools.Foundation.IO
                         $"Unable to set {nameof(ReadLinesWithEncoding)} delegate. value cannot be null");
                 }
                 _readLinesWithEncoding = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.Replace(string, string, string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Action<string, string, string> Replace
+        {
+            get { return _replace; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(Replace)} delegate. value cannot be null");
+                }
+                _replace = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.Replace(string, string, string, bool)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Action<string, string, string, bool> ReplaceWithIgnoreMetadata
+        {
+            get { return _replaceWithIgnoreMetadata; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(ReplaceWithIgnoreMetadata)} delegate. value cannot be null");
+                }
+                _replaceWithIgnoreMetadata = value;
             }
         }
 
@@ -744,6 +782,8 @@ namespace Dunk.Tools.Foundation.IO
             ReadAllTextWithEncoding = File.ReadAllText;
             ReadLines = File.ReadLines;
             ReadLinesWithEncoding = File.ReadLines;
+            Replace = File.Replace;
+            ReplaceWithIgnoreMetadata = File.Replace;
         }
     }
 }

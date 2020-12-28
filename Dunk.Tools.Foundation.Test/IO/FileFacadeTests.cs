@@ -1054,6 +1054,64 @@ namespace Dunk.Tools.Foundation.Test.IO
                 FileFacade.ReadLinesWithEncoding = fileDelegate);
         }
 
+        [Test]
+        public void FileFacadeReplaceInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Replace", new Type[] { typeof(string), typeof(string), typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.Replace.Method);
+        }
+
+        [Test]
+        public void FileFacadeReplaceSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Replace", new Type[] { typeof(string), typeof(string), typeof(string) });
+
+            FileFacade.Replace = (a, b, c) => { };
+
+            Assert.AreNotEqual(method, FileFacade.Replace.Method);
+        }
+
+        [Test]
+        public void FileFacadeReplaceThrowsIfSpecifiedDelegateIsNull()
+        {
+            Action<string, string, string> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.Replace = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeReplaceWithIgnoreMetadataInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Replace", new Type[] { typeof(string), typeof(string), typeof(string), typeof(bool) });
+
+            Assert.AreEqual(method, FileFacade.ReplaceWithIgnoreMetadata.Method);
+        }
+
+        [Test]
+        public void FileFacadeReplaceWithIgnoreMetadataSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Replace", new Type[] { typeof(string), typeof(string), typeof(string), typeof(bool) });
+
+            FileFacade.ReplaceWithIgnoreMetadata = (a, b, c, d) => { };
+
+            Assert.AreNotEqual(method, FileFacade.ReplaceWithIgnoreMetadata.Method);
+        }
+
+        [Test]
+        public void FileFacadeReplaceWithIgnoreMetadataThrowsIfSpecifiedDelegateIsNull()
+        {
+            Action<string, string, string, bool> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.ReplaceWithIgnoreMetadata = fileDelegate);
+        }
+
         [SetUp]
         public void Setup()
         {
