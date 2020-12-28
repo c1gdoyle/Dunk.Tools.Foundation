@@ -329,6 +329,122 @@ namespace Dunk.Tools.Foundation.Test.IO
                 FileFacade.CreateText = fileDelegate);
         }
 
+        [Test]
+        public void FileFacadeDecryptInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Decrypt", new Type[] { typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.Decrypt.Method);
+        }
+
+        [Test]
+        public void FileFacadeDecryptSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Decrypt", new Type[] { typeof(string) });
+
+            FileFacade.Decrypt = (a) => { };
+
+            Assert.AreNotEqual(method, FileFacade.Decrypt.Method);
+        }
+
+        [Test]
+        public void FileFacadeDecryptThrowsIfSpecifiedDelegateIsNull()
+        {
+            Action<string> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.Decrypt = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeDeleteInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Delete", new Type[] { typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.Delete.Method);
+        }
+
+        [Test]
+        public void FileFacadeDeleteSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Delete", new Type[] { typeof(string) });
+
+            FileFacade.Delete = (a) => { };
+
+            Assert.AreNotEqual(method, FileFacade.Delete.Method);
+        }
+
+        [Test]
+        public void FileFacadeDeleteTextThrowsIfSpecifiedDelegateIsNull()
+        {
+            Action<string> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.Delete = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeEncryptInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Encrypt", new Type[] { typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.Encrypt.Method);
+        }
+
+        [Test]
+        public void FileFacadeEncryptSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Encrypt", new Type[] { typeof(string) });
+
+            FileFacade.Encrypt = (a) => { };
+
+            Assert.AreNotEqual(method, FileFacade.Encrypt.Method);
+        }
+
+        [Test]
+        public void FileFacadeEncryptThrowsIfSpecifiedDelegateIsNull()
+        {
+            Action<string> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.Encrypt = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeExistsInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Exists", new Type[] { typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.Exists.Method);
+        }
+
+        [Test]
+        public void FileFacadeExistsSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Exists", new Type[] { typeof(string) });
+
+            FileFacade.Exists = (a) => true;
+
+            Assert.AreNotEqual(method, FileFacade.Exists.Method);
+        }
+
+        [Test]
+        public void FileFacadeExistsThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, bool> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.Exists = fileDelegate);
+        }
+
         [SetUp]
         public void Setup()
         {

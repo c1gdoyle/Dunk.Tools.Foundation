@@ -28,6 +28,10 @@ namespace Dunk.Tools.Foundation.IO
         private static Func<string, int, Stream> _createWithBuffer = File.Create;
         private static Func<string, int, FileOptions, Stream> _createWithFileOptions = File.Create;
         private static Func<string, StreamWriter> _createText = File.CreateText;
+        private static Action<string> _decrypt = File.Decrypt;
+        private static Action<string> _delete = File.Delete;
+        private static Action<string> _encrypt = File.Encrypt;
+        private static Func<string, bool> _exists = File.Exists;
 
         /// <summary>
         /// Gets or sets a delegate over the <see cref="File.AppendAllLines(string, IEnumerable{string})"/> method.<br/>
@@ -228,6 +232,78 @@ namespace Dunk.Tools.Foundation.IO
         }
 
         /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.Decrypt(string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Action<string> Decrypt
+        {
+            get { return _decrypt; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(Decrypt)} delegate. value cannot be null");
+                }
+                _decrypt = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.Delete(string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Action<string> Delete
+        {
+            get { return _delete; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(Delete)} delegate. value cannot be null");
+                }
+                _delete = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.Encrypt(string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Action<string> Encrypt
+        {
+            get { return _encrypt; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(Encrypt)} delegate. value cannot be null");
+                }
+                _encrypt = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.Exists(string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, bool> Exists
+        {
+            get { return _exists; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(Exists)} delegate. value cannot be null");
+                }
+                _exists = value;
+            }
+        }
+
+        /// <summary>
         /// Resets the delegates stored in this class to their default <see cref="File"/> 
         /// implementation.
         /// </summary>
@@ -244,7 +320,10 @@ namespace Dunk.Tools.Foundation.IO
             CreateWithBuffer = File.Create;
             CreateWithFileOptions = File.Create;
             CreateText = File.CreateText;
-
+            Decrypt = File.Decrypt;
+            Delete = File.Delete;
+            Encrypt = File.Encrypt;
+            Exists = File.Exists;
         }
     }
 }
