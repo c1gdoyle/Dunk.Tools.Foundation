@@ -40,6 +40,12 @@ namespace Dunk.Tools.Foundation.IO
         private static Func<string, DateTime> _getLastWriteTime = File.GetLastWriteTime;
         private static Func<string, DateTime> _getLastWriteTimeUtc = File.GetLastWriteTimeUtc;
         private static Action<string, string> _move = File.Move;
+        private static Func<string, FileMode, Stream> _open = File.Open;
+        private static Func<string, FileMode, FileAccess, Stream> _openWithFileAccess = File.Open;
+        private static Func<string, FileMode, FileAccess, FileShare, Stream> _openWithFileShare = File.Open;
+        private static Func<string, Stream> _openRead = File.OpenRead;
+        private static Func<string, StreamReader> _openText = File.OpenText;
+        private static Func<string, Stream> _openWrite = File.OpenWrite;
 
         /// <summary>
         /// Gets or sets a delegate over the <see cref="File.AppendAllLines(string, IEnumerable{string})"/> method.<br/>
@@ -456,6 +462,114 @@ namespace Dunk.Tools.Foundation.IO
         }
 
         /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.Open(string, FileMode)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, FileMode, Stream> Open
+        {
+            get { return _open; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(Open)} delegate. value cannot be null");
+                }
+                _open = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.Open(string, FileMode, FileAccess)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, FileMode, FileAccess, Stream> OpenWithFileAccess
+        {
+            get { return _openWithFileAccess; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(OpenWithFileAccess)} delegate. value cannot be null");
+                }
+                _openWithFileAccess = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.Open(string, FileMode, FileAccess, FileShare)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, FileMode, FileAccess, FileShare, Stream> OpenWithFileShare
+        {
+            get { return _openWithFileShare; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(OpenWithFileShare)} delegate. value cannot be null");
+                }
+                _openWithFileShare = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.OpenRead(string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, Stream> OpenRead
+        {
+            get { return _openRead; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(OpenRead)} delegate. value cannot be null");
+                }
+                _openRead = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.OpenText(string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, StreamReader> OpenText
+        {
+            get { return _openText; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(OpenText)} delegate. value cannot be null");
+                }
+                _openText = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.OpenWrite(string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Func<string, Stream> OpenWrite
+        {
+            get { return _openWrite; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(OpenWrite)} delegate. value cannot be null");
+                }
+                _openWrite = value;
+            }
+        }
+
+        /// <summary>
         /// Resets the delegates stored in this class to their default <see cref="File"/> 
         /// implementation.
         /// </summary>
@@ -484,6 +598,12 @@ namespace Dunk.Tools.Foundation.IO
             GetLastWriteTime = File.GetLastWriteTime;
             GetLastWriteTimeUtc = File.GetLastWriteTimeUtc;
             Move = File.Move;
+            Open = File.Open;
+            OpenWithFileAccess = File.Open;
+            OpenWithFileShare = File.Open;
+            OpenRead = File.OpenRead;
+            OpenText = File.OpenText;
+            OpenWrite = File.OpenWrite;
         }
     }
 }

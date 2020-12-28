@@ -677,6 +677,180 @@ namespace Dunk.Tools.Foundation.Test.IO
                 FileFacade.Move = fileDelegate);
         }
 
+        [Test]
+        public void FileFacadeOpenInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Open", new Type[] { typeof(string), typeof(FileMode) });
+
+            Assert.AreEqual(method, FileFacade.Open.Method);
+        }
+
+        [Test]
+        public void FileFacadeOpenSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Open", new Type[] { typeof(string), typeof(FileMode) });
+
+            FileFacade.Open = (a, b) => new MemoryStream();
+
+            Assert.AreNotEqual(method, FileFacade.Open.Method);
+        }
+
+        [Test]
+        public void FileFacadeOpenThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, FileMode, Stream> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.Open = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeOpenWithFileAccessInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Open", new Type[] { typeof(string), typeof(FileMode), typeof(FileAccess) });
+
+            Assert.AreEqual(method, FileFacade.OpenWithFileAccess.Method);
+        }
+
+        [Test]
+        public void FileFacadeOpenWithFileAccessSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Open", new Type[] { typeof(string), typeof(FileMode), typeof(FileAccess) });
+
+            FileFacade.OpenWithFileAccess = (a, b, c) => new MemoryStream();
+
+            Assert.AreNotEqual(method, FileFacade.OpenWithFileAccess.Method);
+        }
+
+        [Test]
+        public void FileFacadeOpenWithFileAccessThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, FileMode, FileAccess, Stream> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.OpenWithFileAccess = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeOpenWithFileShareInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Open", new Type[] { typeof(string), typeof(FileMode), typeof(FileAccess), typeof(FileShare) });
+
+            Assert.AreEqual(method, FileFacade.OpenWithFileShare.Method);
+        }
+
+        [Test]
+        public void FileFacadeOpenWithFileShareSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("Open", new Type[] { typeof(string), typeof(FileMode), typeof(FileAccess), typeof(FileShare) });
+
+            FileFacade.OpenWithFileShare = (a, b, c, d) => new MemoryStream();
+
+            Assert.AreNotEqual(method, FileFacade.OpenWithFileShare.Method);
+        }
+
+        [Test]
+        public void FileFacadeOpenWithFileShareThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, FileMode, FileAccess, FileShare, Stream> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.OpenWithFileShare = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeOpenReadInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("OpenRead", new Type[] { typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.OpenRead.Method);
+        }
+
+        [Test]
+        public void FileFacadeOpenReadSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("OpenRead", new Type[] { typeof(string) });
+
+            FileFacade.OpenRead = (a) => new MemoryStream();
+
+            Assert.AreNotEqual(method, FileFacade.OpenRead.Method);
+        }
+
+        [Test]
+        public void FileFacadeOpenReadThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, Stream> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.OpenRead = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeOpenTextInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("OpenText", new Type[] { typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.OpenText.Method);
+        }
+
+        [Test]
+        public void FileFacadeOpenTextSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("OpenText", new Type[] { typeof(string) });
+
+            FileFacade.OpenText = (a) => null;
+
+            Assert.AreNotEqual(method, FileFacade.OpenText.Method);
+        }
+
+        [Test]
+        public void FileFacadeOpenTextThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, StreamReader> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.OpenText = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeOpenWriteInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("OpenWrite", new Type[] { typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.OpenWrite.Method);
+        }
+
+        [Test]
+        public void FileFacadeOpenWriteSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("OpenWrite", new Type[] { typeof(string) });
+
+            FileFacade.OpenWrite = (a) => new MemoryStream();
+
+            Assert.AreNotEqual(method, FileFacade.OpenWrite.Method);
+        }
+
+        [Test]
+        public void FileFacadeOpenWriteThrowsIfSpecifiedDelegateIsNull()
+        {
+            Func<string, Stream> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.OpenWrite = fileDelegate);
+        }
+
         [SetUp]
         public void Setup()
         {
