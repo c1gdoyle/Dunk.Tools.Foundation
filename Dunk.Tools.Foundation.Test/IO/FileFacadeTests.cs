@@ -1258,6 +1258,64 @@ namespace Dunk.Tools.Foundation.Test.IO
         }
 
         [Test]
+        public void FileFacadeSetWriteAccessTimeInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("SetLastWriteTime", new Type[] { typeof(string), typeof(DateTime) });
+
+            Assert.AreEqual(method, FileFacade.SetLastWriteTime.Method);
+        }
+
+        [Test]
+        public void FileFacadeSetLastWriteTimeSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("SetLastWriteTime", new Type[] { typeof(string), typeof(DateTime) });
+
+            FileFacade.SetLastWriteTime = (a, b) => { };
+
+            Assert.AreNotEqual(method, FileFacade.SetLastWriteTime.Method);
+        }
+
+        [Test]
+        public void FileFacadeSetLastWriteTimeThrowsIfSpecifiedDelegateIsNull()
+        {
+            Action<string, DateTime> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.SetLastWriteTime = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeSetLastWriteTimeUtcInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("SetLastWriteTimeUtc", new Type[] { typeof(string), typeof(DateTime) });
+
+            Assert.AreEqual(method, FileFacade.SetLastWriteTimeUtc.Method);
+        }
+
+        [Test]
+        public void FileFacadeSetLastWriteTimeUtcSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("SetLastWriteTimeUtc", new Type[] { typeof(string), typeof(DateTime) });
+
+            FileFacade.SetLastWriteTimeUtc = (a, b) => { };
+
+            Assert.AreNotEqual(method, FileFacade.SetLastWriteTimeUtc.Method);
+        }
+
+        [Test]
+        public void FileFacadeSetLastWriteTimeUtcThrowsIfSpecifiedDelegateIsNull()
+        {
+            Action<string, DateTime> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.SetLastWriteTimeUtc = fileDelegate);
+        }
+
+        [Test]
         public void FileFacadeWriteAllBytesInitialisesWithExpectedDelegate()
         {
             var method = typeof(File)
