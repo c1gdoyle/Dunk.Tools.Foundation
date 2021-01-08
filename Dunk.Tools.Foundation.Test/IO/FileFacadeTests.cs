@@ -1113,7 +1113,7 @@ namespace Dunk.Tools.Foundation.Test.IO
         }
 
         [Test]
-        public void FileFacadeSetAttributesWithIgnoreMetadataInitialisesWithExpectedDelegate()
+        public void FileFacadeSetAttributesInitialisesWithExpectedDelegate()
         {
             var method = typeof(File)
                 .GetMethod("SetAttributes", new Type[] { typeof(string), typeof(FileAttributes) });
@@ -1122,7 +1122,7 @@ namespace Dunk.Tools.Foundation.Test.IO
         }
 
         [Test]
-        public void FileFacadeSetAttributesWithIgnoreMetadataSupportsSettingSpecifiedDelegate()
+        public void FileFacadeSetAttributesSupportsSettingSpecifiedDelegate()
         {
             var method = typeof(File)
                 .GetMethod("SetAttributes", new Type[] { typeof(string), typeof(FileAttributes) });
@@ -1133,7 +1133,7 @@ namespace Dunk.Tools.Foundation.Test.IO
         }
 
         [Test]
-        public void FileFacadeSetAttributesWithIgnoreMetadataThrowsIfSpecifiedDelegateIsNull()
+        public void FileFacadeSetAttributesThrowsIfSpecifiedDelegateIsNull()
         {
             Action<string, FileAttributes> fileDelegate = null;
 
@@ -1142,7 +1142,7 @@ namespace Dunk.Tools.Foundation.Test.IO
         }
 
         [Test]
-        public void FileFacadeSetCreationTimeWithIgnoreMetadataInitialisesWithExpectedDelegate()
+        public void FileFacadeSetCreationTimeInitialisesWithExpectedDelegate()
         {
             var method = typeof(File)
                 .GetMethod("SetCreationTime", new Type[] { typeof(string), typeof(DateTime) });
@@ -1151,7 +1151,7 @@ namespace Dunk.Tools.Foundation.Test.IO
         }
 
         [Test]
-        public void FileFacadeSetCreationTimeWithIgnoreMetadataSupportsSettingSpecifiedDelegate()
+        public void FileFacadeSetCreationTimeSupportsSettingSpecifiedDelegate()
         {
             var method = typeof(File)
                 .GetMethod("SetCreationTime", new Type[] { typeof(string), typeof(DateTime) });
@@ -1162,7 +1162,7 @@ namespace Dunk.Tools.Foundation.Test.IO
         }
 
         [Test]
-        public void FileFacadeSetCreationTimeWithIgnoreMetadataThrowsIfSpecifiedDelegateIsNull()
+        public void FileFacadeSetCreationTimeThrowsIfSpecifiedDelegateIsNull()
         {
             Action<string, DateTime> fileDelegate = null;
 
@@ -1171,7 +1171,7 @@ namespace Dunk.Tools.Foundation.Test.IO
         }
 
         [Test]
-        public void FileFacadeSetCreationTimeUtcWithIgnoreMetadataInitialisesWithExpectedDelegate()
+        public void FileFacadeSetCreationTimeUtcInitialisesWithExpectedDelegate()
         {
             var method = typeof(File)
                 .GetMethod("SetCreationTimeUtc", new Type[] { typeof(string), typeof(DateTime) });
@@ -1180,7 +1180,7 @@ namespace Dunk.Tools.Foundation.Test.IO
         }
 
         [Test]
-        public void FileFacadeSetCreationTimeUtcWithIgnoreMetadataSupportsSettingSpecifiedDelegate()
+        public void FileFacadeSetCreationTimeUtcSupportsSettingSpecifiedDelegate()
         {
             var method = typeof(File)
                 .GetMethod("SetCreationTimeUtc", new Type[] { typeof(string), typeof(DateTime) });
@@ -1191,7 +1191,7 @@ namespace Dunk.Tools.Foundation.Test.IO
         }
 
         [Test]
-        public void FileFacadeSetCreationTimeUtcWithIgnoreMetadataThrowsIfSpecifiedDelegateIsNull()
+        public void FileFacadeSetCreationTimeUtcThrowsIfSpecifiedDelegateIsNull()
         {
             Action<string, DateTime> fileDelegate = null;
 
@@ -1200,7 +1200,7 @@ namespace Dunk.Tools.Foundation.Test.IO
         }
 
         [Test]
-        public void FileFacadeSetLastAccessTimeWithIgnoreMetadataInitialisesWithExpectedDelegate()
+        public void FileFacadeSetLastAccessTimeInitialisesWithExpectedDelegate()
         {
             var method = typeof(File)
                 .GetMethod("SetLastAccessTime", new Type[] { typeof(string), typeof(DateTime) });
@@ -1209,7 +1209,7 @@ namespace Dunk.Tools.Foundation.Test.IO
         }
 
         [Test]
-        public void FileFacadeSetLastAccessTimeWithIgnoreMetadataSupportsSettingSpecifiedDelegate()
+        public void FileFacadeSetLastAccessTimeSupportsSettingSpecifiedDelegate()
         {
             var method = typeof(File)
                 .GetMethod("SetLastAccessTime", new Type[] { typeof(string), typeof(DateTime) });
@@ -1220,7 +1220,7 @@ namespace Dunk.Tools.Foundation.Test.IO
         }
 
         [Test]
-        public void FileFacadeSetLastAccessTimeWithIgnoreMetadataThrowsIfSpecifiedDelegateIsNull()
+        public void FileFacadeSetLastAccessTimeThrowsIfSpecifiedDelegateIsNull()
         {
             Action<string, DateTime> fileDelegate = null;
 
@@ -1229,7 +1229,7 @@ namespace Dunk.Tools.Foundation.Test.IO
         }
 
         [Test]
-        public void FileFacadeSetLastAccessTimeUtcWithIgnoreMetadataInitialisesWithExpectedDelegate()
+        public void FileFacadeSetLastAccessTimeUtcInitialisesWithExpectedDelegate()
         {
             var method = typeof(File)
                 .GetMethod("SetLastAccessTimeUtc", new Type[] { typeof(string), typeof(DateTime) });
@@ -1238,7 +1238,7 @@ namespace Dunk.Tools.Foundation.Test.IO
         }
 
         [Test]
-        public void FileFacadeSetLastAccessTimeUtcWithIgnoreMetadataSupportsSettingSpecifiedDelegate()
+        public void FileFacadeSetLastAccessTimeUtcSupportsSettingSpecifiedDelegate()
         {
             var method = typeof(File)
                 .GetMethod("SetLastAccessTimeUtc", new Type[] { typeof(string), typeof(DateTime) });
@@ -1249,12 +1249,215 @@ namespace Dunk.Tools.Foundation.Test.IO
         }
 
         [Test]
-        public void FileFacadeSetLastAccessTimeUtcWithIgnoreMetadataThrowsIfSpecifiedDelegateIsNull()
+        public void FileFacadeSetLastAccessTimeUtcThrowsIfSpecifiedDelegateIsNull()
         {
             Action<string, DateTime> fileDelegate = null;
 
             Assert.Throws<ArgumentNullException>(() =>
                 FileFacade.SetLastAccessTimeUtc = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeWriteAllBytesInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("WriteAllBytes", new Type[] { typeof(string), typeof(byte[]) });
+
+            Assert.AreEqual(method, FileFacade.WriteAllBytes.Method);
+        }
+
+        [Test]
+        public void FileFacadeWriteAllBytesSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("WriteAllBytes", new Type[] { typeof(string), typeof(byte[]) });
+
+            FileFacade.WriteAllBytes = (a, b) => { };
+
+            Assert.AreNotEqual(method, FileFacade.WriteAllBytes.Method);
+        }
+
+        [Test]
+        public void FileFacadeWriteAllBytesThrowsIfSpecifiedDelegateIsNull()
+        {
+            Action<string, byte[]> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.WriteAllBytes = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeWriteAllLinesInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("WriteAllLines", new Type[] { typeof(string), typeof(IEnumerable<string>) });
+
+            Assert.AreEqual(method, FileFacade.WriteAllLines.Method);
+        }
+
+        [Test]
+        public void FileFacadeWriteAllLinesSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("WriteAllLines", new Type[] { typeof(string), typeof(IEnumerable<string>) });
+
+            FileFacade.WriteAllLines = (a, b) => { };
+
+            Assert.AreNotEqual(method, FileFacade.WriteAllLines.Method);
+        }
+
+        [Test]
+        public void FileFacadeWriteAllLinesThrowsIfSpecifiedDelegateIsNull()
+        {
+            Action<string, IEnumerable<string>> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.WriteAllLines = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeWriteAllLinesWithEncodingInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("WriteAllLines", new Type[] { typeof(string), typeof(IEnumerable<string>), typeof(Encoding) });
+
+            Assert.AreEqual(method, FileFacade.WriteAllLinesWithEncoding.Method);
+        }
+
+        [Test]
+        public void FileFacadeWriteAllLinesWithEncodingSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("WriteAllLines", new Type[] { typeof(string), typeof(IEnumerable<string>), typeof(Encoding) });
+
+            FileFacade.WriteAllLinesWithEncoding = (a, b, c) => { };
+
+            Assert.AreNotEqual(method, FileFacade.WriteAllLinesWithEncoding.Method);
+        }
+
+        [Test]
+        public void FileFacadeWriteAllLinesWithEncodingThrowsIfSpecifiedDelegateIsNull()
+        {
+            Action<string, IEnumerable<string>, Encoding> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.WriteAllLinesWithEncoding = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeWriteAllLinesArrayInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("WriteAllLines", new Type[] { typeof(string), typeof(string[]) });
+
+            Assert.AreEqual(method, FileFacade.WriteAllLinesArray.Method);
+        }
+
+        [Test]
+        public void FileFacadeWriteAllLinesArraySupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("WriteAllLines", new Type[] { typeof(string), typeof(string[]) });
+
+            FileFacade.WriteAllLinesArray = (a, b) => { };
+
+            Assert.AreNotEqual(method, FileFacade.WriteAllLinesArray.Method);
+        }
+
+        [Test]
+        public void FileFacadeWriteAllLinesArrayThrowsIfSpecifiedDelegateIsNull()
+        {
+            Action<string, string[]> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.WriteAllLinesArray = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeWriteAllLinesArrayWithEncodingInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("WriteAllLines", new Type[] { typeof(string), typeof(string[]), typeof(Encoding) });
+
+            Assert.AreEqual(method, FileFacade.WriteAllLinesArrayWithEncoding.Method);
+        }
+
+        [Test]
+        public void FileFacadeWriteAllLinesArrayWithEncodingSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("WriteAllLines", new Type[] { typeof(string), typeof(string[]), typeof(Encoding) });
+
+            FileFacade.WriteAllLinesArrayWithEncoding = (a, b, c) => { };
+
+            Assert.AreNotEqual(method, FileFacade.WriteAllLinesArrayWithEncoding.Method);
+        }
+
+        [Test]
+        public void FileFacadeWriteAllLinesArrayWithEncodingThrowsIfSpecifiedDelegateIsNull()
+        {
+            Action<string, string[], Encoding> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.WriteAllLinesArrayWithEncoding = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeWriteAllTextInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("WriteAllText", new Type[] { typeof(string), typeof(string) });
+
+            Assert.AreEqual(method, FileFacade.WriteAllText.Method);
+        }
+
+        [Test]
+        public void FileFacadeWriteAllTextSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("WriteAllText", new Type[] { typeof(string), typeof(string) });
+
+            FileFacade.WriteAllText = (a, b) => { };
+
+            Assert.AreNotEqual(method, FileFacade.WriteAllText.Method);
+        }
+
+        [Test]
+        public void FileFacadeWriteAllTextThrowsIfSpecifiedDelegateIsNull()
+        {
+            Action<string, string> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.WriteAllText = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeWriteAllTextWithEncodingInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("WriteAllText", new Type[] { typeof(string), typeof(string), typeof(Encoding) });
+
+            Assert.AreEqual(method, FileFacade.WriteAllTextWithEncoding.Method);
+        }
+
+        [Test]
+        public void FileFacadeWriteAllTextWithEncodingSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("WriteAllText", new Type[] { typeof(string), typeof(string), typeof(Encoding) });
+
+            FileFacade.WriteAllTextWithEncoding = (a, b, c) => { };
+
+            Assert.AreNotEqual(method, FileFacade.WriteAllTextWithEncoding.Method);
+        }
+
+        [Test]
+        public void FileFacadeWriteTextWithEncodingThrowsIfSpecifiedDelegateIsNull()
+        {
+            Action<string, string, Encoding> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.WriteAllTextWithEncoding = fileDelegate);
         }
 
         [SetUp]

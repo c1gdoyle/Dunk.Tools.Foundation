@@ -62,6 +62,13 @@ namespace Dunk.Tools.Foundation.IO
         private static Action<string, DateTime> _setLastAccessTimeUtc = File.SetLastAccessTimeUtc;
         private static Action<string, DateTime> _setLastWriteTime = File.SetLastWriteTime;
         private static Action<string, DateTime> _setLastWriteTimeUtc = File.SetLastWriteTimeUtc;
+        private static Action<string, byte[]> _writeAllBytes = File.WriteAllBytes;
+        private static Action<string, IEnumerable<string>> _writeAllLines = File.WriteAllLines;
+        private static Action<string, IEnumerable<string>, Encoding> _writeAllLinesWithEncoding = File.WriteAllLines;
+        private static Action<string, string[]> _writeAllLinesArray = File.WriteAllLines;
+        private static Action<string, string[], Encoding> _writeAllLinesArrayWithEncoding = File.WriteAllLines;
+        private static Action<string, string> _writeAllText = File.WriteAllText;
+        private static Action<string, string, Encoding> _writeAllTextWithEncoding = File.WriteAllText;
 
         /// <summary>
         /// Gets or sets a delegate over the <see cref="File.AppendAllLines(string, IEnumerable{string})"/> method.<br/>
@@ -874,6 +881,132 @@ namespace Dunk.Tools.Foundation.IO
         }
 
         /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.WriteAllBytes(string, byte[])"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Action<string, byte[]> WriteAllBytes
+        {
+            get { return _writeAllBytes; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(WriteAllBytes)} delegate. value cannot be null");
+                }
+                _writeAllBytes = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.WriteAllLines(string, IEnumerable{string})"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Action<string, IEnumerable<string>> WriteAllLines
+        {
+            get { return _writeAllLines; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(WriteAllLines)} delegate. value cannot be null");
+                }
+                _writeAllLines = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.WriteAllLines(string, IEnumerable{string}, Encoding)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Action<string, IEnumerable<string>, Encoding> WriteAllLinesWithEncoding
+        {
+            get { return _writeAllLinesWithEncoding; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(WriteAllLinesWithEncoding)} delegate. value cannot be null");
+                }
+                _writeAllLinesWithEncoding = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.WriteAllLines(string, string[])"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Action<string, string[]> WriteAllLinesArray
+        {
+            get { return _writeAllLinesArray; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(WriteAllLinesArray)} delegate. value cannot be null");
+                }
+                _writeAllLinesArray = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.WriteAllLines(string, string[], Encoding)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Action<string, string[], Encoding> WriteAllLinesArrayWithEncoding
+        {
+            get { return _writeAllLinesArrayWithEncoding; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(WriteAllLinesArrayWithEncoding)} delegate. value cannot be null");
+                }
+                _writeAllLinesArrayWithEncoding = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.WriteAllText(string, string)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Action<string, string> WriteAllText
+        {
+            get { return _writeAllText; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(WriteAllText)} delegate. value cannot be null");
+                }
+                _writeAllText = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a delegate over the <see cref="File.WriteAllText(string, string, Encoding)"/> method.<br/>
+        /// </summary>
+        /// <exception cref="ArgumentNullException">value delegate was null.</exception>
+        public static Action<string, string, Encoding> WriteAllTextWithEncoding
+        {
+            get { return _writeAllTextWithEncoding; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value),
+                        $"Unable to set {nameof(WriteAllTextWithEncoding)} delegate. value cannot be null");
+                }
+                _writeAllTextWithEncoding = value;
+            }
+        }
+
+        /// <summary>
         /// Resets the delegates stored in this class to their default <see cref="File"/> 
         /// implementation.
         /// </summary>
@@ -924,6 +1057,13 @@ namespace Dunk.Tools.Foundation.IO
             SetLastAccessTimeUtc = File.SetLastAccessTimeUtc;
             SetLastWriteTime = File.SetLastWriteTime;
             SetLastWriteTimeUtc = File.SetLastWriteTimeUtc;
+            WriteAllBytes = File.WriteAllBytes;
+            WriteAllLines = File.WriteAllLines;
+            WriteAllLinesWithEncoding = File.WriteAllLines;
+            WriteAllLinesArray = File.WriteAllLines;
+            WriteAllLinesArrayWithEncoding = File.WriteAllLines;
+            WriteAllText = File.WriteAllText;
+            WriteAllTextWithEncoding = File.WriteAllText;
         }
     }
 }
