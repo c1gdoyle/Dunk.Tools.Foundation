@@ -1112,6 +1112,151 @@ namespace Dunk.Tools.Foundation.Test.IO
                 FileFacade.ReplaceWithIgnoreMetadata = fileDelegate);
         }
 
+        [Test]
+        public void FileFacadeSetAttributesWithIgnoreMetadataInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("SetAttributes", new Type[] { typeof(string), typeof(FileAttributes) });
+
+            Assert.AreEqual(method, FileFacade.SetAttributes.Method);
+        }
+
+        [Test]
+        public void FileFacadeSetAttributesWithIgnoreMetadataSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("SetAttributes", new Type[] { typeof(string), typeof(FileAttributes) });
+
+            FileFacade.SetAttributes = (a, b) => { };
+
+            Assert.AreNotEqual(method, FileFacade.SetAttributes.Method);
+        }
+
+        [Test]
+        public void FileFacadeSetAttributesWithIgnoreMetadataThrowsIfSpecifiedDelegateIsNull()
+        {
+            Action<string, FileAttributes> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.SetAttributes = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeSetCreationTimeWithIgnoreMetadataInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("SetCreationTime", new Type[] { typeof(string), typeof(DateTime) });
+
+            Assert.AreEqual(method, FileFacade.SetCreationTime.Method);
+        }
+
+        [Test]
+        public void FileFacadeSetCreationTimeWithIgnoreMetadataSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("SetCreationTime", new Type[] { typeof(string), typeof(DateTime) });
+
+            FileFacade.SetCreationTime = (a, b) => { };
+
+            Assert.AreNotEqual(method, FileFacade.SetCreationTime.Method);
+        }
+
+        [Test]
+        public void FileFacadeSetCreationTimeWithIgnoreMetadataThrowsIfSpecifiedDelegateIsNull()
+        {
+            Action<string, DateTime> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.SetCreationTime = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeSetCreationTimeUtcWithIgnoreMetadataInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("SetCreationTimeUtc", new Type[] { typeof(string), typeof(DateTime) });
+
+            Assert.AreEqual(method, FileFacade.SetCreationTimeUtc.Method);
+        }
+
+        [Test]
+        public void FileFacadeSetCreationTimeUtcWithIgnoreMetadataSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("SetCreationTimeUtc", new Type[] { typeof(string), typeof(DateTime) });
+
+            FileFacade.SetCreationTimeUtc = (a, b) => { };
+
+            Assert.AreNotEqual(method, FileFacade.SetCreationTimeUtc.Method);
+        }
+
+        [Test]
+        public void FileFacadeSetCreationTimeUtcWithIgnoreMetadataThrowsIfSpecifiedDelegateIsNull()
+        {
+            Action<string, DateTime> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.SetCreationTimeUtc = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeSetLastAccessTimeWithIgnoreMetadataInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("SetLastAccessTime", new Type[] { typeof(string), typeof(DateTime) });
+
+            Assert.AreEqual(method, FileFacade.SetLastAccessTime.Method);
+        }
+
+        [Test]
+        public void FileFacadeSetLastAccessTimeWithIgnoreMetadataSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("SetLastAccessTime", new Type[] { typeof(string), typeof(DateTime) });
+
+            FileFacade.SetLastAccessTime = (a, b) => { };
+
+            Assert.AreNotEqual(method, FileFacade.SetLastAccessTime.Method);
+        }
+
+        [Test]
+        public void FileFacadeSetLastAccessTimeWithIgnoreMetadataThrowsIfSpecifiedDelegateIsNull()
+        {
+            Action<string, DateTime> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.SetLastAccessTime = fileDelegate);
+        }
+
+        [Test]
+        public void FileFacadeSetLastAccessTimeUtcWithIgnoreMetadataInitialisesWithExpectedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("SetLastAccessTimeUtc", new Type[] { typeof(string), typeof(DateTime) });
+
+            Assert.AreEqual(method, FileFacade.SetLastAccessTimeUtc.Method);
+        }
+
+        [Test]
+        public void FileFacadeSetLastAccessTimeUtcWithIgnoreMetadataSupportsSettingSpecifiedDelegate()
+        {
+            var method = typeof(File)
+                .GetMethod("SetLastAccessTimeUtc", new Type[] { typeof(string), typeof(DateTime) });
+
+            FileFacade.SetLastAccessTimeUtc = (a, b) => { };
+
+            Assert.AreNotEqual(method, FileFacade.SetLastAccessTimeUtc.Method);
+        }
+
+        [Test]
+        public void FileFacadeSetLastAccessTimeUtcWithIgnoreMetadataThrowsIfSpecifiedDelegateIsNull()
+        {
+            Action<string, DateTime> fileDelegate = null;
+
+            Assert.Throws<ArgumentNullException>(() =>
+                FileFacade.SetLastAccessTimeUtc = fileDelegate);
+        }
+
         [SetUp]
         public void Setup()
         {
