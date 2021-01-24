@@ -170,5 +170,68 @@ namespace Dunk.Tools.Foundation.Test.Collections
             Assert.AreEqual(3, originalRoot);
             Assert.AreEqual(3, newRoot);
         }
+
+        [Test]
+        public void MinHeapSupportsConsumingEnumerable()
+        {
+            int testOrder = 2;
+
+            IList<int> testCollection = new List<int> { 50, 51, 38, 37, 23, 11, 5, 3 };
+
+            var minDHeap = new MinDHeap<int>(testOrder, testCollection.Randomize());
+
+            var consumingEnumerator = minDHeap.GetConsumingEnumerable().GetEnumerator();
+
+            Assert.DoesNotThrow(() =>
+            {
+                while (consumingEnumerator.MoveNext())
+                {
+                    //ignore empty block
+                }
+            });
+        }
+
+        [Test]
+        public void MinHeapConsumingEnumerableIteratesOverAllElements()
+        {
+            const int expectedCount = 8;
+            int count = 0;
+
+            int testOrder = 2;
+
+            IList<int> testCollection = new List<int> { 50, 51, 38, 37, 23, 11, 5, 3 };
+
+            var minDHeap = new MinDHeap<int>(testOrder, testCollection.Randomize());
+
+            var consumingEnumerator = minDHeap.GetConsumingEnumerable().GetEnumerator();
+
+            while (consumingEnumerator.MoveNext())
+            {
+                count++;
+            }
+
+            Assert.AreEqual(expectedCount, count);
+        }
+
+        [Test]
+        public void MinHeapConsumingEnumerableRemovesAllElements()
+        {
+            const int expectedCount = 0;
+
+            int testOrder = 2;
+
+            IList<int> testCollection = new List<int> { 50, 51, 38, 37, 23, 11, 5, 3 };
+
+            var minDHeap = new MinDHeap<int>(testOrder, testCollection.Randomize());
+
+            var consumingEnumerator = minDHeap.GetConsumingEnumerable().GetEnumerator();
+
+            while (consumingEnumerator.MoveNext())
+            {
+                //ignore empty block
+            }
+
+            Assert.AreEqual(expectedCount, minDHeap.Count);
+        }
     }
 }
