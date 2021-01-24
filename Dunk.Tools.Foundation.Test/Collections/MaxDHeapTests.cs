@@ -170,5 +170,68 @@ namespace Dunk.Tools.Foundation.Test.Collections
             Assert.AreEqual(51, originalRoot);
             Assert.AreEqual(51, newRoot);
         }
+
+        [Test]
+        public void MaxHeapSupportsConsumingEnumerable()
+        {
+            int testOrder = 2;
+
+            IList<int> testCollection = new List<int> { 50, 51, 38, 37, 23, 11, 5, 3 };
+
+            var maxDHeap = new MaxDHeap<int>(testOrder, testCollection.Randomize());
+
+            var consumingEnumerator = maxDHeap.GetConsumingEnumerable().GetEnumerator();
+
+            Assert.DoesNotThrow(() =>
+            {
+                while (consumingEnumerator.MoveNext())
+                {
+                    //ignore empty block
+                }
+            });
+        }
+
+        [Test]
+        public void MaxHeapConsumingEnumerableIteratesOverAllElements()
+        {
+            const int expectedCount = 8;
+            int count = 0;
+
+            int testOrder = 2;
+
+            IList<int> testCollection = new List<int> { 50, 51, 38, 37, 23, 11, 5, 3 };
+
+            var maxDHeap = new MaxDHeap<int>(testOrder, testCollection.Randomize());
+
+            var consumingEnumerator = maxDHeap.GetConsumingEnumerable().GetEnumerator();
+
+            while (consumingEnumerator.MoveNext())
+            {
+                count++;
+            }
+
+            Assert.AreEqual(expectedCount, count);
+        }
+
+        [Test]
+        public void MaxHeapConsumingEnumerableRemovesAllElements()
+        {
+            const int expectedCount = 0;
+
+            int testOrder = 2;
+
+            IList<int> testCollection = new List<int> { 50, 51, 38, 37, 23, 11, 5, 3 };
+
+            var maxDHeap = new MaxDHeap<int>(testOrder, testCollection.Randomize());
+
+            var consumingEnumerator = maxDHeap.GetConsumingEnumerable().GetEnumerator();
+
+            while (consumingEnumerator.MoveNext())
+            {
+                //ignore empty block
+            }
+
+            Assert.AreEqual(expectedCount, maxDHeap.Count);
+        }
     }
 }
