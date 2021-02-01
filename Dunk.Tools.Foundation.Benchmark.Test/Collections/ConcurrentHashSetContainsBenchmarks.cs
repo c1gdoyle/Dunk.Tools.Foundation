@@ -9,41 +9,28 @@ namespace Dunk.Tools.Foundation.Benchmark.Test.Collections
     [MemoryDiagnoser]
     [MedianColumn]
     [MaxColumn]
-    public class SynchronisedHashSetBenchmarks
+    [SimpleJob(targetCount: 100)]
+    public class ConcurrentHashSetContainsBenchmarks
     {
-        private string[] _words;
+        private string[] _validWords = null;
+        private ConcurrentHashSet<string> _hashSet;
 
         [Params(1000, 10000, 100000, 250000)]
         public int Number { get; set; }
 
         [Benchmark]
-        public void SynchronisedHashSetAddsUniqueWordToSet()
+        public void ConcurrentHashSetContainsReturnsTrueIfSetContainsItem()
         {
-            var set = new SynchronisedHashSet<string>();
-            for (int i = 0; i < _words.Length; i++)
+            for (int i = 0; i < _validWords.Length; i++)
             {
-                set.Add(_words[i]);
+                Assert.IsTrue(_hashSet.Contains(_validWords[i]));
             }
-
-            Assert.AreEqual(Number, set.Count);
-        }
-
-        [Benchmark]
-        public void SynchronisedHashSetTryAddUniqueWordToSet()
-        {
-            var set = new SynchronisedHashSet<string>();
-            for (int i = 0; i < _words.Length; i++)
-            {
-                set.TryAdd(_words[i]);
-            }
-
-            Assert.AreEqual(Number, set.Count);
         }
 
         [GlobalSetup]
         public void Setup()
         {
-            _words = new string[Number];
+            _validWords = new string[Number];
 
             using (var reader = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "words.txt")))
             {
@@ -51,12 +38,18 @@ namespace Dunk.Tools.Foundation.Benchmark.Test.Collections
                 string word = null;
 
                 while ((word = reader.ReadLine()) != null &&
-                    i < _words.Length)
+                    i < Number)
                 {
-                    _words[i] = word;
+                    _validWords[i] = (word);
                     i++;
                 }
             }
         }
-    }
+
+        [IterationSetup]
+        public void IterationSetup()
+        {
+            _hashSet = new ConcurrentHashSet<string>(_validWords);
+        }
+    } 
 }

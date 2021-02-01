@@ -9,7 +9,7 @@ namespace Dunk.Tools.Foundation.Benchmark.Test.Collections
     [MemoryDiagnoser]
     [MedianColumn]
     [MaxColumn]
-    public class ConcurrentHashSetBenchmarks
+    public class SynchronisedHashSetAddBenchmarks
     {
         private string[] _words;
 
@@ -17,10 +17,10 @@ namespace Dunk.Tools.Foundation.Benchmark.Test.Collections
         public int Number { get; set; }
 
         [Benchmark]
-        public void ConcurrentHashSetAddsUniqueWordToSet()
+        public void SynchronisedHashSetAddsUniqueWordToSet()
         {
-            var set = new ConcurrentHashSet<string>();
-            for(int i = 0; i < _words.Length; i++)
+            var set = new SynchronisedHashSet<string>();
+            for (int i = 0; i < _words.Length; i++)
             {
                 set.Add(_words[i]);
             }
@@ -29,9 +29,9 @@ namespace Dunk.Tools.Foundation.Benchmark.Test.Collections
         }
 
         [Benchmark]
-        public void ConcurrentHashSetTryAddUniqueWordToSet()
+        public void SynchronisedHashSetTryAddUniqueWordToSet()
         {
-            var set = new ConcurrentHashSet<string>();
+            var set = new SynchronisedHashSet<string>();
             for (int i = 0; i < _words.Length; i++)
             {
                 set.TryAdd(_words[i]);
@@ -45,12 +45,12 @@ namespace Dunk.Tools.Foundation.Benchmark.Test.Collections
         {
             _words = new string[Number];
 
-            using(var reader = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "words.txt")))
+            using (var reader = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "words.txt")))
             {
                 int i = 0;
                 string word = null;
 
-                while((word = reader.ReadLine()) != null &&
+                while ((word = reader.ReadLine()) != null &&
                     i < _words.Length)
                 {
                     _words[i] = word;
