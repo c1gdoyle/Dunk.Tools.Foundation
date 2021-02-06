@@ -9,7 +9,6 @@ namespace Dunk.Tools.Foundation.Benchmark.Test.Collections
     [MemoryDiagnoser]
     [MedianColumn]
     [MaxColumn]
-    [SimpleJob(targetCount: 100)]
     public class ConcurrentHashSetRemoveBenchmarks
     {
         private string[] _validWords;
@@ -23,10 +22,9 @@ namespace Dunk.Tools.Foundation.Benchmark.Test.Collections
         {
             for (int i = 0; i < _validWords.Length; i++)
             {
-                _hashSet.Remove(_validWords[i]);
+                Assert.IsTrue(_hashSet.Remove(_validWords[i]) &&
+                    _hashSet.TryAdd(_validWords[i]));
             }
-
-            Assert.AreEqual(0, _hashSet.Count);
         }
 
         [Benchmark]
@@ -34,10 +32,9 @@ namespace Dunk.Tools.Foundation.Benchmark.Test.Collections
         {
             for (int i = 0; i < _validWords.Length; i++)
             {
-                _hashSet.TryRemove(_validWords[i]);
+                Assert.IsTrue(_hashSet.Remove(_validWords[i]) &&
+                    _hashSet.TryAdd(_validWords[i]));
             }
-
-            Assert.AreEqual(0, _hashSet.Count);
         }
 
         [GlobalSetup]
@@ -57,11 +54,6 @@ namespace Dunk.Tools.Foundation.Benchmark.Test.Collections
                     i++;
                 }
             }
-        }
-
-        [IterationSetup]
-        public void IterationSetup()
-        {
             _hashSet = new ConcurrentHashSet<string>(_validWords);
         }
     }

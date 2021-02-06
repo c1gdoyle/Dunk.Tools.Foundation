@@ -9,7 +9,6 @@ namespace Dunk.Tools.Foundation.Benchmark.Test.Collections
     [MemoryDiagnoser]
     [MedianColumn]
     [MaxColumn]
-    [SimpleJob(targetCount:100)]
     public class SynchronisedHashSetRemoveBenchmarks
     {
         private string[] _validWords;
@@ -18,28 +17,26 @@ namespace Dunk.Tools.Foundation.Benchmark.Test.Collections
         [Params(1000, 10000, 100000, 250000)]
         public int Number { get; set; }
 
-        [Benchmark()]
-        public void SynchronisedHashSetRemoveReturnsTrueIfSetContainsItem()
+        [Benchmark]
+        public void SynchronisedHashSetRemoveRemovesIfSetContainsItem()
         {
             for (int i = 0; i < _validWords.Length; i++)
             {
-                _hashSet.Remove(_validWords[i]);
+                Assert.IsTrue(_hashSet.Remove(_validWords[i]) &&
+                    _hashSet.TryAdd(_validWords[i]));
             }
-
-            Assert.AreEqual(0, _hashSet.Count);
         }
 
         [Benchmark]
-        public void SynchronisedHashSetTryRemoveReturnsTrueIfSetContainsItem()
+        public void SynchronisedHashSetTryRemoveRemovesIfSetContainsItem()
         {
             _hashSet = new SynchronisedHashSet<string>(_validWords);
 
             for (int i = 0; i < _validWords.Length; i++)
             {
-                _hashSet.TryRemove(_validWords[i]);
+                Assert.IsTrue(_hashSet.Remove(_validWords[i]) &&
+                    _hashSet.TryAdd(_validWords[i]));
             }
-
-            Assert.AreEqual(0, _hashSet.Count);
         }
 
         [GlobalSetup]
@@ -59,11 +56,6 @@ namespace Dunk.Tools.Foundation.Benchmark.Test.Collections
                     i++;
                 }
             }
-        }
-
-        [IterationSetup]
-        public void IterationSetup()
-        {
             _hashSet = new SynchronisedHashSet<string>(_validWords);
         }
     }

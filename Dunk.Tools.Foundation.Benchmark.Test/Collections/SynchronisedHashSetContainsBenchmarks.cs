@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using BenchmarkDotNet.Attributes;
 using Dunk.Tools.Foundation.Collections;
 using NUnit.Framework;
@@ -10,7 +9,6 @@ namespace Dunk.Tools.Foundation.Benchmark.Test.Collections
     [MemoryDiagnoser]
     [MedianColumn]
     [MaxColumn]
-    [SimpleJob(targetCount: 100)]
     public class SynchronisedHashSetContainsBenchmarks
     {
         private string[] _validWords = null;
@@ -45,11 +43,6 @@ namespace Dunk.Tools.Foundation.Benchmark.Test.Collections
                     i++;
                 }
             }
-        }
-
-        [IterationSetup]
-        public void IterationSetup()
-        {
             _hashSet = new SynchronisedHashSet<string>(_validWords);
         }
     }
