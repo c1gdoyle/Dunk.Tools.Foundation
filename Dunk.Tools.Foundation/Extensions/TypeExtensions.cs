@@ -78,7 +78,7 @@ namespace Dunk.Tools.Foundation.Extensions
         }
 
         /// <summary>
-        /// Gets extension methods for this type.
+        /// Gets public extension methods for this type.
         /// </summary>
         /// <param name="extendedType">The type whose extension methods we are looking for.</param>
         /// <returns>
@@ -96,13 +96,13 @@ namespace Dunk.Tools.Foundation.Extensions
             }
             return types
                 .Where(t => t.IsSealed && !t.IsGenericType && !t.IsNested)
-                .SelectMany(t => t.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
+                .SelectMany(t => t.GetMethods(BindingFlags.Static | BindingFlags.Public))
                 .Where(m => m.IsDefined(typeof(ExtensionAttribute), false) &&
                 m.GetParameters()[0].ParameterType == extendedType);
         }
 
         /// <summary>
-        /// Gets extension methods for this type in a specified assembly.
+        /// Gets public extension methods for this type in a specified assembly.
         /// </summary>
         /// <param name="extendedType">The type whose extension methods we are looking for.</param>
         /// <param name="assembly"> The assembly which we are looking for the extension methods in.</param>
@@ -116,7 +116,7 @@ namespace Dunk.Tools.Foundation.Extensions
 
             return assembly.GetTypes()
                 .Where(t => t.IsSealed && !t.IsGenericType && !t.IsNested)
-                .SelectMany(t => t.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
+                .SelectMany(t => t.GetMethods(BindingFlags.Static | BindingFlags.Public))
                 .Where(m => m.IsDefined(typeof(ExtensionAttribute), false) &&
                 m.GetParameters()[0].ParameterType == extendedType);
         }
@@ -207,6 +207,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// Note if the type is a non-interface the flat hierarchy will be ordered from derived class propertoes to base class properties,
         /// whilst if the type is an interface that flat hierarchy will be ordered from base class properties to derived class properties.
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S3011:Method is intended to expose all properties.")]
         public static PropertyInfo[] GetAllProperties(this Type type)
         {
             if (type.IsInterface)
