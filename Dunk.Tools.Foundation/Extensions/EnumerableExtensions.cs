@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dunk.Tools.Foundation.Collections;
 
 namespace Dunk.Tools.Foundation.Extensions
 {
@@ -23,6 +24,22 @@ namespace Dunk.Tools.Foundation.Extensions
             Random r = new Random();
 
             return source.OrderBy(x => r.Next());
+        }
+
+        /// <summary>
+        /// Converts a given sequence into a <see cref="SmartEnumerable{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        /// <param name="source">The source to convert.</param>
+        /// <returns>
+        /// A smart-enumerable containing the elements from the original source.
+        /// </returns>
+        public static SmartEnumerable<T> ToSmartEnumerable<T>(this IEnumerable<T> source)
+        {
+            source.ThrowIfNull(nameof(source),
+                $"Unable to convert to smart-enumerable. {nameof(source)} parameter cannot be null");
+
+            return new SmartEnumerable<T>(source);
         }
     }
 }
