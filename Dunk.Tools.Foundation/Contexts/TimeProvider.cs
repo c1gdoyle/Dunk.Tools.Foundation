@@ -8,12 +8,7 @@ namespace Dunk.Tools.Foundation.Contexts
     /// </summary>
     public abstract class TimeProvider
     {
-        private static TimeProvider _current;
-
-        static TimeProvider()
-        {
-            _current = new DefaultTimeProvider();
-        }
+        private static TimeProvider _current = new DefaultTimeProvider();
 
         /// <summary>
         /// Gets or sets the current <see cref="TimeProvider"/> of the domain.

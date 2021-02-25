@@ -9,12 +9,7 @@ namespace Dunk.Tools.Foundation.Contexts
     /// </summary>
     public abstract class TaskSchedulerProvider
     {
-        private static TaskSchedulerProvider _current;
-
-        static TaskSchedulerProvider()
-        {
-            _current = new DefaultTaskSchedulerProvider();
-        }
+        private static TaskSchedulerProvider _current = new DefaultTaskSchedulerProvider();
 
         /// <summary>
         /// Gets or sets the current <see cref="TaskSchedulerProvider"/> of the domain.
