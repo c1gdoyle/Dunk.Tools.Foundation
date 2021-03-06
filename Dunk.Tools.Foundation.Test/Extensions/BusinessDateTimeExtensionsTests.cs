@@ -16,7 +16,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         {
             DateTime original = new DateTime(2017, 01, 02);
 
-            Assert.IsTrue(original.IsBuisnessDay());
+            Assert.IsTrue(original.IsBusinessDay());
         }
 
         [Test]
@@ -24,7 +24,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         {
             DateTime original = new DateTime(2017, 01, 07);
 
-            Assert.IsFalse(original.IsBuisnessDay());
+            Assert.IsFalse(original.IsBusinessDay());
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         {
             DateTime original = new DateTime(2017, 01, 08);
 
-            Assert.IsFalse(original.IsBuisnessDay());
+            Assert.IsFalse(original.IsBusinessDay());
         }
 
         [Test]
