@@ -17,7 +17,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// Note that be 'business days' we mean normal weekdays excluding Saturday and Sunday. This method only takes into 
         /// account weekends during its' calculation and does not include logic for accounting for any holidays.
         /// </remarks>
-        public static bool IsBuisnessDay(this DateTime date)
+        public static bool IsBusinessDay(this DateTime date)
         {
             return date.DayOfWeek != DayOfWeek.Saturday &&
                 date.DayOfWeek != DayOfWeek.Sunday;
@@ -195,10 +195,8 @@ namespace Dunk.Tools.Foundation.Extensions
             int businessDays = span.Days + 1;
             int fullWeekCount = businessDays / 7;
 
-            int firstDayOfWeek = firstDay.DayOfWeek == DayOfWeek.Sunday ?
-                7 : (int)firstDay.DayOfWeek;
-            int lastDaysOfWeek = lastDay.DayOfWeek == DayOfWeek.Sunday ?
-                7 : (int)lastDay.DayOfWeek;
+            int firstDayOfWeek = DetermineDayOfTheWeek(firstDay);
+            int lastDaysOfWeek = DetermineDayOfTheWeek(lastDay);
 
             //find out if there are weekends during the time exceeding full weeks
             if (businessDays > fullWeekCount * 7)
@@ -208,27 +206,40 @@ namespace Dunk.Tools.Foundation.Extensions
                     lastDaysOfWeek += 7;
                 }
 
-                if (firstDayOfWeek <= 6)
-                {
-                    if (lastDaysOfWeek >= 7)
-                    {
-                        //Both Saturday and Sunday are in the remaining time interval
-                        businessDays = businessDays - 2;
-                    }
-                    else if (lastDaysOfWeek >= 6)
-                    {
-                        //Only Saturday is in the remaining time interval
-                        businessDays = businessDays - 1;
-                    }
-                }
-                else if (firstDayOfWeek <= 7 && lastDaysOfWeek >= 7)
-                {
-                    businessDays = businessDays - 1;
-                }
+                businessDays = AdjustBusinessDaysForWeekend(businessDays, firstDayOfWeek, lastDaysOfWeek);
             }
 
             //subtract the weekends during the full weeks in the interval
             businessDays = businessDays - (2 * fullWeekCount);
+
+            return businessDays;
+        }
+
+        private static int DetermineDayOfTheWeek(DateTime date)
+        {
+            return date.DayOfWeek == DayOfWeek.Sunday ?
+                7 : (int)date.DayOfWeek;
+        }
+
+        private static int AdjustBusinessDaysForWeekend(int businessDays, int firstDayOfWeek, int lastDaysOfWeek)
+        {
+            if (firstDayOfWeek <= 6)
+            {
+                if (lastDaysOfWeek >= 7)
+                {
+                    //Both Saturday and Sunday are in the remaining time interval
+                    businessDays = businessDays - 2;
+                }
+                else if (lastDaysOfWeek >= 6)
+                {
+                    //Only Saturday is in the remaining time interval
+                    businessDays = businessDays - 1;
+                }
+            }
+            else if (firstDayOfWeek <= 7 && lastDaysOfWeek >= 7)
+            {
+                businessDays = businessDays - 1;
+            }
 
             return businessDays;
         }
