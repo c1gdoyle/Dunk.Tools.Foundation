@@ -39,14 +39,6 @@ namespace Dunk.Tools.Foundation.Utilities
             }
         }
 
-        private static void ValidateArguments(DateTime start, DateTime end)
-        {
-            if (end < start)
-            {
-                throw new ArgumentException("Unable to extract month ends. End-Date cannot be greater than Start-Date");
-            }
-        }
-
         /// <summary>
         /// Gets the month ends that occur between a specified start-date and end-date which 
         /// are weekdays (Mon - Fri).
@@ -77,6 +69,14 @@ namespace Dunk.Tools.Foundation.Utilities
         {
             return GetMonthEnds(start, end)
                 .Where(dt => dt.DayOfWeek == DayOfWeek.Saturday || dt.DayOfWeek == DayOfWeek.Sunday);
+        }
+
+        private static void ValidateArguments(DateTime start, DateTime end)
+        {
+            if (end < start)
+            {
+                throw new ArgumentException("Unable to extract month ends. End-Date cannot be greater than Start-Date");
+            }
         }
     }
 }
