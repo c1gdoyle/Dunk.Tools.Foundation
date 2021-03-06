@@ -195,10 +195,8 @@ namespace Dunk.Tools.Foundation.Extensions
             int businessDays = span.Days + 1;
             int fullWeekCount = businessDays / 7;
 
-            int firstDayOfWeek = firstDay.DayOfWeek == DayOfWeek.Sunday ?
-                7 : (int)firstDay.DayOfWeek;
-            int lastDaysOfWeek = lastDay.DayOfWeek == DayOfWeek.Sunday ?
-                7 : (int)lastDay.DayOfWeek;
+            int firstDayOfWeek = DetermineDayOfTheWeek(firstDay);
+            int lastDaysOfWeek = DetermineDayOfTheWeek(lastDay);
 
             //find out if there are weekends during the time exceeding full weeks
             if (businessDays > fullWeekCount * 7)
@@ -231,6 +229,12 @@ namespace Dunk.Tools.Foundation.Extensions
             businessDays = businessDays - (2 * fullWeekCount);
 
             return businessDays;
+        }
+
+        private static int DetermineDayOfTheWeek(DateTime date)
+        {
+            return date.DayOfWeek == DayOfWeek.Sunday ?
+                7 : (int)date.DayOfWeek;
         }
     }
 }
