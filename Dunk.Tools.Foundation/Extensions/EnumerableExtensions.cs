@@ -76,7 +76,7 @@ namespace Dunk.Tools.Foundation.Extensions
             }
 
             float mean = 0;
-            decimal sum = 0;
+            float sum = 0;
 
             long n = 0;
             foreach (float value in source)
@@ -84,7 +84,7 @@ namespace Dunk.Tools.Foundation.Extensions
                 n++;
                 float delta = value - mean;
                 mean += delta / n;
-                sum += (decimal)(delta * (value - mean));
+                sum += (delta * (value - mean));
             }
             if (n > 1)
             {
@@ -254,7 +254,7 @@ namespace Dunk.Tools.Foundation.Extensions
             }
 
             float mean = 0;
-            decimal sum = 0;
+            float sum = 0;
             long number = 0;
             bool hasValues = false;
 
@@ -269,7 +269,7 @@ namespace Dunk.Tools.Foundation.Extensions
                 number++;
                 float delta = value.Value - mean;
                 mean += delta / number;
-                sum += (decimal)(delta * (value - mean));
+                sum += (delta * (value.Value - mean));
             }
             if (number > 1 && hasValues)
             {
@@ -396,6 +396,382 @@ namespace Dunk.Tools.Foundation.Extensions
             if (number > 1 && hasValues)
             {
                 return Math.Sqrt(sum / number);
+            }
+            return 0;
+        }
+
+
+        /// <summary>
+        /// Computes sample standard-deviation for a sequence of <see cref="decimal"/>s.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> cannot be null.</exception>
+        public static double SampleStandardDeviation(this IEnumerable<decimal> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source),
+                    $"Unable to calculate sample Standard-Deviation, {nameof(source)} parameter cannot be null");
+            }
+
+            decimal mean = 0;
+            decimal sum = 0;
+            long number = 0;
+
+            foreach (decimal value in source)
+            {
+                number++;
+                decimal delta = value - mean;
+                mean += delta / number;
+                sum += delta * (value - mean);
+            }
+            if (number > 1)
+            {
+                return Math.Sqrt((double)sum / (number - 1));
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// Computes sample standard-deviation for a sequence of <see cref="float"/>s.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> cannot be null.</exception>
+        public static double SampleStandardDeviation(this IEnumerable<float> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source),
+                    $"Unable to calculate sample Standard-Deviation, {nameof(source)} parameter cannot be null");
+            }
+
+            float mean = 0;
+            float sum = 0;
+            long number = 0;
+
+            foreach (float value in source)
+            {
+                number++;
+                float delta = value - mean;
+                mean += delta / number;
+                sum += (delta * (value - mean));
+            }
+            if (number > 1)
+            {
+                return Math.Sqrt((double)sum / (number - 1));
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// Computes sample standard-deviation for a sequence of <see cref="int"/>s.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> cannot be null.</exception>
+        public static double SampleStandardDeviation(this IEnumerable<int> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source),
+                    $"Unable to calculate sample Standard-Deviation, {nameof(source)} parameter cannot be null");
+            }
+
+            double mean = 0;
+            double sum = 0;
+            long number = 0;
+
+            foreach (int value in source)
+            {
+                number++;
+                double delta = value - mean;
+                mean += delta / number;
+                sum += delta * (value - mean);
+            }
+            if (number > 1)
+            {
+                return Math.Sqrt(sum / (number - 1));
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// Computes sample standard-deviation for a sequence of <see cref="long"/>s.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> cannot be null.</exception>
+        public static double SampleStandardDeviation(this IEnumerable<long> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source),
+                    $"Unable to calculate sample Standard-Deviation, {nameof(source)} parameter cannot be null");
+            }
+
+            double mean = 0;
+            double sum = 0;
+            long number = 0;
+
+            foreach (long value in source)
+            {
+                number++;
+                double delta = value - mean;
+                mean += delta / number;
+                sum += delta * (value - mean);
+            }
+            if (number > 1)
+            {
+                return Math.Sqrt(sum / (number - 1));
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// Computes sample standard-deviation for a sequence of <see cref="double"/>s.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> cannot be null.</exception>
+        public static double SampleStandardDeviation(this IEnumerable<double> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source),
+                    $"Unable to calculate sample Standard-Deviation, {nameof(source)} parameter cannot be null");
+            }
+
+            double mean = 0;
+            double sum = 0;
+            long number = 0;
+
+            foreach (double value in source)
+            {
+                number++;
+                double delta = value - mean;
+                mean += delta / number;
+                sum += delta * (value - mean);
+            }
+            if (number > 1)
+            {
+                return Math.Sqrt(sum / (number - 1));
+            }
+            return 0;
+        }
+
+
+        /// <summary>
+        /// Computes sample standard-deviation for a sequence of nullable <see cref="decimal"/>s.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty or only contains nulls.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> cannot be null.</exception>
+        public static double SampleStandardDeviation(this IEnumerable<decimal?> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source),
+                    $"Unable to calculate sample Standard-Deviation, {nameof(source)} parameter cannot be null");
+            }
+
+            decimal mean = 0;
+            decimal sum = 0;
+            long number = 0;
+            bool hasValues = false;
+
+            foreach (decimal? value in source)
+            {
+                if (!value.HasValue)
+                {
+                    continue;
+                }
+
+                hasValues = true;
+                number++;
+                decimal delta = value.Value - mean;
+                mean += delta / number;
+                sum += delta * (value.Value - mean);
+            }
+            if (number > 1 && hasValues)
+            {
+                return Math.Sqrt((double)sum / (number - 1));
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// Computes sample standard-deviation for a sequence of nullable <see cref="float"/>s.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty or only contains nulls.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> cannot be null.</exception>
+        public static double SampleStandardDeviation(this IEnumerable<float?> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source),
+                    $"Unable to calculate sample Standard-Deviation, {nameof(source)} parameter cannot be null");
+            }
+
+            float mean = 0;
+            float sum = 0;
+            long number = 0;
+            bool hasValues = false;
+
+            foreach (float? value in source)
+            {
+                if (!value.HasValue)
+                {
+                    continue;
+                }
+
+                hasValues = true;
+                number++;
+                float delta = value.Value - mean;
+                mean += delta / number;
+                sum += (delta * (value.Value - mean));
+            }
+            if (number > 1 && hasValues)
+            {
+                return Math.Sqrt((double)sum / (number - 1));
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// Computes sample standard-deviation for a sequence of nullable <see cref="int"/>s.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty or only contains nulls.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> cannot be null.</exception>
+        public static double SampleStandardDeviation(this IEnumerable<int?> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source),
+                    $"Unable to calculate sample Standard-Deviation, {nameof(source)} parameter cannot be null");
+            }
+
+            double mean = 0;
+            double sum = 0;
+            long number = 0;
+            bool hasValues = false;
+
+            foreach (int? value in source)
+            {
+                if (!value.HasValue)
+                {
+                    continue;
+                }
+
+                hasValues = true;
+                number++;
+                double delta = value.Value - mean;
+                mean += delta / number;
+                sum += delta * (value.Value - mean);
+            }
+            if (number > 1 && hasValues)
+            {
+                return Math.Sqrt(sum / (number - 1));
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// Computes sample standard-deviation for a sequence of nullable <see cref="long"/>s.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty or only contains nulls.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> cannot be null.</exception>
+        public static double SampleStandardDeviation(this IEnumerable<long?> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source),
+                    $"Unable to calculate sample Standard-Deviation, {nameof(source)} parameter cannot be null");
+            }
+
+            double mean = 0;
+            double sum = 0;
+            long number = 0;
+            bool hasValues = false;
+
+            foreach (long? value in source)
+            {
+                if (!value.HasValue)
+                {
+                    continue;
+                }
+
+                hasValues = true;
+                number++;
+                double delta = value.Value - mean;
+                mean += delta / number;
+                sum += delta * (value.Value - mean);
+            }
+            if (number > 1 && hasValues)
+            {
+                return Math.Sqrt(sum / (number - 1));
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// Computes sample standard-deviation for a sequence of nullable <see cref="double"/>s.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty or only contains nulls.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> cannot be null.</exception>
+        public static double SampleStandardDeviation(this IEnumerable<double?> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source),
+                    $"Unable to calculate sample Standard-Deviation, {nameof(source)} parameter cannot be null");
+            }
+
+            double mean = 0;
+            double sum = 0;
+            long number = 0;
+            bool hasValues = false;
+
+            foreach (double? value in source)
+            {
+                if (!value.HasValue)
+                {
+                    continue;
+                }
+                hasValues = true;
+                number++;
+                double delta = value.Value - mean;
+                mean += delta / number;
+                sum += delta * (value.Value - mean);
+            }
+            if (number > 1 && hasValues)
+            {
+                return Math.Sqrt(sum / (number - 1));
             }
             return 0;
         }
