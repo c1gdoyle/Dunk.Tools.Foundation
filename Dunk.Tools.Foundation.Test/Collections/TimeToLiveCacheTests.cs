@@ -313,8 +313,8 @@ namespace Dunk.Tools.Foundation.Test.Collections
                     }
                     pause.Set();
                 });
-                //block up to 1 second or until cache is empty
-                pause.Wait(TimeSpan.FromSeconds(1));
+                //block until cache is empty
+                pause.Wait(TimeSpan.FromSeconds(10));
 
                 Assert.AreEqual(0, cache.Count);
             }
@@ -340,8 +340,8 @@ namespace Dunk.Tools.Foundation.Test.Collections
                     }
                     pause.Set();
                 });
-                //block up to 1 second or until cache is empty
-                pause.Wait(TimeSpan.FromSeconds(1));
+                //block until cache is empty
+                pause.Wait(TimeSpan.FromSeconds(10));
 
                 Assert.AreEqual(0, cache.Count);
             }
