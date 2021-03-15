@@ -212,7 +212,6 @@ namespace Dunk.Tools.Foundation.Extensions
             return 0;
         }
 
-
         /// <summary>
         /// Computes standard-deviation for a sequence of nullable <see cref="decimal"/>s.
         /// </summary>
@@ -415,6 +414,216 @@ namespace Dunk.Tools.Foundation.Extensions
                 return Math.Sqrt(sum / number);
             }
             return 0;
+        }
+
+        /// <summary>
+        /// Computes standard-deviation for a sequence of <see cref="decimal"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double StandardDeviation<TSource>(this IEnumerable<TSource> source, Func<TSource, decimal> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate Standard-Deviation, {nameof(selector)} parameter cannot be null");
+            }
+            return StandardDeviation(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes standard-deviation for a sequence of <see cref="float"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double StandardDeviation<TSource>(this IEnumerable<TSource> source, Func<TSource, float> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate Standard-Deviation, {nameof(selector)} parameter cannot be null");
+            }
+            return StandardDeviation(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes standard-deviation for a sequence of <see cref="int"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double StandardDeviation<TSource>(this IEnumerable<TSource> source, Func<TSource, int> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate Standard-Deviation, {nameof(selector)} parameter cannot be null");
+            }
+            return StandardDeviation(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes standard-deviation for a sequence of <see cref="long"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double StandardDeviation<TSource>(this IEnumerable<TSource> source, Func<TSource, long> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate Standard-Deviation, {nameof(selector)} parameter cannot be null");
+            }
+            return StandardDeviation(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes standard-deviation for a sequence of <see cref="double"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double StandardDeviation<TSource>(this IEnumerable<TSource> source, Func<TSource, double> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate Standard-Deviation, {nameof(selector)} parameter cannot be null");
+            }
+            return StandardDeviation(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes standard-deviation for a sequence of nullable <see cref="decimal"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty or only contains nulls.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double StandardDeviation<TSource>(this IEnumerable<TSource> source, Func<TSource, decimal?> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate Standard-Deviation, {nameof(selector)} parameter cannot be null");
+            }
+            return StandardDeviation(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes standard-deviation for a sequence of nullable <see cref="float"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty or only contains nulls.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double StandardDeviation<TSource>(this IEnumerable<TSource> source, Func<TSource, float?> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate Standard-Deviation, {nameof(selector)} parameter cannot be null");
+            }
+            return StandardDeviation(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes standard-deviation for a sequence of nullable <see cref="int"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty or only contains nulls.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double StandardDeviation<TSource>(this IEnumerable<TSource> source, Func<TSource, int?> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate Standard-Deviation, {nameof(selector)} parameter cannot be null");
+            }
+            return StandardDeviation(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes standard-deviation for a sequence of nullable <see cref="long"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty or only contains nulls.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double StandardDeviation<TSource>(this IEnumerable<TSource> source, Func<TSource, long?> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate Standard-Deviation, {nameof(selector)} parameter cannot be null");
+            }
+            return StandardDeviation(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes standard-deviation for a sequence of nullable <see cref="double"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty or only contains nulls.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double StandardDeviation<TSource>(this IEnumerable<TSource> source, Func<TSource, double?> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate Standard-Deviation, {nameof(selector)} parameter cannot be null");
+            }
+            return StandardDeviation(Enumerable.Select(source, selector));
         }
 
         /// <summary>
@@ -792,6 +1001,217 @@ namespace Dunk.Tools.Foundation.Extensions
             return 0;
         }
 
+
+        /// <summary>
+        /// Computes sample standard-deviation for a sequence of <see cref="decimal"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double SampleStandardDeviation<TSource>(this IEnumerable<TSource> source, Func<TSource, decimal> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate sample Standard-Deviation, {nameof(selector)} parameter cannot be null");
+            }
+            return SampleStandardDeviation(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes sample standard-deviation for a sequence of <see cref="float"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double SampleStandardDeviation<TSource>(this IEnumerable<TSource> source, Func<TSource, float> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate sample Standard-Deviation, {nameof(selector)} parameter cannot be null");
+            }
+            return SampleStandardDeviation(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes sample standard-deviation for a sequence of <see cref="int"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double SampleStandardDeviation<TSource>(this IEnumerable<TSource> source, Func<TSource, int> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate sample Standard-Deviation, {nameof(selector)} parameter cannot be null");
+            }
+            return SampleStandardDeviation(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes sample standard-deviation for a sequence of <see cref="long"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double SampleStandardDeviation<TSource>(this IEnumerable<TSource> source, Func<TSource, long> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate sample Standard-Deviation, {nameof(selector)} parameter cannot be null");
+            }
+            return SampleStandardDeviation(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes sample standard-deviation for a sequence of <see cref="double"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double SampleStandardDeviation<TSource>(this IEnumerable<TSource> source, Func<TSource, double> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate sample Standard-Deviation, {nameof(selector)} parameter cannot be null");
+            }
+            return SampleStandardDeviation(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes sample standard-deviation for a sequence of nullable <see cref="decimal"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty or only contains nulls.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double SampleStandardDeviation<TSource>(this IEnumerable<TSource> source, Func<TSource, decimal?> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate sample Standard-Deviation, {nameof(selector)} parameter cannot be null");
+            }
+            return SampleStandardDeviation(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes sample standard-deviation for a sequence of nullable <see cref="float"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty or only contains nulls.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double SampleStandardDeviation<TSource>(this IEnumerable<TSource> source, Func<TSource, float?> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate sample Standard-Deviation, {nameof(selector)} parameter cannot be null");
+            }
+            return SampleStandardDeviation(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes sample standard-deviation for a sequence of nullable <see cref="int"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty or only contains nulls.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double SampleStandardDeviation<TSource>(this IEnumerable<TSource> source, Func<TSource, int?> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate sample Standard-Deviation, {nameof(selector)} parameter cannot be null");
+            }
+            return SampleStandardDeviation(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes sample standard-deviation for a sequence of nullable <see cref="long"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty or only contains nulls.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double SampleStandardDeviation<TSource>(this IEnumerable<TSource> source, Func<TSource, long?> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate sample Standard-Deviation, {nameof(selector)} parameter cannot be null");
+            }
+            return SampleStandardDeviation(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes sample standard-deviation for a sequence of nullable <see cref="double"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The standard-deviation, or <c>0</c> if the sequence is empty or only contains nulls.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double SampleStandardDeviation<TSource>(this IEnumerable<TSource> source, Func<TSource, double?> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate sample Standard-Deviation, {nameof(selector)} parameter cannot be null");
+            }
+            return SampleStandardDeviation(Enumerable.Select(source, selector));
+        }
+
         /// <summary>
         /// Computes variance for a sequence of <see cref="decimal"/>s.
         /// </summary>
@@ -1165,6 +1585,217 @@ namespace Dunk.Tools.Foundation.Extensions
                 return sum / number;
             }
             return 0;
+        }
+
+        /// <summary>
+        /// Computes variance for a sequence of <see cref="decimal"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The variance, or <c>0</c> if the sequence is empty.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double Variance<TSource>(this IEnumerable<TSource> source, Func<TSource, decimal> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate variance, {nameof(selector)} parameter cannot be null");
+            }
+            return Variance(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes variance for a sequence of <see cref="float"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The variance, or <c>0</c> if the sequence is empty.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double Variance<TSource>(this IEnumerable<TSource> source, Func<TSource, float> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate variance, {nameof(selector)} parameter cannot be null");
+            }
+            return Variance(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes variance for a sequence of <see cref="int"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The variance, or <c>0</c> if the sequence is empty.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double Variance<TSource>(this IEnumerable<TSource> source, Func<TSource, int> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate variance, {nameof(selector)} parameter cannot be null");
+            }
+            return Variance(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes variance for a sequence of <see cref="long"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The variance, or <c>0</c> if the sequence is empty.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double Variance<TSource>(this IEnumerable<TSource> source, Func<TSource, long> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate variance, {nameof(selector)} parameter cannot be null");
+            }
+            return Variance(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes variance for a sequence of <see cref="double"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The variance, or <c>0</c> if the sequence is empty.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double Variance<TSource>(this IEnumerable<TSource> source, Func<TSource, double> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate variance, {nameof(selector)} parameter cannot be null");
+            }
+            return Variance(Enumerable.Select(source, selector));
+        }
+
+
+        /// <summary>
+        /// Computes variance for a sequence of nullable <see cref="decimal"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The variance, or <c>0</c> if the sequence is empty or only contains nulls.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double Variance<TSource>(this IEnumerable<TSource> source, Func<TSource, decimal?> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate variance, {nameof(selector)} parameter cannot be null");
+            }
+            return Variance(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes variance for a sequence of nullable <see cref="float"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The variance, or <c>0</c> if the sequence is empty or only contains nulls.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double Variance<TSource>(this IEnumerable<TSource> source, Func<TSource, float?> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate variance, {nameof(selector)} parameter cannot be null");
+            }
+            return Variance(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes variance for a sequence of nullable <see cref="int"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The variance, or <c>0</c> if the sequence is empty or only contains nulls.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double Variance<TSource>(this IEnumerable<TSource> source, Func<TSource, int?> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate variance, {nameof(selector)} parameter cannot be null");
+            }
+            return Variance(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes variance for a sequence of nullable <see cref="long"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The variance, or <c>0</c> if the sequence is empty or only contains nulls.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double Variance<TSource>(this IEnumerable<TSource> source, Func<TSource, long?> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate variance, {nameof(selector)} parameter cannot be null");
+            }
+            return Variance(Enumerable.Select(source, selector));
+        }
+
+        /// <summary>
+        /// Computes variance for a sequence of nullable <see cref="double"/>s that are obtained by 
+        /// invoking a transform function on each element of the input sequence.
+        /// </summary>
+        /// <param name="source">The sequence.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TSource">The type of elements in the sequence.</typeparam>
+        /// <returns>
+        /// The variance, or <c>0</c> if the sequence is empty or only contains nulls.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> was null.</exception>
+        public static double Variance<TSource>(this IEnumerable<TSource> source, Func<TSource, double?> selector)
+        {
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector),
+                    $"Unable to calculate variance, {nameof(selector)} parameter cannot be null");
+            }
+            return Variance(Enumerable.Select(source, selector));
         }
     }
 }
