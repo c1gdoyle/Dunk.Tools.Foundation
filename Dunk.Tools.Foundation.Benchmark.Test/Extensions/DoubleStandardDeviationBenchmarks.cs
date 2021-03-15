@@ -44,6 +44,20 @@ namespace Dunk.Tools.Foundation.Benchmark.Test.Extensions
             Assert.IsNotNull(result);
         }
 
+        [Benchmark]
+        public void CalculateVarianceForDoubleSequence()
+        {
+            double result = _source.Variance();
+            Assert.IsNotNull(result);
+        }
+
+        [Benchmark]
+        public void CalculateVarianceForNullableDoubleSequence()
+        {
+            double result = _nullableSource.Variance();
+            Assert.IsNotNull(result);
+        }
+
         [GlobalSetup]
         public void Setup()
         {
