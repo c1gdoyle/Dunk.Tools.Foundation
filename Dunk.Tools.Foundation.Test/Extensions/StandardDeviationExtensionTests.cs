@@ -37,6 +37,44 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         {
             Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<decimal>).StandardDeviation());
         }
+        
+        [Test]
+        public void StandardDeviationSelectCalculatesForSequenceOfDecimals()
+        {
+            const double expected = 7.5969918858904748d;
+
+            var sequence = new decimal[] { 1m, 3m, 24m, 17m, 12m, 6m, 14m };
+            Func<decimal, decimal> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectReturnsZeroForEmptySequenceOfDecimals()
+        {
+            const double expected = 0;
+
+            var sequence = Array.Empty<decimal>();
+            Func<decimal, decimal> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectThrowsForNullSequenceOfDecimals()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<decimal>).StandardDeviation(i => i));
+        }
+
+        [Test]
+        public void StandardDeviationSelectThrowsForNullDecimalSelector()
+        {
+            Assert.Throws<ArgumentNullException>(() => Array.Empty<decimal>().StandardDeviation(null as Func<decimal, decimal>));
+        }
 
         [Test]
         public void StandardDeviationCalculatesForSequenceOfFloats()
@@ -66,6 +104,44 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         public void StandardDeviationThrowsForNullSequenceOfFloats()
         {
             Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<float>).StandardDeviation());
+        }
+
+        [Test]
+        public void StandardDeviationSelectCalculatesForSequenceOfFloats()
+        {
+            const double expected = 7.5969918858904748d;
+
+            var sequence = new float[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f };
+            Func<float, float> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectReturnsZeroForEmptySequenceOfFloats()
+        {
+            const double expected = 0;
+
+            var sequence = Array.Empty<float>();
+            Func<float, float> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectThrowsForNullSequenceOfFloats()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<float>).StandardDeviation(i => i));
+        }
+
+        [Test]
+        public void StandardDeviationSelectThrowsForNullFloatSelector()
+        {
+            Assert.Throws<ArgumentNullException>(() => Array.Empty<float>().StandardDeviation(null as Func<float, float>));
         }
 
         [Test]
@@ -99,6 +175,44 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [Test]
+        public void StandardDeviationSelectCalculatesForSequenceOfInts()
+        {
+            const double expected = 7.5969918858904748d;
+
+            var sequence = new int[] { 1, 3, 24, 17, 12, 6, 14 };
+            Func<int, int> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectReturnsZeroForEmptySequenceOfInts()
+        {
+            const double expected = 0;
+
+            var sequence = Array.Empty<int>();
+            Func<int, int> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectThrowsForNullSequenceOfInts()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<int>).StandardDeviation(i => i));
+        }
+
+        [Test]
+        public void StandardDeviationSelectThrowsForNullIntSelector()
+        {
+            Assert.Throws<ArgumentNullException>(() => Array.Empty<int>().StandardDeviation(null as Func<int, int>));
+        }
+
+        [Test]
         public void StandardDeviationCalculatesForSequenceOfLongs()
         {
             const double expected = 7.5969918858904748d;
@@ -126,6 +240,44 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         public void StandardDeviationThrowsForNullSequenceOfLongs()
         {
             Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<long>).StandardDeviation());
+        }
+
+        [Test]
+        public void StandardDeviationSelectCalculatesForSequenceOfLongs()
+        {
+            const double expected = 7.5969918858904748d;
+
+            var sequence = new long[] { 1L, 3L, 24L, 17L, 12L, 6L, 14L };
+            Func<long, long> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectReturnsZeroForEmptySequenceOfLongs()
+        {
+            const double expected = 0;
+
+            var sequence = Array.Empty<long>();
+            Func<long, long> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectThrowsForNullSequenceOfLongs()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<long>).StandardDeviation(i => i));
+        }
+
+        [Test]
+        public void StandardDeviationSelectThrowsForNullLongSelector()
+        {
+            Assert.Throws<ArgumentNullException>(() => Array.Empty<long>().StandardDeviation(null as Func<long, long>));
         }
 
         [Test]
@@ -159,7 +311,45 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [Test]
-        public void StandardDeviationCalculatesForSequenceONullableDecimals()
+        public void StandardDeviationSelectCalculatesForSequenceOfDoubles()
+        {
+            const double expected = 7.5969918858904748d;
+
+            var sequence = new double[] { 1d, 3d, 24d, 17d, 12d, 6d, 14d };
+            Func<double, double> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectReturnsZeroForEmptySequenceOfDoubles()
+        {
+            const double expected = 0;
+
+            var sequence = Array.Empty<double>();
+            Func<double, double> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectThrowsForNullSequenceOfDoubles()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<double>).StandardDeviation(i => i));
+        }
+
+        [Test]
+        public void StandardDeviationSelectThrowsForNullDoubleSelector()
+        {
+            Assert.Throws<ArgumentNullException>(() => Array.Empty<double>().StandardDeviation(null as Func<double, double>));
+        }
+
+        [Test]
+        public void StandardDeviationCalculatesForSequenceOfNullableDecimals()
         {
             const double expected = 7.5969918858904748d;
 
@@ -171,7 +361,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [Test]
-        public void StandardDeviationCalculatesForSequenceONullableDecimalsContainingNulls()
+        public void StandardDeviationCalculatesForSequenceOfNullableDecimalsContainingNulls()
         {
             const double expected = 7.5969918858904748d;
 
@@ -210,6 +400,70 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         public void StandardDeviationThrowsForNullSequenceOfNullableDecimals()
         {
             Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<decimal?>).StandardDeviation());
+        }
+
+        [Test]
+        public void StandardDeviationSelectCalculatesForSequenceOfNullableDecimals()
+        {
+            const double expected = 7.5969918858904748d;
+
+            var sequence = new decimal?[] { 1m, 3m, 24m, 17m, 12m, 6m, 14m };
+            Func<decimal?, decimal?> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectCalculatesForSequenceOfNullableDecimalsContainingNulls()
+        {
+            const double expected = 7.5969918858904748d;
+
+            var sequence = new decimal?[] { 1m, 3m, 24m, 17m, 12m, 6m, 14m, null };
+            Func<decimal?, decimal?> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectReturnsZeroForEmptySequenceOfNullableDecimals()
+        {
+            const double expected = 0;
+
+            var sequence = Array.Empty<decimal?>();
+            Func<decimal?, decimal?> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectReturnsZeroForSequenceOfNullableDecimalsContainingOnlyNulls()
+        {
+            const double expected = 0;
+
+            var sequence = new decimal?[] { null, null, null, null, null };
+            Func<decimal?, decimal?> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectThrowsForNullSequenceOfNullableDecimals()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<decimal?>).StandardDeviation(i => i));
+        }
+
+        [Test]
+        public void StandardDeviationSelectThrowsForNullSelectorOfNullableDecimals()
+        {
+            Assert.Throws<ArgumentNullException>(() => Array.Empty<decimal?>().StandardDeviation(null as Func<decimal?, decimal?>));
         }
 
         [Test]
@@ -267,6 +521,70 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [Test]
+        public void StandardDeviationSelectCalculatesForSequenceOfNullableFloats()
+        {
+            const double expected = 7.5969918858904748d;
+
+            var sequence = new float?[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f };
+            Func<float?, float?> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectCalculatesForSequenceOfNullableFloatsContainingNulls()
+        {
+            const double expected = 7.5969918858904748d;
+
+            var sequence = new float?[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f, null };
+            Func<float?, float?> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectReturnsZeroForEmptySequenceOfNullableFloats()
+        {
+            const double expected = 0;
+
+            var sequence = Array.Empty<float?>();
+            Func<float?, float?> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectReturnsZeroForSequenceOfNullableFloatsContainingOnlyNulls()
+        {
+            const double expected = 0;
+
+            var sequence = new float?[] { null, null, null, null, null };
+            Func<float?, float?> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectThrowsForNullSequenceOfNullableFloats()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<float?>).StandardDeviation(i => i));
+        }
+
+        [Test]
+        public void StandardDeviationSelectThrowsForNullSelectorOfNullableFloats()
+        {
+            Assert.Throws<ArgumentNullException>(() => Array.Empty<float?>().StandardDeviation(null as Func<float?, float?>));
+        }
+
+        [Test]
         public void StandardDeviationCalculatesForSequenceOfNullableInts()
         {
             const double expected = 7.5969918858904748d;
@@ -318,6 +636,70 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         public void StandardDeviationThrowsForNullSequenceOfNullableInts()
         {
             Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<int?>).StandardDeviation());
+        }
+
+        [Test]
+        public void StandardDeviationSelectCalculatesForSequenceOfNullableInts()
+        {
+            const double expected = 7.5969918858904748d;
+
+            var sequence = new int?[] { 1, 3, 24, 17, 12, 6, 14 };
+            Func<int?, int?> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectCalculatesForSequenceOfNullableIntsContainingNulls()
+        {
+            const double expected = 7.5969918858904748d;
+
+            var sequence = new int?[] { 1, 3, 24, 17, 12, 6, 14, null };
+            Func<int?, int?> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectReturnsZeroForEmptySequenceOfNullableInts()
+        {
+            const double expected = 0;
+
+            var sequence = Array.Empty<int?>();
+            Func<int?, int?> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectReturnsZeroForSequenceOfNullableIntsContainingOnlyNulls()
+        {
+            const double expected = 0;
+
+            var sequence = new int?[] { null, null, null, null, null };
+            Func<int?, int?> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectThrowsForNullSequenceOfNullableInts()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<int?>).StandardDeviation(i => i));
+        }
+
+        [Test]
+        public void StandardDeviationSelectThrowsForNullSelectorOfNullableInts()
+        {
+            Assert.Throws<ArgumentNullException>(() => Array.Empty<int?>().StandardDeviation(null as Func<int?, int?>));
         }
 
         [Test]
@@ -375,6 +757,70 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [Test]
+        public void StandardDeviationSelectCalculatesForSequenceOfNullableLongs()
+        {
+            const double expected = 7.5969918858904748d;
+
+            var sequence = new long?[] { 1L, 3L, 24L, 17L, 12L, 6L, 14L };
+            Func<long?, long?> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectCalculatesForSequenceOfNullableLongsContainingNulls()
+        {
+            const double expected = 7.5969918858904748d;
+
+            var sequence = new long?[] { 1L, 3L, 24L, 17L, 12L, 6L, 14L, null };
+            Func<long?, long?> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectReturnsZeroForEmptySequenceOfNullableLongs()
+        {
+            const double expected = 0;
+
+            var sequence = Array.Empty<long?>();
+            Func<long?, long?> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectReturnsZeroForSequenceOfNullableLongsContainingOnlyNulls()
+        {
+            const double expected = 0;
+
+            var sequence = new long?[] { null, null, null, null, null };
+            Func<long?, long?> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectThrowsForNullSequenceOfNullableLongs()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<long?>).StandardDeviation(i => i));
+        }
+
+        [Test]
+        public void StandardDeviationSelectThrowsForNullSelectorOfNullableLongs()
+        {
+            Assert.Throws<ArgumentNullException>(() => Array.Empty<long?>().StandardDeviation(null as Func<long?, long?>));
+        }
+
+        [Test]
         public void StandardDeviationCalculatesForSequenceOfNullableDoubles()
         {
             const double expected = 7.5969918858904748d;
@@ -429,6 +875,70 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [Test]
+        public void StandardDeviationSelectCalculatesForSequenceOfNullableDoubles()
+        {
+            const double expected = 7.5969918858904748d;
+
+            var sequence = new double?[] { 1d, 3d, 24d, 17d, 12d, 6d, 14d };
+            Func<double?, double?> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectCalculatesForSequenceOfNullableDoublesContainingNulls()
+        {
+            const double expected = 7.5969918858904748d;
+
+            var sequence = new double?[] { 1d, 3d, 24d, 17d, 12d, 6d, 14d, null };
+            Func<double?, double?> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectReturnsZeroForEmptySequenceOfNullableDoubles()
+        {
+            const double expected = 0;
+
+            var sequence = Array.Empty<double?>();
+            Func<double?, double?> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectReturnsZeroForSequenceOfNullableDoublesContainingOnlyNulls()
+        {
+            const double expected = 0;
+
+            var sequence = new double?[] { null, null, null, null, null };
+            Func<double?, double?> selector = i => i;
+
+            double result = sequence.StandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void StandardDeviationSelectThrowsForNullSequenceOfNullableDoubles()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<double?>).StandardDeviation(i => i));
+        }
+
+        [Test]
+        public void StandardDeviationSelectThrowsForNullSelectorOfNullableDoubles()
+        {
+            Assert.Throws<ArgumentNullException>(() => Array.Empty<double?>().StandardDeviation(null as Func<double?, double?>));
+        }
+
+        [Test]
         public void SampleStandardDeviationCalculatesForSequenceOfDecimals()
         {
             const double expected = 8.2056890833941143d;
@@ -456,6 +966,44 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         public void SampleStandardDeviationThrowsForNullSequenceOfDecimals()
         {
             Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<decimal>).SampleStandardDeviation());
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectCalculatesForSequenceOfDecimals()
+        {
+            const double expected = 8.2056890833941143d;
+
+            var sequence = new decimal[] { 1m, 3m, 24m, 17m, 12m, 6m, 14m };
+            Func<decimal, decimal> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectReturnsZeroForEmptySequenceOfDecimals()
+        {
+            const double expected = 0;
+
+            var sequence = Array.Empty<decimal>();
+            Func<decimal, decimal> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectThrowsForNullSequenceOfDecimals()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<decimal>).SampleStandardDeviation());
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectThorwsForNullSelectorOfDecimals()
+        {
+            Assert.Throws<ArgumentNullException>(() => Array.Empty<decimal>().SampleStandardDeviation(null as Func<decimal, decimal>));
         }
 
         [Test]
@@ -489,6 +1037,44 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [Test]
+        public void SampleStandardDeviationSelectCalculatesForSequenceOfFloats()
+        {
+            const double expected = 8.2056890833941143d;
+
+            var sequence = new float[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f };
+            Func<float, float> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectReturnsZeroForEmptySequenceOfFloats()
+        {
+            const double expected = 0;
+
+            var sequence = Array.Empty<float>();
+            Func<float, float> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectThrowsForNullSequenceOfFloats()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<float>).SampleStandardDeviation());
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectThorwsForNullSelectorOfFloats()
+        {
+            Assert.Throws<ArgumentNullException>(() => Array.Empty<float>().SampleStandardDeviation(null as Func<float, float>));
+        }
+
+        [Test]
         public void SampleStandardDeviationCalculatesForSequenceOfInts()
         {
             const double expected = 8.2056890833941143d;
@@ -516,6 +1102,44 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         public void SampleStandardDeviationThrowsForNullSequenceOfInts()
         {
             Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<int>).SampleStandardDeviation());
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectCalculatesForSequenceOfInts()
+        {
+            const double expected = 8.2056890833941143d;
+
+            var sequence = new int[] { 1, 3, 24, 17, 12, 6, 14 };
+            Func<int, int> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectReturnsZeroForEmptySequenceOfInts()
+        {
+            const double expected = 0;
+
+            var sequence = Array.Empty<int>();
+            Func<int, int> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectThrowsForNullSequenceOfInts()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<int>).SampleStandardDeviation());
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectThorwsForNullSelectorOfInts()
+        {
+            Assert.Throws<ArgumentNullException>(() => Array.Empty<int>().SampleStandardDeviation(null as Func<int, int>));
         }
 
         [Test]
@@ -549,6 +1173,44 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [Test]
+        public void SampleStandardDeviationSelectCalculatesForSequenceOfLongs()
+        {
+            const double expected = 8.2056890833941143d;
+
+            var sequence = new long[] { 1L, 3L, 24L, 17L, 12L, 6L, 14L };
+            Func<long, long> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectReturnsZeroForEmptySequenceOfLongs()
+        {
+            const double expected = 0;
+
+            var sequence = Array.Empty<long>();
+            Func<long, long> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectThrowsForNullSequenceOfLongs()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<long>).SampleStandardDeviation());
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectThorwsForNullSelectorOfLongs()
+        {
+            Assert.Throws<ArgumentNullException>(() => Array.Empty<long>().SampleStandardDeviation(null as Func<long, long>));
+        }
+
+        [Test]
         public void SampleStandardDeviationCalculatesForSequenceOfDoubles()
         {
             const double expected = 8.2056890833941143d;
@@ -579,7 +1241,45 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [Test]
-        public void SampleStandardDeviationCalculatesForSequenceONullableDecimals()
+        public void SampleStandardDeviationSelectCalculatesForSequenceOfDoubles()
+        {
+            const double expected = 8.2056890833941143d;
+
+            var sequence = new double[] { 1d, 3d, 24d, 17d, 12d, 6d, 14d };
+            Func<double, double> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectReturnsZeroForEmptySequenceOfDoubles()
+        {
+            const double expected = 0;
+
+            var sequence = Array.Empty<double>();
+            Func<double, double> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectThrowsForNullSequenceOfDoubles()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<double>).SampleStandardDeviation());
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectThorwsForNullSelectorOfDoubles()
+        {
+            Assert.Throws<ArgumentNullException>(() => Array.Empty<double>().SampleStandardDeviation(null as Func<double, double>));
+        }
+
+        [Test]
+        public void SampleStandardDeviationCalculatesForSequenceOfNullableDecimals()
         {
             const double expected = 8.2056890833941143d;
 
@@ -591,7 +1291,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [Test]
-        public void SampleStandardDeviationCalculatesForSequenceONullableDecimalsContainingNulls()
+        public void SampleStandardDeviationCalculatesForSequenceOfNullableDecimalsContainingNulls()
         {
             const double expected = 8.2056890833941143d;
 
@@ -630,6 +1330,70 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         public void SampleStandardDeviationThrowsForNullSequenceOfNullableDecimals()
         {
             Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<decimal?>).SampleStandardDeviation());
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectCalculatesForSequenceOfNullableDecimals()
+        {
+            const double expected = 8.2056890833941143d;
+
+            var sequence = new decimal?[] { 1m, 3m, 24m, 17m, 12m, 6m, 14m };
+            Func<decimal?, decimal?> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectCalculatesForSequenceOfNullableDecimalsContainingNulls()
+        {
+            const double expected = 8.2056890833941143d;
+
+            var sequence = new decimal?[] { 1m, 3m, 24m, 17m, 12m, 6m, 14m, null };
+            Func<decimal?, decimal?> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectReturnsZeroForEmptySequenceOfNullableDecimals()
+        {
+            const double expected = 0;
+
+            var sequence = Array.Empty<decimal?>();
+            Func<decimal?, decimal?> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectReturnsZeroForSequenceOfNullableDecimalsContainingOnlyNulls()
+        {
+            const double expected = 0;
+
+            var sequence = new decimal?[] { null, null, null, null, null };
+            Func<decimal?, decimal?> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectThrowsForNullSequenceOfNullableDecimals()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<decimal?>).SampleStandardDeviation(i => i));
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectThrowsForNullSelectorOfNullableDecimals()
+        {
+            Assert.Throws<ArgumentNullException>(() => Array.Empty<decimal?>().SampleStandardDeviation(null as Func<decimal?, decimal?>));
         }
 
         [Test]
@@ -687,6 +1451,70 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [Test]
+        public void SampleStandardDeviationSelectCalculatesForSequenceOfNullableFloats()
+        {
+            const double expected = 8.2056890833941143d;
+
+            var sequence = new float?[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f };
+            Func<float?, float?> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectCalculatesForSequenceOfNullableFloatsContainingNulls()
+        {
+            const double expected = 8.2056890833941143d;
+
+            var sequence = new float?[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f, null };
+            Func<float?, float?> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectReturnsZeroForEmptySequenceOfNullableFloats()
+        {
+            const double expected = 0;
+
+            var sequence = Array.Empty<float?>();
+            Func<float?, float?> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectReturnsZeroForSequenceOfNullableFloatsContainingOnlyNulls()
+        {
+            const double expected = 0;
+
+            var sequence = new float?[] { null, null, null, null, null };
+            Func<float?, float?> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectThrowsForNullSequenceOfNullableFloats()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<float?>).SampleStandardDeviation(i => i));
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectThrowsForNullSelectorOfNullableFloats()
+        {
+            Assert.Throws<ArgumentNullException>(() => Array.Empty<float?>().SampleStandardDeviation(null as Func<float?, float?>));
+        }
+
+        [Test]
         public void SampleStandardDeviationCalculatesForSequenceOfNullableInts()
         {
             const double expected = 8.2056890833941143d;
@@ -738,6 +1566,70 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         public void SampleStandardDeviationThrowsForNullSequenceOfNullableInts()
         {
             Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<int?>).SampleStandardDeviation());
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectCalculatesForSequenceOfNullableInts()
+        {
+            const double expected = 8.2056890833941143d;
+
+            var sequence = new int?[] { 1, 3, 24, 17, 12, 6, 14 };
+            Func<int?, int?> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectCalculatesForSequenceOfNullableIntsContainingNulls()
+        {
+            const double expected = 8.2056890833941143d;
+
+            var sequence = new int?[] { 1, 3, 24, 17, 12, 6, 14, null };
+            Func<int?, int?> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectReturnsZeroForEmptySequenceOfNullableInts()
+        {
+            const double expected = 0;
+
+            var sequence = Array.Empty<int?>();
+            Func<int?, int?> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectReturnsZeroForSequenceOfNullableIntsContainingOnlyNulls()
+        {
+            const double expected = 0;
+
+            var sequence = new int?[] { null, null, null, null, null };
+            Func<int?, int?> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectThrowsForNullSequenceOfNullableInts()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<int?>).SampleStandardDeviation(i => i));
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectThrowsForNullSelectorOfNullableInts()
+        {
+            Assert.Throws<ArgumentNullException>(() => Array.Empty<int?>().SampleStandardDeviation(null as Func<int?, int?>));
         }
 
         [Test]
@@ -795,6 +1687,70 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [Test]
+        public void SampleStandardDeviationSelectCalculatesForSequenceOfNullableLongs()
+        {
+            const double expected = 8.2056890833941143d;
+
+            var sequence = new long?[] { 1L, 3L, 24L, 17L, 12L, 6L, 14L };
+            Func<long?, long?> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectCalculatesForSequenceOfNullableLongsContainingNulls()
+        {
+            const double expected = 8.2056890833941143d;
+
+            var sequence = new long?[] { 1L, 3L, 24L, 17L, 12L, 6L, 14L, null };
+            Func<long?, long?> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectReturnsZeroForEmptySequenceOfNullableLongs()
+        {
+            const double expected = 0;
+
+            var sequence = Array.Empty<long?>();
+            Func<long?, long?> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectReturnsZeroForSequenceOfNullableLongsContainingOnlyNulls()
+        {
+            const double expected = 0;
+
+            var sequence = new long?[] { null, null, null, null, null };
+            Func<long?, long?> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectThrowsForNullSequenceOfNullableLongs()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<long?>).SampleStandardDeviation(i => i));
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectThrowsForNullSelectorOfNullableLongs()
+        {
+            Assert.Throws<ArgumentNullException>(() => Array.Empty<long?>().SampleStandardDeviation(null as Func<long?, long?>));
+        }
+
+        [Test]
         public void SampleStandardDeviationCalculatesForSequenceOfNullableDoubles()
         {
             const double expected = 8.2056890833941143d;
@@ -846,6 +1802,70 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         public void SampleStandardDeviationThrowsForNullSequenceOfNullableDoubles()
         {
             Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<double?>).SampleStandardDeviation());
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectCalculatesForSequenceOfNullableDoubles()
+        {
+            const double expected = 8.2056890833941143d;
+
+            var sequence = new double?[] { 1d, 3d, 24d, 17d, 12d, 6d, 14d };
+            Func<double?, double?> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectCalculatesForSequenceOfNullableDoublesContainingNulls()
+        {
+            const double expected = 8.2056890833941143d;
+
+            var sequence = new double?[] { 1d, 3d, 24d, 17d, 12d, 6d, 14d, null };
+            Func<double?, double?> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectReturnsZeroForEmptySequenceOfNullableDoubles()
+        {
+            const double expected = 0;
+
+            var sequence = Array.Empty<double?>();
+            Func<double?, double?> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectReturnsZeroForSequenceOfNullableDoublesContainingOnlyNulls()
+        {
+            const double expected = 0;
+
+            var sequence = new double?[] { null, null, null, null, null };
+            Func<double?, double?> selector = i => i;
+
+            double result = sequence.SampleStandardDeviation(selector);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectThrowsForNullSequenceOfNullableDoubles()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as IEnumerable<double?>).SampleStandardDeviation(i => i));
+        }
+
+        [Test]
+        public void SampleStandardDeviationSelectThrowsForNullSelectorOfNullableDoubles()
+        {
+            Assert.Throws<ArgumentNullException>(() => Array.Empty<double?>().SampleStandardDeviation(null as Func<double?, double?>));
         }
     }
 }
