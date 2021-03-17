@@ -57,23 +57,7 @@ namespace Dunk.Tools.Foundation.Extensions
                 throw new ArgumentNullException(nameof(source),
                     $"Unable to calculate Standard-Deviation, {nameof(source)} parameter cannot be null");
             }
-
-            decimal mean = 0;
-            decimal sum = 0;
-            long number = 0;
-
-            foreach (decimal value in source)
-            {
-                number++;
-                decimal delta = value - mean;
-                mean += delta / number;
-                sum += delta * (value - mean);
-            }
-            if (number > 1)
-            {
-                return Math.Sqrt((double)sum / number);
-            }
-            return 0;
+            return Math.Sqrt(Variance(source));
         }
 
         /// <summary>
@@ -91,23 +75,7 @@ namespace Dunk.Tools.Foundation.Extensions
                 throw new ArgumentNullException(nameof(source),
                     $"Unable to calculate Standard-Deviation, {nameof(source)} parameter cannot be null");
             }
-
-            float mean = 0;
-            float sum = 0;
-
-            long n = 0;
-            foreach (float value in source)
-            {
-                n++;
-                float delta = value - mean;
-                mean += delta / n;
-                sum += (delta * (value - mean));
-            }
-            if (n > 1)
-            {
-                return Math.Sqrt((double)sum / n);
-            }
-            return 0;
+            return Math.Sqrt(Variance(source));
         }
 
         /// <summary>
@@ -125,23 +93,7 @@ namespace Dunk.Tools.Foundation.Extensions
                 throw new ArgumentNullException(nameof(source),
                     $"Unable to calculate Standard-Deviation, {nameof(source)} parameter cannot be null");
             }
-
-            double mean = 0;
-            double sum = 0;
-            long number = 0;
-
-            foreach(int value in source)
-            {
-                number++;
-                double delta = value - mean;
-                mean += delta / number;
-                sum += delta * (value - mean);
-            }
-            if(number > 1)
-            {
-                return Math.Sqrt(sum / number);
-            }
-            return 0;
+            return Math.Sqrt(Variance(source));
         }
 
         /// <summary>
@@ -159,23 +111,7 @@ namespace Dunk.Tools.Foundation.Extensions
                 throw new ArgumentNullException(nameof(source),
                     $"Unable to calculate Standard-Deviation, {nameof(source)} parameter cannot be null");
             }
-
-            double mean = 0;
-            double sum = 0;
-            long number = 0;
-
-            foreach (long value in source)
-            {
-                number++;
-                double delta = value - mean;
-                mean += delta / number;
-                sum += delta * (value - mean);
-            }
-            if (number > 1)
-            {
-                return Math.Sqrt(sum / number);
-            }
-            return 0;
+            return Math.Sqrt(Variance(source));
         }
 
         /// <summary>
@@ -193,23 +129,7 @@ namespace Dunk.Tools.Foundation.Extensions
                 throw new ArgumentNullException(nameof(source),
                     $"Unable to calculate Standard-Deviation, {nameof(source)} parameter cannot be null");
             }
-
-            double mean = 0;
-            double sum = 0;
-            long number = 0;
-
-            foreach (double value in source)
-            {
-                number++;
-                double delta = value - mean;
-                mean += delta / number;
-                sum += delta * (value - mean);
-            }
-            if (number > 1)
-            {
-                return Math.Sqrt(sum / number);
-            }
-            return 0;
+            return Math.Sqrt(Variance(source));
         }
 
         /// <summary>
@@ -227,30 +147,7 @@ namespace Dunk.Tools.Foundation.Extensions
                 throw new ArgumentNullException(nameof(source),
                     $"Unable to calculate Standard-Deviation, {nameof(source)} parameter cannot be null");
             }
-
-            decimal mean = 0;
-            decimal sum = 0;
-            long number = 0;
-            bool hasValues = false;
-
-            foreach (decimal? value in source)
-            {
-                if (!value.HasValue)
-                {
-                    continue;
-                }
-
-                hasValues = true;
-                number++;
-                decimal delta = value.Value - mean;
-                mean += delta / number;
-                sum += delta * (value.Value - mean);
-            }
-            if (number > 1 && hasValues)
-            {
-                return Math.Sqrt((double)sum / number);
-            }
-            return 0;
+            return Math.Sqrt(Variance(source));
         }
 
         /// <summary>
@@ -268,30 +165,7 @@ namespace Dunk.Tools.Foundation.Extensions
                 throw new ArgumentNullException(nameof(source),
                     $"Unable to calculate Standard-Deviation, {nameof(source)} parameter cannot be null");
             }
-
-            float mean = 0;
-            float sum = 0;
-            long number = 0;
-            bool hasValues = false;
-
-            foreach (float? value in source)
-            {
-                if (!value.HasValue)
-                {
-                    continue;
-                }
-
-                hasValues = true;
-                number++;
-                float delta = value.Value - mean;
-                mean += delta / number;
-                sum += (delta * (value.Value - mean));
-            }
-            if (number > 1 && hasValues)
-            {
-                return Math.Sqrt((double)sum / number);
-            }
-            return 0;
+            return Math.Sqrt(Variance(source));
         }
 
         /// <summary>
@@ -309,30 +183,7 @@ namespace Dunk.Tools.Foundation.Extensions
                 throw new ArgumentNullException(nameof(source),
                     $"Unable to calculate Standard-Deviation, {nameof(source)} parameter cannot be null");
             }
-
-            double mean = 0;
-            double sum = 0;
-            long number = 0;
-            bool hasValues = false;
-
-            foreach (int? value in source)
-            {
-                if (!value.HasValue)
-                {
-                    continue;
-                }
-
-                hasValues = true;
-                number++;
-                double delta = value.Value - mean;
-                mean += delta / number;
-                sum += delta * (value.Value - mean);
-            }
-            if (number > 1 && hasValues)
-            {
-                return Math.Sqrt(sum / number);
-            }
-            return 0;
+            return Math.Sqrt(Variance(source));
         }
 
         /// <summary>
@@ -350,30 +201,7 @@ namespace Dunk.Tools.Foundation.Extensions
                 throw new ArgumentNullException(nameof(source),
                     $"Unable to calculate Standard-Deviation, {nameof(source)} parameter cannot be null");
             }
-
-            double mean = 0;
-            double sum = 0;
-            long number = 0;
-            bool hasValues = false;
-
-            foreach (long? value in source)
-            {
-                if (!value.HasValue)
-                {
-                    continue;
-                }
-
-                hasValues = true;
-                number++;
-                double delta = value.Value - mean;
-                mean += delta / number;
-                sum += delta * (value.Value - mean);
-            }
-            if (number > 1 && hasValues)
-            {
-                return Math.Sqrt(sum / number);
-            }
-            return 0;
+            return Math.Sqrt(Variance(source));
         }
 
         /// <summary>
@@ -391,29 +219,7 @@ namespace Dunk.Tools.Foundation.Extensions
                 throw new ArgumentNullException(nameof(source),
                     $"Unable to calculate Standard-Deviation, {nameof(source)} parameter cannot be null");
             }
-
-            double mean = 0;
-            double sum = 0;
-            long number = 0;
-            bool hasValues = false;
-
-            foreach (double? value in source)
-            {
-                if (!value.HasValue)
-                {
-                    continue;
-                }
-                hasValues = true;
-                number++;
-                double delta = value.Value - mean;
-                mean += delta / number;
-                sum += delta * (value.Value - mean);
-            }
-            if (number > 1 && hasValues)
-            {
-                return Math.Sqrt(sum / number);
-            }
-            return 0;
+            return Math.Sqrt(Variance(source));
         }
 
         /// <summary>
@@ -646,12 +452,15 @@ namespace Dunk.Tools.Foundation.Extensions
             decimal sum = 0;
             long number = 0;
 
-            foreach (decimal value in source)
+            checked
             {
-                number++;
-                decimal delta = value - mean;
-                mean += delta / number;
-                sum += delta * (value - mean);
+                foreach (decimal value in source)
+                {
+                    number++;
+                    decimal delta = value - mean;
+                    mean += delta / number;
+                    sum += delta * (value - mean);
+                }
             }
             if (number > 1)
             {
@@ -680,12 +489,15 @@ namespace Dunk.Tools.Foundation.Extensions
             float sum = 0;
             long number = 0;
 
-            foreach (float value in source)
+            checked
             {
-                number++;
-                float delta = value - mean;
-                mean += delta / number;
-                sum += (delta * (value - mean));
+                foreach (float value in source)
+                {
+                    number++;
+                    float delta = value - mean;
+                    mean += delta / number;
+                    sum += (delta * (value - mean));
+                }
             }
             if (number > 1)
             {
@@ -714,12 +526,15 @@ namespace Dunk.Tools.Foundation.Extensions
             double sum = 0;
             long number = 0;
 
-            foreach (int value in source)
+            checked
             {
-                number++;
-                double delta = value - mean;
-                mean += delta / number;
-                sum += delta * (value - mean);
+                foreach (int value in source)
+                {
+                    number++;
+                    double delta = value - mean;
+                    mean += delta / number;
+                    sum += delta * (value - mean);
+                }
             }
             if (number > 1)
             {
@@ -748,12 +563,15 @@ namespace Dunk.Tools.Foundation.Extensions
             double sum = 0;
             long number = 0;
 
-            foreach (long value in source)
+            checked
             {
-                number++;
-                double delta = value - mean;
-                mean += delta / number;
-                sum += delta * (value - mean);
+                foreach (long value in source)
+                {
+                    number++;
+                    double delta = value - mean;
+                    mean += delta / number;
+                    sum += delta * (value - mean);
+                }
             }
             if (number > 1)
             {
@@ -782,12 +600,15 @@ namespace Dunk.Tools.Foundation.Extensions
             double sum = 0;
             long number = 0;
 
-            foreach (double value in source)
+            checked
             {
-                number++;
-                double delta = value - mean;
-                mean += delta / number;
-                sum += delta * (value - mean);
+                foreach (double value in source)
+                {
+                    number++;
+                    double delta = value - mean;
+                    mean += delta / number;
+                    sum += delta * (value - mean);
+                }
             }
             if (number > 1)
             {
@@ -818,18 +639,19 @@ namespace Dunk.Tools.Foundation.Extensions
             long number = 0;
             bool hasValues = false;
 
-            foreach (decimal? value in source)
+            checked
             {
-                if (!value.HasValue)
+                foreach (decimal? value in source)
                 {
-                    continue;
+                    if(value != null)
+                    {
+                        hasValues = true;
+                        number++;
+                        decimal delta = value.GetValueOrDefault() - mean;
+                        mean += delta / number;
+                        sum += delta * (value.GetValueOrDefault() - mean);
+                    }                    
                 }
-
-                hasValues = true;
-                number++;
-                decimal delta = value.Value - mean;
-                mean += delta / number;
-                sum += delta * (value.Value - mean);
             }
             if (number > 1 && hasValues)
             {
@@ -859,18 +681,19 @@ namespace Dunk.Tools.Foundation.Extensions
             long number = 0;
             bool hasValues = false;
 
-            foreach (float? value in source)
+            checked
             {
-                if (!value.HasValue)
+                foreach (float? value in source)
                 {
-                    continue;
+                    if(value != null)
+                    {
+                        hasValues = true;
+                        number++;
+                        float delta = value.GetValueOrDefault() - mean;
+                        mean += delta / number;
+                        sum += (delta * (value.GetValueOrDefault() - mean));
+                    }                    
                 }
-
-                hasValues = true;
-                number++;
-                float delta = value.Value - mean;
-                mean += delta / number;
-                sum += (delta * (value.Value - mean));
             }
             if (number > 1 && hasValues)
             {
@@ -900,18 +723,19 @@ namespace Dunk.Tools.Foundation.Extensions
             long number = 0;
             bool hasValues = false;
 
-            foreach (int? value in source)
+            checked
             {
-                if (!value.HasValue)
+                foreach (int? value in source)
                 {
-                    continue;
+                    if(value != null)
+                    {
+                        hasValues = true;
+                        number++;
+                        double delta = value.GetValueOrDefault() - mean;
+                        mean += delta / number;
+                        sum += delta * (value.GetValueOrDefault() - mean);
+                    }                    
                 }
-
-                hasValues = true;
-                number++;
-                double delta = value.Value - mean;
-                mean += delta / number;
-                sum += delta * (value.Value - mean);
             }
             if (number > 1 && hasValues)
             {
@@ -941,18 +765,19 @@ namespace Dunk.Tools.Foundation.Extensions
             long number = 0;
             bool hasValues = false;
 
-            foreach (long? value in source)
+            checked
             {
-                if (!value.HasValue)
+                foreach (long? value in source)
                 {
-                    continue;
+                    if(value != null)
+                    {
+                        hasValues = true;
+                        number++;
+                        double delta = value.GetValueOrDefault() - mean;
+                        mean += delta / number;
+                        sum += delta * (value.GetValueOrDefault() - mean);
+                    }                    
                 }
-
-                hasValues = true;
-                number++;
-                double delta = value.Value - mean;
-                mean += delta / number;
-                sum += delta * (value.Value - mean);
             }
             if (number > 1 && hasValues)
             {
@@ -982,17 +807,19 @@ namespace Dunk.Tools.Foundation.Extensions
             long number = 0;
             bool hasValues = false;
 
-            foreach (double? value in source)
+            checked
             {
-                if (!value.HasValue)
+                foreach (double? value in source)
                 {
-                    continue;
+                    if(value != null)
+                    {
+                        hasValues = true;
+                        number++;
+                        double delta = value.GetValueOrDefault() - mean;
+                        mean += delta / number;
+                        sum += delta * (value.GetValueOrDefault() - mean);
+                    }
                 }
-                hasValues = true;
-                number++;
-                double delta = value.Value - mean;
-                mean += delta / number;
-                sum += delta * (value.Value - mean);
             }
             if (number > 1 && hasValues)
             {
@@ -1232,12 +1059,15 @@ namespace Dunk.Tools.Foundation.Extensions
             decimal sum = 0;
             long number = 0;
 
-            foreach (decimal value in source)
+            checked
             {
-                number++;
-                decimal delta = value - mean;
-                mean += delta / number;
-                sum += delta * (value - mean);
+                foreach (decimal value in source)
+                {
+                    number++;
+                    decimal delta = value - mean;
+                    mean += delta / number;
+                    sum += delta * (value - mean);
+                }
             }
             if (number > 1)
             {
@@ -1264,18 +1094,21 @@ namespace Dunk.Tools.Foundation.Extensions
 
             float mean = 0;
             float sum = 0;
+            long number = 0;
 
-            long n = 0;
-            foreach (float value in source)
+            checked
             {
-                n++;
-                float delta = value - mean;
-                mean += delta / n;
-                sum += (delta * (value - mean));
+                foreach (float value in source)
+                {
+                    number++;
+                    float delta = value - mean;
+                    mean += delta / number;
+                    sum += (delta * (value - mean));
+                }
             }
-            if (n > 1)
+            if (number > 1)
             {
-                return (double)sum / n;
+                return (double)sum / number;
             }
             return 0;
         }
@@ -1300,12 +1133,15 @@ namespace Dunk.Tools.Foundation.Extensions
             double sum = 0;
             long number = 0;
 
-            foreach (int value in source)
+            checked
             {
-                number++;
-                double delta = value - mean;
-                mean += delta / number;
-                sum += delta * (value - mean);
+                foreach (int value in source)
+                {
+                    number++;
+                    double delta = value - mean;
+                    mean += delta / number;
+                    sum += delta * (value - mean);
+                }
             }
             if (number > 1)
             {
@@ -1334,12 +1170,15 @@ namespace Dunk.Tools.Foundation.Extensions
             double sum = 0;
             long number = 0;
 
-            foreach (long value in source)
+            checked
             {
-                number++;
-                double delta = value - mean;
-                mean += delta / number;
-                sum += delta * (value - mean);
+                foreach (long value in source)
+                {
+                    number++;
+                    double delta = value - mean;
+                    mean += delta / number;
+                    sum += delta * (value - mean);
+                }
             }
             if (number > 1)
             {
@@ -1368,12 +1207,15 @@ namespace Dunk.Tools.Foundation.Extensions
             double sum = 0;
             long number = 0;
 
-            foreach (double value in source)
+            checked
             {
-                number++;
-                double delta = value - mean;
-                mean += delta / number;
-                sum += delta * (value - mean);
+                foreach (double value in source)
+                {
+                    number++;
+                    double delta = value - mean;
+                    mean += delta / number;
+                    sum += delta * (value - mean);
+                }
             }
             if (number > 1)
             {
@@ -1404,18 +1246,19 @@ namespace Dunk.Tools.Foundation.Extensions
             long number = 0;
             bool hasValues = false;
 
-            foreach (decimal? value in source)
+            checked
             {
-                if (!value.HasValue)
+                foreach (decimal? value in source)
                 {
-                    continue;
+                    if (value != null)
+                    {
+                        hasValues = true;
+                        number++;
+                        decimal delta = value.GetValueOrDefault() - mean;
+                        mean += delta / number;
+                        sum += delta * (value.GetValueOrDefault() - mean);
+                    }                    
                 }
-
-                hasValues = true;
-                number++;
-                decimal delta = value.Value - mean;
-                mean += delta / number;
-                sum += delta * (value.Value - mean);
             }
             if (number > 1 && hasValues)
             {
@@ -1445,18 +1288,19 @@ namespace Dunk.Tools.Foundation.Extensions
             long number = 0;
             bool hasValues = false;
 
-            foreach (float? value in source)
+            checked
             {
-                if (!value.HasValue)
+                foreach (float? value in source)
                 {
-                    continue;
+                    if(value != null)
+                    {
+                        hasValues = true;
+                        number++;
+                        float delta = value.GetValueOrDefault() - mean;
+                        mean += delta / number;
+                        sum += (delta * (value.GetValueOrDefault() - mean));
+                    }
                 }
-
-                hasValues = true;
-                number++;
-                float delta = value.Value - mean;
-                mean += delta / number;
-                sum += (delta * (value.Value - mean));
             }
             if (number > 1 && hasValues)
             {
@@ -1486,18 +1330,19 @@ namespace Dunk.Tools.Foundation.Extensions
             long number = 0;
             bool hasValues = false;
 
-            foreach (int? value in source)
+            checked
             {
-                if (!value.HasValue)
+                foreach (int? value in source)
                 {
-                    continue;
+                    if(value != null)
+                    {
+                        hasValues = true;
+                        number++;
+                        double delta = value.GetValueOrDefault() - mean;
+                        mean += delta / number;
+                        sum += delta * (value.GetValueOrDefault() - mean);
+                    }
                 }
-
-                hasValues = true;
-                number++;
-                double delta = value.Value - mean;
-                mean += delta / number;
-                sum += delta * (value.Value - mean);
             }
             if (number > 1 && hasValues)
             {
@@ -1527,18 +1372,19 @@ namespace Dunk.Tools.Foundation.Extensions
             long number = 0;
             bool hasValues = false;
 
-            foreach (long? value in source)
+            checked
             {
-                if (!value.HasValue)
+                foreach (long? value in source)
                 {
-                    continue;
+                    if(value != null)
+                    {
+                        hasValues = true;
+                        number++;
+                        double delta = value.GetValueOrDefault() - mean;
+                        mean += delta / number;
+                        sum += delta * (value.GetValueOrDefault() - mean);
+                    }
                 }
-
-                hasValues = true;
-                number++;
-                double delta = value.Value - mean;
-                mean += delta / number;
-                sum += delta * (value.Value - mean);
             }
             if (number > 1 && hasValues)
             {
@@ -1568,17 +1414,19 @@ namespace Dunk.Tools.Foundation.Extensions
             long number = 0;
             bool hasValues = false;
 
-            foreach (double? value in source)
+            checked
             {
-                if (!value.HasValue)
+                foreach (double? value in source)
                 {
-                    continue;
+                    if(value != null)
+                    {
+                        hasValues = true;
+                        number++;
+                        double delta = value.GetValueOrDefault() - mean;
+                        mean += delta / number;
+                        sum += delta * (value.GetValueOrDefault() - mean);
+                    }
                 }
-                hasValues = true;
-                number++;
-                double delta = value.Value - mean;
-                mean += delta / number;
-                sum += delta * (value.Value - mean);
             }
             if (number > 1 && hasValues)
             {
