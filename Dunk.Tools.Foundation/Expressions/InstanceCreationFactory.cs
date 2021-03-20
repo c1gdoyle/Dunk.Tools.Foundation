@@ -66,7 +66,6 @@ namespace Dunk.Tools.Foundation.Expressions
         /// <returns>
         /// An instance of the <paramref name="type"/>
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         public static object GetInstance<TArg1, TArg2, TArg3>(Type type, TArg1 argument1, TArg2 argument2, TArg3 argument3)
         {
             return InstanceCreationFactoryCache<TArg1, TArg2, TArg3>
@@ -75,6 +74,7 @@ namespace Dunk.Tools.Foundation.Expressions
 
         private class TypeToIgnore { }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         private static class InstanceCreationFactoryCache<TArg1, TArg2, TArg3>
         {
             private static readonly Dictionary<Type, Dictionary<int, Func<TArg1, TArg2, TArg3, object>>> InstanceCreationMethodsByType =
