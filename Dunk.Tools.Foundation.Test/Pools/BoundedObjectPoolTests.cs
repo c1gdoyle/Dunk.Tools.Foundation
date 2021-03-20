@@ -179,12 +179,18 @@ namespace Dunk.Tools.Foundation.Test.Pools
             Func<TestPoolObject> objGenerator = () => new TestPoolObject();
             var pool = new BoundedObjectPool<TestPoolObject>(objGenerator, 5, 10);
 
-            Parallel.For(0, 10000, i =>
+            var loopResult = Parallel.For(0, 10000, i =>
             {
                 var item = pool.GetObject();
                 values[i] = item.GetValue(i);
                 pool.ReturnObjectToPool(item);
             });
+
+            while (!loopResult.IsCompleted ||
+                pool.PoolCount > 10)
+            {
+                Thread.Sleep(10);
+            }
 
             Assert.IsTrue(pool.PoolCount <= 10);
         }
@@ -222,7 +228,7 @@ namespace Dunk.Tools.Foundation.Test.Pools
             Func<TestPoolObject> objGenerator = () => new TestPoolObject();
             var pool = new BoundedObjectPool<TestPoolObject>(objGenerator, 5, 10);
 
-            Parallel.For(0, 10000, i =>
+            var loopResult = Parallel.For(0, 10000, i =>
             {
                 var item = pool.GetObject();
                 values[i] = item.GetValue(i);
@@ -235,6 +241,12 @@ namespace Dunk.Tools.Foundation.Test.Pools
 
                 pool.ReturnObjectToPool(item);
             });
+
+            while(!loopResult.IsCompleted || 
+                pool.PoolCount > 10)
+            {
+                Thread.Sleep(10);
+            }
 
             Assert.IsTrue(pool.PoolCount <= 10);
         }

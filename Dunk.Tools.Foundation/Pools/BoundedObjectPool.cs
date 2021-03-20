@@ -111,6 +111,8 @@ namespace Dunk.Tools.Foundation.Pools
                 //The Pool's upper limit has been exceeded. So dump the obj
                 DestroyPoolObject(obj);
             }
+
+            ThreadPool.QueueUserWorkItem(new WaitCallback(o => AdjustPoolSizeToBounds()));
         }
         #endregion IBoundedObjectPool<T> Members
 
