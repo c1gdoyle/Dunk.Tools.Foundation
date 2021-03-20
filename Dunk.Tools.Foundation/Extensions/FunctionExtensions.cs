@@ -194,6 +194,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// See Jon Skeet's post
         /// https://codeblog.jonskeet.uk/2012/01/30/currying-vs-partial-function-application
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         public static Func<TArg2, TResult> Partial<TArg1, TArg2, TResult>(this Func<TArg1, TArg2, TResult> function, TArg1 arg1)
         {
             return arg2 => function(arg1, arg2);
@@ -216,6 +217,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// See Jon Skeet's post
         /// https://codeblog.jonskeet.uk/2012/01/30/currying-vs-partial-function-application
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         public static Func<TArg2, TArg3, TResult> Partial<TArg1, TArg2, TArg3, TResult>(this Func<TArg1, TArg2, TArg3, TResult> function, TArg1 arg1)
         {
             return (arg2, arg3) => function(arg1, arg2, arg3);
@@ -239,6 +241,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// See Jon Skeet's post
         /// https://codeblog.jonskeet.uk/2012/01/30/currying-vs-partial-function-application
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         public static Func<TArg2, TArg3, TArg4, TResult> Partial<TArg1, TArg2, TArg3, TArg4, TResult>(this Func<TArg1, TArg2, TArg3, TArg4, TResult> function, TArg1 arg1)
         {
             return (arg2, arg3, arg4) => function(arg1, arg2, arg3, arg4);
@@ -259,6 +262,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// See Jon Skeet's post
         /// https://codeblog.jonskeet.uk/2012/01/30/currying-vs-partial-function-application
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         public static Action<TArg2> Partial<TArg1, TArg2>(this Action<TArg1, TArg2> action, TArg1 arg1)
         {
             return arg2 => action(arg1, arg2);
@@ -280,6 +284,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// See Jon Skeet's post
         /// https://codeblog.jonskeet.uk/2012/01/30/currying-vs-partial-function-application
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         public static Action<TArg2, TArg3> Partial<TArg1, TArg2, TArg3>(this Action<TArg1, TArg2, TArg3> action, TArg1 arg1)
         {
             return (arg2, arg3) => action(arg1, arg2, arg3);
@@ -302,6 +307,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// See Jon Skeet's post
         /// https://codeblog.jonskeet.uk/2012/01/30/currying-vs-partial-function-application
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         public static Action<TArg2, TArg3, TArg4> Partial<TArg1, TArg2, TArg3, TArg4>(this Action<TArg1, TArg2, TArg3, TArg4> action, TArg1 arg1)
         {
             return (arg2, arg3, arg4) => action(arg1, arg2, arg3, arg4);
@@ -324,6 +330,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// See Jon Skeet's post
         /// https://codeblog.jonskeet.uk/2012/01/30/currying-vs-partial-function-application
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         public static Func<TArg1, Func<TArg2, TResult>> Curry<TArg1, TArg2, TResult>(this Func<TArg1, TArg2, TResult> function)
         {
             return a => b => function(a, b);
@@ -344,6 +351,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// See Jon Skeet's post
         /// https://codeblog.jonskeet.uk/2012/01/30/currying-vs-partial-function-application
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         public static Func<TArg1, Func<TArg2, Func<TArg3, TResult>>> Curry<TArg1, TArg2, TArg3, TResult>(this Func<TArg1, TArg2, TArg3, TResult> function)
         {
             return a => b => c => function(a, b, c);
@@ -365,6 +373,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// See Jon Skeet's post
         /// https://codeblog.jonskeet.uk/2012/01/30/currying-vs-partial-function-application
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         public static Func<TArg1, Func<TArg2, Func<TArg3, Func<TArg4, TResult>>>> Curry<TArg1, TArg2, TArg3, TArg4, TResult>(this Func<TArg1, TArg2, TArg3, TArg4, TResult> function)
         {
             return a => b => c => d => function(a, b, c, d);
@@ -383,6 +392,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// See Jon Skeet's post
         /// https://codeblog.jonskeet.uk/2012/01/30/currying-vs-partial-function-application
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         public static Func<TArg1, Action<TArg2>> Curry<TArg1, TArg2>(this Action<TArg1, TArg2> action)
         {
             return a => b => action(a, b);
@@ -402,6 +412,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// See Jon Skeet's post
         /// https://codeblog.jonskeet.uk/2012/01/30/currying-vs-partial-function-application
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         public static Func<TArg1, Func<TArg2, Action<TArg3>>> Curry<TArg1, TArg2, TArg3>(this Action<TArg1, TArg2, TArg3> action)
         {
             return a => b => c => action(a, b, c);
@@ -422,6 +433,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// See Jon Skeet's post
         /// https://codeblog.jonskeet.uk/2012/01/30/currying-vs-partial-function-application
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         public static Func<TArg1, Func<TArg2, Func<TArg3, Action<TArg4>>>> Curry<TArg1, TArg2, TArg3, TArg4>(this Action<TArg1, TArg2, TArg3, TArg4> action)
         {
             return a => b => c => d => action(a, b, c, d);
@@ -443,6 +455,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// See Jon Skeet's post
         /// https://codeblog.jonskeet.uk/2012/01/30/currying-vs-partial-function-application
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         public static Func<TArg1, TArg2, TResult> Uncurry<TArg1, TArg2, TResult>(this Func<TArg1, Func<TArg2, TResult>> function)
         {
             return (a, b) => function(a)(b);
@@ -463,6 +476,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// See Jon Skeet's post
         /// https://codeblog.jonskeet.uk/2012/01/30/currying-vs-partial-function-application
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         public static Func<TArg1, TArg2, TArg3, TResult> Uncurry<TArg1, TArg2, TArg3, TResult>(this Func<TArg1, Func<TArg2, Func<TArg3, TResult>>> function)
         {
             return (a, b, c) => function(a)(b)(c);
@@ -484,6 +498,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// See Jon Skeet's post
         /// https://codeblog.jonskeet.uk/2012/01/30/currying-vs-partial-function-application
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         public static Func<TArg1, TArg2, TArg3, TArg4, TResult> Uncurry<TArg1, TArg2, TArg3, TArg4, TResult>(this Func<TArg1, Func<TArg2, Func<TArg3, Func<TArg4, TResult>>>> function)
         {
             return (a, b, c, d) => function(a)(b)(c)(d);
@@ -502,6 +517,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// See Jon Skeet's post
         /// https://codeblog.jonskeet.uk/2012/01/30/currying-vs-partial-function-application
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         public static Action<TArg1, TArg2> Uncurry<TArg1, TArg2>(this Func<TArg1, Action<TArg2>> action)
         {
             return (a, b) => action(a)(b);
@@ -521,6 +537,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// See Jon Skeet's post
         /// https://codeblog.jonskeet.uk/2012/01/30/currying-vs-partial-function-application
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         public static Action<TArg1, TArg2, TArg3> Uncurry<TArg1, TArg2, TArg3>(this Func<TArg1, Func<TArg2, Action<TArg3>>> action)
         {
             return (a, b, c) => action(a)(b)(c);
@@ -541,6 +558,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// See Jon Skeet's post
         /// https://codeblog.jonskeet.uk/2012/01/30/currying-vs-partial-function-application
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         public static Action<TArg1, TArg2, TArg3, TArg4> Uncurry<TArg1, TArg2, TArg3, TArg4>(this Func<TArg1, Func<TArg2, Func<TArg3, Action<TArg4>>>> action)
         {
             return (a, b, c, d) => action(a)(b)(c)(d);
