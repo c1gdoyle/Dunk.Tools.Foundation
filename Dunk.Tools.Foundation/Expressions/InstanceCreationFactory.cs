@@ -74,6 +74,7 @@ namespace Dunk.Tools.Foundation.Expressions
 
         private class TypeToIgnore { }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         private static class InstanceCreationFactoryCache<TArg1, TArg2, TArg3>
         {
             private static readonly Dictionary<Type, Dictionary<int, Func<TArg1, TArg2, TArg3, object>>> InstanceCreationMethodsByType =
