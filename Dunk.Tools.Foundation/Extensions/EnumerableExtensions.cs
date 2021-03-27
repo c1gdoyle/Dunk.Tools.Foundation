@@ -301,6 +301,71 @@ namespace Dunk.Tools.Foundation.Extensions
             }
             return result;
         }
+        /// <summary>
+        /// Creates an array from the elements in the source sequence. Unlike <see cref="Enumerable.ToArray{TSource}"/>,
+        /// this method takes the number of elements as a parameter, so that it can allocate an array of the right size
+        /// from the start, hence suppressing the need for subsequent allocations and improving performance.
+        /// </summary>
+        /// <typeparam name="TSource">Type of elements in <paramref name="source"/> sequence.</typeparam>
+        /// <param name="source">The source sequence.</param>
+        /// <param name="count">The number of elements in source.</param>
+        /// <returns>An array containing the same elements as the source sequence.</returns>
+        /// <exception cref="ArgumentNullException">The sequence parameter was null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">The count paramter was less than zero.</exception>
+        /// <remarks>
+        /// See http://www.thomaslevesque.com/2014/12/07/optimize-toarray-and-tolist-by-providing-the-number-of-elements/
+        /// </remarks>
+        public static TSource[] ToArrayWithCount<TSource>(this IEnumerable<TSource> source, int count)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source),
+                    $"{nameof(source)} parameter cannot be null.");
+            }
+            if (count < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(count), 
+                    $"{nameof(count)} parameter cannot be less than zero.");
+            }
+            TSource[] array = new TSource[count];
+            int i = 0;
+            foreach (var item in source)
+            {
+                array[i++] = item;
+            }
+            return array;
+        }
+
+        /// <summary>
+        /// Creates a <see cref="List{TSource}"/> from the elements in the source sequence. Unlike <see cref="Enumerable.ToList{TSource}"/>,
+        /// this method takes the number of elements as a parameter, so that it can allocate a list with sufficient capacity, hence suppressing
+        /// the need for subsequent allocations, and improving performance.
+        /// </summary>
+        /// <typeparam name="TSource">Type of elements in <paramref name="source"/> sequence.</typeparam>
+        /// <param name="source">The source sequence.</param>
+        /// <param name="count">The number of elements in source.</param>
+        /// <returns>An list containing the same elements as the source sequence.</returns>
+        /// <exception cref="ArgumentNullException">The sequence parameter was null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">The count paramter was less than zero.</exception>
+        /// <remarks>
+        /// See http://www.thomaslevesque.com/2014/12/07/optimize-toarray-and-tolist-by-providing-the-number-of-elements/
+        /// </remarks>
+        public static IList<TSource> ToListWithCount<TSource>(this IEnumerable<TSource> source, int count)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source),
+                    $"{nameof(source)} parameter cannot be null.");
+            }
+            if (count < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(count),
+                    $"{nameof(count)} parameter cannot be less than zero.");
+            }
+            IList<TSource> list = new List<TSource>(count);
+            list.AddRange(source);
+            return list;
+        }
 
         private static void CheckPartitionArguments<T>(IEnumerable<T> source, int size)
         {
