@@ -69,6 +69,14 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [Test]
+        public void ThrowIfNullOrEmptyDoesNotThrowIfSequenceContainsItems()
+        {
+            var collection = new[] { new TestArgumentItem() };
+
+            Assert.DoesNotThrow(() => collection.ThrowIfNullOrEmpty("param1"));
+        }
+
+        [Test]
         public void StringThrowIfNullOrEmptyDoesNotThrowIfStringIsNotEmpty()
         {
             string s = "foo";
@@ -87,6 +95,27 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         {
             string s = string.Empty;
             Assert.Throws<ArgumentNullException>(() => s.ThrowIfNullOrEmpty("param1"));
+        }
+
+        [Test]
+        public void ThrowIfNullOrContainsNullThrowsIfSequenceIsNull()
+        {
+            IEnumerable<TestArgumentItem> sequence = null;
+            Assert.Throws<ArgumentNullException>(() => sequence.ThrowIfNullOrContainsNull("param1"));
+        }
+
+        [Test]
+        public void ThrowIfNullOrContainsNullThrowsIfSequenceContainsNull()
+        {
+            IEnumerable<TestArgumentItem> sequence = new TestArgumentItem[] { null };
+            Assert.Throws<ArgumentException>(() => sequence.ThrowIfNullOrContainsNull("param1"));
+        }
+
+        [Test]
+        public void ThrowIfNullOrContainsNullDoesNotThrowIfSequenceDoesNotContainNull()
+        {
+            IEnumerable<TestArgumentItem> sequence = new TestArgumentItem[] { new TestArgumentItem() };
+            Assert.DoesNotThrow(() => sequence.ThrowIfNullOrContainsNull("param1"));
         }
 
         private class TestArgumentItem { }
