@@ -29,13 +29,15 @@ namespace Dunk.Tools.Foundation.Extensions
             Expression<Func<TSource, TKey>> keySelector, TKey lower, TKey upper)
             where TKey : IComparable<TKey>
         {
-            if(source == null)
+            if (source == null)
             {
-                throw new ArgumentNullException(nameof(source));
+                throw new ArgumentNullException(nameof(source),
+                    $"Unable to perform Between filter on Queryable. {nameof(source)} parameter was null");
             }
-            if(keySelector == null)
+            if (keySelector == null)
             {
-                throw new ArgumentNullException(nameof(keySelector));
+                throw new ArgumentNullException(nameof(keySelector),
+                    $"Unable to perform Between filter on Queryable. {nameof(keySelector)} parameter was null");
             }
 
             Expression key = Expression.Invoke(keySelector, keySelector.Parameters.ToArray());
