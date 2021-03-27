@@ -271,6 +271,8 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <returns>
         /// A dictionary of dictionaries where the keys are the TFirstKey and TSecondKey respectively and the value is the output of the aggregation function.
         /// </returns>
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Allow multiple generic parameters.")]
         public static IDictionary<TFirstKey, IDictionary<TSecondKey, TOutput>> Pivot<T, TFirstKey, TSecondKey, TOutput>
             (this IEnumerable<T> source, Func<T, TFirstKey> firstKeySelector, Func<T, TSecondKey> secondKeySelector,
             Func<IEnumerable<T>, TOutput> aggregator)
