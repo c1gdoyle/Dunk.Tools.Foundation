@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dunk.Tools.Foundation.Comparers;
 using Dunk.Tools.Foundation.Extensions;
 using NUnit.Framework;
 
@@ -306,7 +307,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         [Test]
         public void EnumerableBetweenThrowsIfKeySelectorIsNull()
         {
-            List<int> list = new List<int>(); ;
+            List<int> list = new List<int>();
 
             Assert.Throws<ArgumentNullException>(() => list.Between(null, 5, 15));
         }
@@ -436,6 +437,66 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             var resultsByDepartment = source.Pivot(firstKeySelector, secondKeySelector, aggregator);
 
             Assert.AreEqual(7000, resultsByDepartment["Dev"]["Consultant"]);
+        }
+
+        [Test]
+        public void EnumerableToArrayWithCountThrowsIfSourceIsNull()
+        {
+            IEnumerable<int> source = null;
+            int count = 5;
+
+            Assert.Throws<ArgumentNullException>(() => source.ToArrayWithCount(count));
+        }
+
+        [Test]
+        public void EnumerableToArrayWithCountThrowsIfCountIsNegative()
+        {
+            IEnumerable<int> source = new []{ 1, 2, 3, 4, 5};
+            int count = -1;
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => source.ToArrayWithCount(count));
+        }
+
+        [Test]
+        public void EnumerableToArrayWithCountReturnsExpectedArray()
+        {
+            var expected = new[] { 1, 2, 3, 4, 5 };
+            IEnumerable<int> source = expected.ToHashSet();
+            int count = 5;
+
+            var actual = source.ToArrayWithCount(count);
+
+            Assert.IsTrue(new ArrayEqualityComparer<int>().Equals(expected, actual));
+        }
+
+        [Test]
+        public void EnumerableToListWithCountThrowsIfSourceIsNull()
+        {
+            IEnumerable<int> source = null;
+            int count = 5;
+
+            Assert.Throws<ArgumentNullException>(() => source.ToListWithCount(count));
+        }
+
+        [Test]
+        public void EnumerableToListWithCountThrowsIfCountIsNegative()
+        {
+            IEnumerable<int> source = new[] { 1, 2, 3, 4, 5 };
+            int count = -1;
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => source.ToListWithCount(count));
+        }
+
+        [Test]
+        public void EnumerableToListWithCountReturnsExpectedArray()
+        {
+            var expected = new List<int> { 1, 2, 3, 4, 5 };
+            IEnumerable<int> source = expected.ToHashSet();
+            int count = 5;
+
+            var actual = source.ToListWithCount(count);
+
+            Assert.IsTrue(new ListEqualityComparer<int>().Equals(expected, actual));
         }
 
         private class TestItem
