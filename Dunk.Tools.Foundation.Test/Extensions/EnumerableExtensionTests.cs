@@ -217,6 +217,20 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [Test]
+        public void DistincyByThrowsIfSequenceIsNull()
+        {
+            TestItem[] array = null;
+            Assert.Throws<ArgumentNullException>(() => array.DistinctBy(i => i.Id).ToList());
+        }
+
+        [Test]
+        public void DistinctByThrowsIfKeySelectorIsNull()
+        {
+            TestItem[] array = new TestItem[0];
+            Assert.Throws<ArgumentNullException>(() => array.DistinctBy(null as Func<TestItem, int>).ToList());
+        }
+
+        [Test]
         public void DistinctByReturnsDistinctForASingleProperty()
         {
             TestItem[] array =

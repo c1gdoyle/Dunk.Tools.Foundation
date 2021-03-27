@@ -125,6 +125,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// </returns>
         public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
         {
+            CheckDistinctByArguments(source, keySelector);
             HashSet<TKey> seenKeys = new HashSet<TKey>();
             foreach (TSource element in source)
             {
@@ -170,16 +171,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <exception cref="ArgumentException"><paramref name="size"/> was zero or negative.</exception>
         public static IEnumerable<IEnumerable<T>> Partition<T>(this IEnumerable<T> source, int size)
         {
-            if(source == null)
-            {
-                throw new ArgumentNullException(nameof(source),
-                    $"{nameof(source)} parameter for partition cannot be null.");
-            }
-            if (size <= 0)
-            {
-                throw new ArgumentException($"{nameof(size)} parameter for partition cannot be zero or negative.", 
-                    nameof(size));
-            }
+            CheckPartitionArguments(source, size);
 
             int count = 0;
             T[] group = null;
@@ -306,6 +298,34 @@ namespace Dunk.Tools.Foundation.Extensions
                 }
             }
             return result;
+        }
+
+        private static void CheckPartitionArguments<T>(IEnumerable<T> source, int size)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source),
+                    $"{nameof(source)} parameter for partition cannot be null.");
+            }
+            if (size <= 0)
+            {
+                throw new ArgumentException($"{nameof(size)} parameter for partition cannot be zero or negative.",
+                    nameof(size));
+            }
+        }
+
+        private static void CheckDistinctByArguments<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source),
+                    $"{nameof(source)} for DistinctBy cannot be null");
+            }
+            if (keySelector == null)
+            {
+                throw new ArgumentNullException(nameof(keySelector),
+                    $"{nameof(source)} for DistinctBy cannot be null");
+            }
         }
     }
 }
