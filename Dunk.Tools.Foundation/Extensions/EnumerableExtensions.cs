@@ -242,12 +242,12 @@ namespace Dunk.Tools.Foundation.Extensions
             if (source == null)
             {
                 throw new ArgumentNullException(nameof(source), 
-                    $"Unable to perform Between filter on Enumerable. {nameof(source)} parameter was null");
+                    $"{nameof(source)} parameter for Enumerable Between cannot be null");
             }
             if (keySelector == null)
             {
                 throw new ArgumentNullException(nameof(keySelector),
-                    $"Unable to perform Between filter on Enumerable. {nameof(keySelector)} parameter was null");
+                    $"{nameof(keySelector)} parameter for Enumerable Between cannot be null");
             }
 
             Expression key = Expression.Invoke(keySelector, keySelector.Parameters.ToArray());
