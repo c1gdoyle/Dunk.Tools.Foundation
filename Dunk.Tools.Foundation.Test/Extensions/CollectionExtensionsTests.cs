@@ -31,6 +31,13 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [Test]
+        public void AddRangeThrowsIfSequenceIsNull()
+        {
+            ICollection<int> sequence = null;
+            Assert.Throws<ArgumentNullException>(() => sequence.AddRange(new[] { 1, 2, 3 }));
+        }
+
+        [Test]
         public void AddRangeThrowsIfCollectionToAddIsNull()
         {
             ICollection<int> sequence = new List<int> { 1, 2, 3 };

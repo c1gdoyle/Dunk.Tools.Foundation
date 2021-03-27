@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Dunk.Tools.Foundation.Extensions;
 using NUnit.Framework;
 
@@ -26,6 +28,20 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             var between = list.AsQueryable().Between(i => i, 5, 15);
 
             Assert.AreEqual(15, between.Max());
+        }
+
+        [Test]
+        public void QueryableBetweenThrowsIfSourceIsNull()
+        {
+            IQueryable<int> source = null;
+            Assert.Throws<ArgumentNullException>(() => source.Between(i => i, 5, 15));
+        }
+
+        [Test]
+        public void QueryableBetweenThrowsIfKeySelectorIsNull()
+        {
+            IQueryable<int> source = new List<int>().AsQueryable();
+            Assert.Throws<ArgumentNullException>(() => source.Between(null, 5, 15));
         }
 
         [Test]
@@ -72,6 +88,20 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             var firstItem = orderedCollection.First();
 
             Assert.AreEqual(1, firstItem.Id);
+        }
+
+        [Test]
+        public void QueryableOrderByThrowsIfSourceIsNull()
+        {
+            IQueryable<TestItem> queryable = null;
+            Assert.Throws<ArgumentNullException>(() => queryable.Orderby(nameof(TestItem.Id), false));
+        }
+
+        [Test]
+        public void QueryOrderByThrowsIfPropertyIsNull()
+        {
+            IQueryable<TestItem> queryable = new List<TestItem>().AsQueryable();
+            Assert.Throws<ArgumentNullException>(() => queryable.Orderby(null as PropertyInfo, false));
         }
 
         private class TestItem

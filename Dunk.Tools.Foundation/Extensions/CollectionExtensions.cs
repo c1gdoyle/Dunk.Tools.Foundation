@@ -17,7 +17,14 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <exception cref="ArgumentNullException"><paramref name="collection"/> cannot be null.</exception>
         public static void AddRange<T>(this ICollection<T> sequence, IEnumerable<T> collection)
         {
-            sequence.ThrowIfNull(nameof(collection));
+            if (sequence == null)
+            {
+                throw new ArgumentNullException(nameof(sequence));
+            }
+            if (collection == null)
+            {
+                throw new ArgumentNullException(nameof(collection));
+            }
 
             List<T> list = sequence as List<T>;
             if (list != null)

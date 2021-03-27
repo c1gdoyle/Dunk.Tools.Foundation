@@ -24,10 +24,20 @@ namespace Dunk.Tools.Foundation.Extensions
         /// A <see cref="IQueryable{TSource}"/> sequence whose selected values fall within the range of
         /// the <paramref name="lower"/> and <paramref name="upper"/> limits.
         /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="keySelector"/> was null.</exception>
         public static IQueryable<TSource> Between<TSource, TKey>(this IQueryable<TSource> source,
             Expression<Func<TSource, TKey>> keySelector, TKey lower, TKey upper)
             where TKey : IComparable<TKey>
         {
+            if(source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+            if(keySelector == null)
+            {
+                throw new ArgumentNullException(nameof(keySelector));
+            }
+
             Expression key = Expression.Invoke(keySelector, keySelector.Parameters.ToArray());
 
             Expression lowerBound = Expression.GreaterThanOrEqual(key, Expression.Constant(lower));
@@ -68,10 +78,17 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <returns>
         /// A <see cref="IQueryable{T}"/> whose elements are sorted according to the <paramref name="orderByProperty"/> and <paramref name="desc"/>.
         /// </returns>
-        public static IQueryable<TSource> Orderby<TSource>(IQueryable<TSource> source, PropertyInfo orderByProperty, bool desc)
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="orderByProperty"/> was null.</exception>
+        public static IQueryable<TSource> Orderby<TSource>(this IQueryable<TSource> source, PropertyInfo orderByProperty, bool desc)
         {
-            source.ThrowIfNull(nameof(source));
-            source.ThrowIfNull(nameof(orderByProperty));
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+            if (orderByProperty == null)
+            {
+                throw new ArgumentNullException(nameof(orderByProperty));
+            }
 
             string command = desc ? "OrderByDescending" : "OrderBy";
 
