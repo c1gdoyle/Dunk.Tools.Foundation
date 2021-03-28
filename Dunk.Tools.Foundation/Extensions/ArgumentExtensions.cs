@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Dunk.Tools.Foundation.Extensions
 {
@@ -17,6 +18,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <param name="obj">The object that we are checking if is <c>null</c></param>
         /// <param name="parameterName">The name of the parameter represented by <paramref name="obj"/>.</param>
         /// <exception cref="ArgumentNullException"><paramref name="obj"/> was null.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ThrowIfNull<T>(this T obj, string parameterName)
         {
             obj.ThrowIfNull(parameterName, $"{parameterName} parameter cannot be null.");
@@ -31,6 +33,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <param name="parameterName">The name of the parameter represented by <paramref name="obj"/>.</param>
         /// <param name="errorMessage">The message describing the error which will be passed to the exception if <paramref name="obj"/> is <c>null</c>.</param>
         /// <exception cref="ArgumentNullException"><paramref name="obj"/> was null.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ThrowIfNull<T>(this T obj, string parameterName, string errorMessage)
         {
             if (ReferenceEquals(obj, null))
@@ -46,6 +49,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <param name="s">The string we are checking.</param>
         /// <param name="parameterName">The name of the parameter represented by the string.</param>
         /// <exception cref="ArgumentNullException"><paramref name="s"/> was null or empty.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ThrowIfNullOrEmpty(this string s, string parameterName)
         {
             s.ThrowIfNullOrEmpty(parameterName, $"{parameterName} cannot be null or empty");
@@ -59,6 +63,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <param name="parameterName">The name of the parameter represented by the string.</param>
         /// <param name="errorMessage">The message describing the error which will be passed to the exception if <paramref name="s"/> is null or empty.</param>
         /// <exception cref="ArgumentNullException"><paramref name="s"/> was null or empty.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ThrowIfNullOrEmpty(this string s, string parameterName, string errorMessage)
         {
             if (string.IsNullOrEmpty(s))
@@ -76,6 +81,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <param name="parameterName">The name of the parameter represented by the <paramref name="collection"/>.</param>
         /// <exception cref="ArgumentNullException"><paramref name="collection"/> was null.</exception>
         /// <exception cref="ArgumentException"><paramref name="collection"/> was empty.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ThrowIfNullOrEmpty<T>(this IEnumerable<T> collection, string parameterName)
         {
             collection.ThrowIfNullOrEmpty(parameterName, $"{parameterName} parameter cannot be empty");
@@ -91,6 +97,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <param name="errorMessage">The message describing the error which will be passed to the exception if <paramref name="collection"/> is null or empty.</param>
         /// <exception cref="ArgumentNullException"><paramref name="collection"/> was null.</exception>
         /// <exception cref="ArgumentException"><paramref name="collection"/> was empty.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ThrowIfNullOrEmpty<T>(this IEnumerable<T> collection, string parameterName, string errorMessage)
         {
             collection.ThrowIfNull(parameterName);
@@ -107,6 +114,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <typeparam name="T">The type of object.</typeparam>
         /// <param name="collection">The collection that we are checking if is null or empty.</param>
         /// <param name="parameterName">The name of the parameter represented by the <paramref name="collection"/>.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ThrowIfNullOrContainsNull<T>(this IEnumerable<T> collection, string parameterName)
         {
             ThrowIfNullOrContainsNull(collection, parameterName, $"{parameterName} was null or contained nulls");
@@ -120,6 +128,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <param name="collection">The collection that we are checking if is null or empty.</param>
         /// <param name="parameterName">The name of the parameter represented by the <paramref name="collection"/>.</param>
         /// <param name="errorMessage">The message describing the error which will be passed to the exception if <paramref name="collection"/> is null or empty.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ThrowIfNullOrContainsNull<T>(this IEnumerable<T> collection, string parameterName, string errorMessage)
         {
             collection.ThrowIfNull(parameterName);
