@@ -75,5 +75,99 @@ namespace Dunk.Tools.Foundation.Test.Extensions
 
             Assert.Throws<ArgumentNullException>(() => value.IsASCII());
         }
+
+        [Test]
+        public void StringReverseReturnsExpectedString()
+        {
+            string value = "Aardvark";
+            string expected = "kravdraA";
+
+            string reversed = value.Reverse();
+
+            Assert.AreEqual(expected, reversed);
+        }
+
+        [Test]
+        public void StringReverseHandlesEmptyString()
+        {
+            Assert.DoesNotThrow(() => string.Empty.Reverse());
+        }
+
+        [Test]
+        public void StringReverseHandlesWhiteSpaceString()
+        {
+            Assert.DoesNotThrow(() => "     ".Reverse());
+        }
+
+        [Test]
+        public void StringReverseThrowsIfInputIsNull()
+        {
+            string value = null;
+            Assert.Throws<ArgumentNullException>(() => value.Reverse());
+        }
+
+        [Test]
+        public void GenerateRandomStringReturnsStringOfExpectedLength()
+        {
+            const int expected = 100;
+
+            string result = StringExtensions.GenerateRandomString(expected);
+
+            Assert.AreEqual(expected, result.Length);
+        }
+
+        [Test]
+        public void GenerateRandomStringReturnsStringOfLengthZero()
+        {
+            const int expected = 0;
+
+            string result = StringExtensions.GenerateRandomString(expected);
+
+            Assert.AreEqual(expected, result.Length);
+        }
+
+        [Test]
+        public void GenerateRandomStringThrowsIfLengthIsNegative()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(
+                () => StringExtensions.GenerateRandomString(-1));
+        }
+
+        [Test]
+        public void GenerateRandomAsciiStringOfExpectedLength()
+        {
+            const int expected = 100;
+
+            string result = StringExtensions.GenerateRandomAsciiString(expected);
+
+            Assert.AreEqual(expected, result.Length);
+        }
+
+        [Test]
+        public void GenerateRandomAsciiStringIsAscii()
+        {
+            const int expected = 100;
+
+            string result = StringExtensions.GenerateRandomAsciiString(expected);
+
+            Assert.IsTrue(result.IsASCII());
+        }
+
+        [Test]
+        public void GenerateRandomAsciiStringReturnsStringOfLengthZero()
+        {
+            const int expected = 0;
+
+            string result = StringExtensions.GenerateRandomAsciiString(expected);
+
+            Assert.AreEqual(expected, result.Length);
+        }
+
+        [Test]
+        public void GenerateRandomAsciiStringThrowsIfLengthIsNegative()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(
+                () => StringExtensions.GenerateRandomAsciiString(-1));
+        }
     }
 }

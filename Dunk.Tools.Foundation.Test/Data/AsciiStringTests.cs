@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using Dunk.Tools.Foundation.Data;
+using Dunk.Tools.Foundation.Extensions;
 using NUnit.Framework;
 
 namespace Dunk.Tools.Foundation.Test.Data
@@ -30,6 +32,15 @@ namespace Dunk.Tools.Foundation.Test.Data
             var ascii = new AsciiString(value);
 
             Assert.AreEqual(value.Length, ascii.Length);
+        }
+
+        [Test]
+        public void AsciiStringIsNullReturnsFalseIfDataIsNotNull()
+        {
+            string value = "9quali52ty3";
+            var ascii = new AsciiString(value);
+
+            Assert.IsFalse(ascii.IsNull);
         }
 
         [Test]
@@ -68,6 +79,82 @@ namespace Dunk.Tools.Foundation.Test.Data
             var ascii = new AsciiString(value);
 
             Assert.Throws<ArgumentOutOfRangeException>(() => ascii.SubString(0, value.Length + 1));
+        }
+
+        [Test]
+        public void AsciiStringSubStringReturnsExpectedSubString()
+        {
+            string value = "9quali52ty3";
+            string expected = value.Substring(0, value.Length - 1);
+
+            var ascii = new AsciiString(value);
+
+            var subString = ascii.SubString(0, value.Length - 1);
+
+            Assert.AreEqual(expected, subString.ToString());
+        }
+
+        [Test]
+        public void AsciiStringSubStringReturnsExpectedFullSubString()
+        {
+            string value = "9quali52ty3";
+            string expected = value.Substring(0, value.Length);
+
+            var ascii = new AsciiString(value);
+
+            var subString = ascii.SubString(0, value.Length);
+
+            Assert.AreEqual(expected, subString.ToString());
+        }
+
+        [Test]
+        public void AsciiStringObjectEqualsReturnsFalseIfObjectIsNull()
+        {
+            string value = "9quali52ty3";
+            var ascii = new AsciiString(value);
+
+            Assert.IsFalse(ascii.Equals(null));
+        }
+
+        [Test]
+        public void AsciiStringObjectEqualsReturnsFalseIfObjectIsNotAsciiString()
+        {
+            string value = "9quali52ty3";
+            var ascii = new AsciiString(value);
+
+            Assert.IsFalse(ascii.Equals(value));
+        }
+
+
+        [Test]
+        public void AsciiStringObjectEqualsReturnsTrueIfObjectIsEqual()
+        {
+            string value = "9quali52ty3";
+            var ascii = new AsciiString(value);
+
+            Assert.IsTrue(ascii.Equals((object)new AsciiString(value)));
+        }
+
+        [Test]
+        public void AsciiStringGetHashCodeReturnsSameCodeIfAsciiStringsAreEqual()
+        {
+            string value = "9quali52ty3";
+
+            AsciiString asciiString1 = new AsciiString(value);
+            AsciiString asciiString2 = new AsciiString(value);
+
+            Assert.AreEqual(asciiString1.GetHashCode(), asciiString2.GetHashCode());
+        }
+
+        [Test]
+        public void AsciiStringGetHashCodeReturnsDifferentCodeIfAsciiStringsAreNotEqual()
+        {
+            string value = "9quali52ty3";
+
+            AsciiString asciiString1 = new AsciiString(value);
+            AsciiString asciiString2 = new AsciiString(value.Reverse());
+
+            Assert.AreNotEqual(asciiString1.GetHashCode(), asciiString2.GetHashCode());
         }
 
         [Test]
