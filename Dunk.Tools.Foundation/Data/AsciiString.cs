@@ -85,6 +85,8 @@ namespace Dunk.Tools.Foundation.Data
         }
 
         #region Object Overrides
+        /// <inheritdoc />
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S4136: Equals in Object and IEquatable regions")]
         public override bool Equals(object obj)
         {
             if (obj == null || obj.GetType() != GetType())
@@ -94,12 +96,14 @@ namespace Dunk.Tools.Foundation.Data
             return Equals((AsciiString)obj);
         }
 
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             var comparer = new Comparers.ArrayEqualityComparer<byte>();
             return comparer.GetHashCode(_data);
         }
 
+        /// <inheritdoc />
         public override string ToString()
         {
             return Encoding.ASCII.GetString(_data);
@@ -107,15 +111,7 @@ namespace Dunk.Tools.Foundation.Data
         #endregion Object Overrides
 
         #region IEquatable<AsciiString> Members
-        /// <summary>
-        /// Returns a value indicating whether the value of this instance is equal to the
-        /// value of the specified <see cref="AsciiString"/> instance.
-        /// </summary>
-        /// <param name="other">The object to compare to this instance.</param>
-        /// <returns>
-        /// <c>true</c> if the <paramref name="other"/> instance equals this instance;
-        /// otherwise <c>false</c>.
-        /// </returns>
+        /// <inheritdoc />
         public bool Equals(AsciiString other)
         {
             var comparer = new Comparers.ArrayEqualityComparer<byte>();
