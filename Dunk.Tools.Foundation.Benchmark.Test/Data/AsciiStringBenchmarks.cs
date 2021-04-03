@@ -23,7 +23,7 @@ namespace Dunk.Tools.Foundation.Benchmark.Test.Data
             Assert.AreEqual(Number, asciiString.Length);
         }
 
-        [Test]
+        [Benchmark]
         public void AsciiStringSubString()
         {
             var asciiString = new AsciiString(_input);
