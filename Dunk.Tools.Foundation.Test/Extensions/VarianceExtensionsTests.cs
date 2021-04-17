@@ -79,7 +79,12 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         [Test]
         public void VarianceCalculatesForSequenceOfFloats()
         {
-            const double expected = 57.714285714285715d;
+            const double expected =
+#if NET472
+                57.714290073939729d;
+#elif NETCOREAPP3_1
+                57.714285714285715d;
+#endif
 
             var sequence = new float[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f };
 
@@ -109,7 +114,12 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         [Test]
         public void VarianceSelectCalculatesForSequenceOfFloats()
         {
-            const double expected = 57.714285714285715d;
+            const double expected =
+#if NET472
+                57.714290073939729d;
+#elif NETCOREAPP3_1
+                57.714285714285715d;
+#endif
 
             var sequence = new float[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f };
             Func<float, float> selector = i => i;
@@ -469,7 +479,12 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         [Test]
         public void VarianceCalculatesForSequenceOfNullableFloats()
         {
-            const double expected = 57.714285714285715d;
+            const double expected =
+#if NET472
+                57.714290073939729d;
+#elif NETCOREAPP3_1
+                57.714285714285715d;
+#endif
 
             var sequence = new float?[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f };
 
@@ -481,7 +496,12 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         [Test]
         public void VarianceCalculatesForSequenceOfNullableFloatsContainingNulls()
         {
-            const double expected = 57.714285714285715d;
+            const double expected =
+#if NET472
+                57.714290073939729d;
+#elif NETCOREAPP3_1
+                57.714285714285715d;
+#endif
 
             var sequence = new float?[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f, null };
 
@@ -523,7 +543,12 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         [Test]
         public void VarianceSelectCalculatesForSequenceOfNullableFloats()
         {
-            const double expected = 57.714285714285715d;
+            const double expected =
+#if NET472
+                57.714290073939729d;
+#elif NETCOREAPP3_1
+                57.714285714285715d;
+#endif
 
             var sequence = new float?[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f };
             Func<float?, float?> selector = i => i;
@@ -536,7 +561,12 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         [Test]
         public void VarianceSelectCalculatesForSequenceOfNullableFloatsContainingNulls()
         {
-            const double expected = 57.714285714285715d;
+            const double expected =
+#if NET472
+                57.714290073939729d;
+#elif NETCOREAPP3_1
+                57.714285714285715d;
+#endif
 
             var sequence = new float?[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f, null };
             Func<float?, float?> selector = i => i;

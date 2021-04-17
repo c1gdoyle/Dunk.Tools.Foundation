@@ -13,7 +13,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         {
             const string expected = "foo";
             var dictionary = new ConcurrentDictionary<int, Lazy<string>>();
-            dictionary[1] = new Lazy<string>(expected);
+            dictionary[1] = new Lazy<string>(() => expected);
 
             string value = dictionary.GetOrAddSafe(1, k => expected);
 
@@ -62,7 +62,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         {
             const string expected = "bar";
             var dictionary = new ConcurrentDictionary<int, Lazy<string>>();
-            dictionary[1] = new Lazy<string>("foo");
+            dictionary[1] = new Lazy<string>(() => "foo");
 
             dictionary.AddOrUpdateSafe(1, k => string.Empty, (k, v) => expected);
 
