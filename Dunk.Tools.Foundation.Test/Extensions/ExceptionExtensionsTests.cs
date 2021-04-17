@@ -77,9 +77,15 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         public void ToStringInnerExceptionRecurrentReturnsInnerExceptionDetails()
         {
             const string expectedResult =
+#if NET472
+                "Exception: System.Exception\nMessage: Top Exception error, \nStack Trace:\n" +
+                "Exception: System.InvalidOperationException\nMessage: Middle Exception error, \nStack Trace:\n" +
+                "Exception: System.ArgumentNullException\nMessage: Inner Exception error\r\nParameter name: param, \nStack Trace:\n";
+#elif NETCOREAPP3_1
                 "Exception: System.Exception\nMessage: Top Exception error, \nStack Trace:\n" +
                 "Exception: System.InvalidOperationException\nMessage: Middle Exception error, \nStack Trace:\n" +
                 "Exception: System.ArgumentNullException\nMessage: Inner Exception error (Parameter 'param'), \nStack Trace:\n";
+#endif
 
             ArgumentNullException ex1 = new ArgumentNullException("param", "Inner Exception error");
             InvalidOperationException ex2 = new InvalidOperationException("Middle Exception error", ex1);

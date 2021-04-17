@@ -79,7 +79,12 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         [Test]
         public void StandardDeviationCalculatesForSequenceOfFloats()
         {
-            const double expected = 7.5969918858904748d;
+            const double expected =
+#if NET472
+                7.5969921728233816d;
+#elif NETCOREAPP3_1
+                7.5969918858904748d;
+#endif
 
             var sequence = new float[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f };
 
@@ -109,7 +114,12 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         [Test]
         public void StandardDeviationSelectCalculatesForSequenceOfFloats()
         {
-            const double expected = 7.5969918858904748d;
+            const double expected =
+#if NET472
+                7.5969921728233816d;
+#elif NETCOREAPP3_1
+                7.5969918858904748d;
+#endif
 
             var sequence = new float[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f };
             Func<float, float> selector = i => i;
@@ -469,7 +479,12 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         [Test]
         public void StandardDeviationCalculatesForSequenceOfNullableFloats()
         {
-            const double expected = 7.5969918858904748d;
+            const double expected =
+#if NET472
+                7.5969921728233816d;
+#elif NETCOREAPP3_1
+                7.5969918858904748d;
+#endif
 
             var sequence = new float?[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f };
 
@@ -481,7 +496,12 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         [Test]
         public void StandardDeviationCalculatesForSequenceOfNullableFloatsContainingNulls()
         {
-            const double expected = 7.5969918858904748d;
+            const double expected =
+#if NET472
+                7.5969921728233816d;
+#elif NETCOREAPP3_1
+                7.5969918858904748d;
+#endif
 
             var sequence = new float?[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f, null };
 
@@ -523,7 +543,12 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         [Test]
         public void StandardDeviationSelectCalculatesForSequenceOfNullableFloats()
         {
-            const double expected = 7.5969918858904748d;
+            const double expected =
+#if NET472
+                7.5969921728233816d;
+#elif NETCOREAPP3_1
+                7.5969918858904748d;
+#endif
 
             var sequence = new float?[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f };
             Func<float?, float?> selector = i => i;
@@ -536,7 +561,12 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         [Test]
         public void StandardDeviationSelectCalculatesForSequenceOfNullableFloatsContainingNulls()
         {
-            const double expected = 7.5969918858904748d;
+            const double expected =
+#if NET472
+                7.5969921728233816d;
+#elif NETCOREAPP3_1
+                7.5969918858904748d;
+#endif
 
             var sequence = new float?[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f, null };
             Func<float?, float?> selector = i => i;
@@ -1009,7 +1039,12 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         [Test]
         public void SampleStandardDeviationCalculatesForSequenceOfFloats()
         {
-            const double expected = 8.2056890833941143d;
+            const double expected =
+#if NET472
+                8.2056893933170763d;
+#elif NETCOREAPP3_1
+                8.2056890833941143d;
+#endif
 
             var sequence = new float[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f };
 
@@ -1039,7 +1074,12 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         [Test]
         public void SampleStandardDeviationSelectCalculatesForSequenceOfFloats()
         {
-            const double expected = 8.2056890833941143d;
+            const double expected =
+#if NET472
+                8.2056893933170763d;
+#elif NETCOREAPP3_1
+                8.2056890833941143d;
+#endif
 
             var sequence = new float[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f };
             Func<float, float> selector = i => i;
@@ -1399,7 +1439,12 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         [Test]
         public void SampleStandardDeviationCalculatesForSequenceOfNullableFloats()
         {
-            const double expected = 8.2056890833941143d;
+            const double expected =
+#if NET472
+                8.2056893933170763d;
+#elif NETCOREAPP3_1
+                8.2056890833941143d;
+#endif
 
             var sequence = new float?[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f };
 
@@ -1411,7 +1456,12 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         [Test]
         public void SampleStandardDeviationCalculatesForSequenceOfNullableFloatsContainingNulls()
         {
-            const double expected = 8.2056890833941143d;
+            const double expected =
+#if NET472
+                8.2056893933170763d;
+#elif NETCOREAPP3_1
+                8.2056890833941143d;
+#endif
 
             var sequence = new float?[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f, null };
 
@@ -1453,7 +1503,12 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         [Test]
         public void SampleStandardDeviationSelectCalculatesForSequenceOfNullableFloats()
         {
-            const double expected = 8.2056890833941143d;
+            const double expected =
+#if NET472
+                8.2056893933170763d;
+#elif NETCOREAPP3_1
+                8.2056890833941143d;
+#endif
 
             var sequence = new float?[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f };
             Func<float?, float?> selector = i => i;
@@ -1466,7 +1521,12 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         [Test]
         public void SampleStandardDeviationSelectCalculatesForSequenceOfNullableFloatsContainingNulls()
         {
-            const double expected = 8.2056890833941143d;
+            const double expected =
+#if NET472
+                8.2056893933170763d;
+#elif NETCOREAPP3_1
+                8.2056890833941143d;
+#endif
 
             var sequence = new float?[] { 1f, 3f, 24f, 17f, 12f, 6f, 14f, null };
             Func<float?, float?> selector = i => i;
