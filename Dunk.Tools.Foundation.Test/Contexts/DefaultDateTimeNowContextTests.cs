@@ -20,7 +20,7 @@ namespace Dunk.Tools.Foundation.Test.Contexts
             var context = new DefaultDateTimeNowContext();
             Assert.DoesNotThrow(() =>
             {
-                var dt = context.Now;
+                _ = context.Now;
             });
         }
 
@@ -30,7 +30,7 @@ namespace Dunk.Tools.Foundation.Test.Contexts
             var context = new DefaultDateTimeNowContext();
             Assert.DoesNotThrow(() =>
             {
-                var dt = context.Today;
+                _ = context.Today;
             });
         }
 
@@ -40,7 +40,7 @@ namespace Dunk.Tools.Foundation.Test.Contexts
             var context = new DefaultDateTimeNowContext();
             Assert.DoesNotThrow(() =>
             {
-                var dt = context.UtcNow;
+                _ = context.UtcNow;
             });
         }
     }

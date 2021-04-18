@@ -287,7 +287,10 @@ namespace Dunk.Tools.Foundation.Test.Collections
 
             Assert.DoesNotThrow(() =>
             {
-                foreach (int i in deque) { }
+                foreach (int i in deque) 
+                {
+                    //ignore
+                }
             });
         }
 

@@ -220,6 +220,8 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             Assert.Throws<ArgumentException>(() => ExpressionExtensions.GetMemberName<Person, int>(p => 2));
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2292: Allow backing fields for unit-testing")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S1144: Allow setter for unit-testing")]
         private class Person
         {
             public string _name = null;

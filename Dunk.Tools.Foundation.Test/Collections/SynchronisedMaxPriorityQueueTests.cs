@@ -201,7 +201,7 @@ namespace Dunk.Tools.Foundation.Test.Collections
             .ToList();
             priorityQueue.EnqueueRange(items);
 
-            string item = priorityQueue.Dequeue();
+            priorityQueue.Dequeue();
 
             Assert.AreEqual(7, priorityQueue.Count);
         }
@@ -608,7 +608,8 @@ namespace Dunk.Tools.Foundation.Test.Collections
 
         private class TestPriority : IComparable<TestPriority>
         {
-            public int Id { get; set; }
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S3459:Ignore for test")]
+            public int Id { get; }
 
             public int CompareTo(TestPriority other)
             {

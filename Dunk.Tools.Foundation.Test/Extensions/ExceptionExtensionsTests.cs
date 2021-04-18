@@ -87,7 +87,9 @@ namespace Dunk.Tools.Foundation.Test.Extensions
                 "Exception: System.ArgumentNullException\nMessage: Inner Exception error (Parameter 'param'), \nStack Trace:\n";
 #endif
 
+#pragma warning disable S3928
             ArgumentNullException ex1 = new ArgumentNullException("param", "Inner Exception error");
+#pragma warning restore S3928
             InvalidOperationException ex2 = new InvalidOperationException("Middle Exception error", ex1);
             Exception ex3 = new Exception("Top Exception error", ex2);
 

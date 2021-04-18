@@ -60,6 +60,20 @@ namespace Dunk.Tools.Foundation.Test.Expressions
             Assert.AreEqual(expectedExpression, newExpression.ToString());
         }
 
+        [Test]
+        public void EvaluatorReturnsNewExpressionThatCompilesToWorkingFunction()
+        {
+            int localId = 2;
+
+            Expression<Func<EvaluatorTestItem, bool>> testExpression = i => i.Id == localId * 2;
+
+            var newFunction = (Evaluator.PartialEval(testExpression) as Expression<Func<EvaluatorTestItem, bool>>)
+                .Compile();
+
+            Assert.IsFalse(newFunction(new EvaluatorTestItem { Id = localId }));
+            Assert.IsTrue(newFunction(new EvaluatorTestItem { Id = localId * 2 }));
+        }
+
         private class EvaluatorTestItem
         {
             public int Id { get; set; }

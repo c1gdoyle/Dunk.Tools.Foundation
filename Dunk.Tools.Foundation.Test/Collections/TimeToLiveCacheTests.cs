@@ -183,7 +183,7 @@ namespace Dunk.Tools.Foundation.Test.Collections
 
                 Assert.Throws<KeyNotFoundException>(() =>
                 {
-                    var result = cache[2];
+                    _ = cache[2];
                 });
             }
         }

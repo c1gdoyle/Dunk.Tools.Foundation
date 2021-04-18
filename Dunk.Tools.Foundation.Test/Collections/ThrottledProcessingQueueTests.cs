@@ -91,7 +91,6 @@ namespace Dunk.Tools.Foundation.Test.Collections
         {
             bool operation1Processed = false;
             bool operation2Processed = false;
-            int x = 0;
 
             var queue = new ThrottledProcessingQueue(1);
             ManualResetEventSlim pause = new ManualResetEventSlim(false);
@@ -101,8 +100,8 @@ namespace Dunk.Tools.Foundation.Test.Collections
                 //simulate a long running operation
                 Thread.Sleep(TimeSpan.FromMilliseconds(100));
                 operation1Processed = true;
-                //divide by zero will throw exception
-                int y = 32 / x;
+                // throw exception to simulate failed operation
+                throw new InvalidOperationException();
             });
             Task operation2 = new Task(() =>
             {
@@ -154,7 +153,6 @@ namespace Dunk.Tools.Foundation.Test.Collections
         {
             bool operation1Processed = false;
             bool operation2Processed = false;
-            int x = 0;
 
             var queue = new ThrottledProcessingQueue(10);
             ManualResetEventSlim pause = new ManualResetEventSlim(false);
@@ -167,8 +165,8 @@ namespace Dunk.Tools.Foundation.Test.Collections
 
                 queue.UpdateProcessingQueue();
 
-                //divide by zero will throw exception
-                int y = 32 / x;
+                // throw exception to simulate failed operation
+                throw new InvalidOperationException();
             })));
             queue.RegisterOperation(new Task(() =>
             {
