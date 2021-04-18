@@ -24,7 +24,7 @@ namespace Dunk.Tools.Foundation.Test.Contexts
         {
             Assert.DoesNotThrow(() =>
             {
-                var dt = TimeProvider.Current.UtcNow;
+                _ = TimeProvider.Current.UtcNow;
             });
         }
 

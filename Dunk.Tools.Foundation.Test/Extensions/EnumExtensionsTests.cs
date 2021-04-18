@@ -75,6 +75,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             Assert.IsEmpty(attributes);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S1144: Allow constructors for unit-testing")]
         private class TestEnumOneAttribute : Attribute
         {
             public TestEnumOneAttribute(string text)
@@ -91,6 +92,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S1144: Allow constructors for unit-testing")]
         private class TestEnumThreeAttribute : TestEnumTwoAttribute
         {
             public TestEnumThreeAttribute()
@@ -98,6 +100,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2344: Allow name for unit-testing")]
         private enum TestEnum
         {
             Zero = 0,
@@ -105,8 +108,8 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             [TestEnumOne(TestText)]
             One = 1,
 
-            [TestEnumTwo]
-            [TestEnumThree]
+            [TestEnumTwo()]
+            [TestEnumThree()]
             Two = 2
         }
     }

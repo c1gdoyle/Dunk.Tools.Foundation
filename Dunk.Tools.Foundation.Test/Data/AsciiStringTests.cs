@@ -21,7 +21,7 @@ namespace Dunk.Tools.Foundation.Test.Data
         [Test]
         public void AsciiStringThrowsIfInvalidAsciiInput()
         {
-            string value = "€"; ;
+            string value = "€";
             Assert.Throws<ArgumentException>(() => new AsciiString(value));
         }
 

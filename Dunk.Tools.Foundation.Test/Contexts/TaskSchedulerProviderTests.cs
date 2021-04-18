@@ -24,7 +24,7 @@ namespace Dunk.Tools.Foundation.Test.Contexts
         {
             Assert.DoesNotThrow(() =>
             {
-                var t = TaskSchedulerProvider.Current.TaskScheduler;
+                _ = TaskSchedulerProvider.Current.TaskScheduler;
             });
         }
 

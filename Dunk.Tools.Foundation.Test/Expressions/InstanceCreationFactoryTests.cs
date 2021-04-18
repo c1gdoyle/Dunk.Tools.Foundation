@@ -72,6 +72,7 @@ namespace Dunk.Tools.Foundation.Test.Expressions
             Assert.IsNotNull(result4);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S1144: Allow constructors for unit-testing")]
         private class TestClass
         {
             public TestClass()

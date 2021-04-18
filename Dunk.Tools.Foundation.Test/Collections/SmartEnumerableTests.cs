@@ -74,6 +74,8 @@ namespace Dunk.Tools.Foundation.Test.Collections
                 iterator.MoveNext();
 
                 var current = iterator.Current;
+                
+                Assert.IsNotNull(current);
                 Assert.IsFalse(iterator.MoveNext());
             }
         }
