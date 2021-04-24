@@ -10,7 +10,7 @@ namespace Dunk.Tools.Foundation.Extensions
         private static readonly string[] AbbreviatedNumberSuffices = { string.Empty, "k", "M", "G", "T", "P", "E", "Z", "Y" };
 
         /// <summary>
-        /// Converts a given <see cref="System.Double"/> to engineering notation.
+        /// Converts a given <see cref="double"/> to engineering notation.
         /// </summary>
         /// <param name="number">The double to converted.</param>
         /// <returns>
