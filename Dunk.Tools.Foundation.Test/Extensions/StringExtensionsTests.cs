@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Dunk.Tools.Foundation.Extensions;
 using NUnit.Framework;
@@ -168,6 +169,102 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         {
             Assert.Throws<ArgumentOutOfRangeException>(
                 () => StringExtensions.GenerateRandomAsciiString(-1));
+        }
+
+        [Test]
+        public void UnquoteThrowsIfStringIsNull()
+        {
+            string s = null;
+
+            Assert.Throws<ArgumentNullException>(() => s.Unquote());
+        }
+
+        [Test]
+        public void UnquoteRemovesSingleQuotationMarksFromString()
+        {
+            const string expected = "foo";
+            string s = "\'foo\'";
+
+            string value = s.Unquote();
+
+            Assert.AreEqual(expected, value);
+        }
+
+        [Test]
+        public void UnquoteRemovesDoubleQuotationMarksFromString()
+        {
+            const string expected = "foo";
+            string s = "\"foo\"";
+
+            string value = s.Unquote();
+
+            Assert.AreEqual(expected, value);
+        }
+
+        [Test]
+        public void ReplaceThrowsIfStringIsNull()
+        {
+            string s = null;
+            var replacements = new List<Tuple<string, string>>();
+
+            Assert.Throws<ArgumentNullException>(() => s.Replace(replacements));
+        }
+
+        [Test]
+        public void ReplaceThrowsIfReplacementsIsNull()
+        {
+            string s = "bbbb";
+            List<Tuple<string, string>> replacements = null;
+
+            Assert.Throws<ArgumentNullException>(() => s.Replace(replacements));
+        }
+
+        [Test]
+        public void ReplaceReplacesStrings()
+        {
+            const string expected = "AAAA";
+            string s = "bbbb";
+            List<Tuple<string, string>> replacements = new List<Tuple<string, string>>
+            {
+                new Tuple<string, string>("bb", "AA")
+            };
+
+            string value = s.Replace(replacements);
+
+            Assert.AreEqual(expected, value);
+        }
+
+        [Test]
+        public void ReplaceCharThrowsIfStringIsNull()
+        {
+            string s = null;
+            var replacements = new List<Tuple<char, char>>();
+
+            Assert.Throws<ArgumentNullException>(() => s.Replace(replacements));
+        }
+
+        [Test]
+        public void ReplaceCharThrowsIfReplacementsIsNull()
+        {
+            string s = "bbbb";
+            List<Tuple<char, char>> replacements = null;
+
+            Assert.Throws<ArgumentNullException>(() => s.Replace(replacements));
+        }
+
+        [Test]
+        public void ReplaceCharReplacesStrings()
+        {
+            const string expected = "AAAA";
+            string s = "bbbb";
+            List<Tuple<char, char>> replacements = new List<Tuple<char, char>>
+            {
+                new Tuple<char, char>('b', 'A')
+            };
+
+            string value = s.Replace(replacements);
+
+            Assert.AreEqual(expected, value);
         }
     }
 }

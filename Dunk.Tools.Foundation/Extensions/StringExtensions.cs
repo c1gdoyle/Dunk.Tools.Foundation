@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Dunk.Tools.Foundation.Extensions
 {
@@ -125,6 +126,98 @@ namespace Dunk.Tools.Foundation.Extensions
                 builder.Append(GenerateRandomAsciiChar());
             }
             return builder.ToString();
+        }
+
+
+        /// <summary>
+        /// Strips any quotation marks from this string.
+        /// </summary>
+        /// <param name="str">The original string.</param>
+        /// <returns>
+        /// A string that is equivalent to the current string except with all instances
+        /// of ' and " removed.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="str"/> was null.</exception>
+        public static string Unquote(this string str)
+        {
+            return str.Replace(
+                new List<Tuple<string, string>>
+                {
+                    new Tuple<string, string>("\'",""),
+                    new Tuple<string, string>("\"","")
+                });
+        }
+
+        /// <summary>
+        /// Performs multiple <see cref="string"/>.Replace operations on this string.
+        /// </summary>
+        /// <param name="str">The original string.</param>
+        /// <param name="replacements">
+        /// A collection of <see cref="Tuple{T1, T2}"/> representing the old strings to be replaced
+        /// and the new strings to replace them with.
+        /// 
+        /// The 1st item of the Tuple represents the oldValue, the string to be replaced, and
+        /// The 2nd item of the Tuple represents the newValue, the string to replace all occurrences of the 
+        /// oldValue. 
+        /// </param>
+        /// <returns>
+        /// A string that is equivalent to the current string except that all instances of the
+        /// oldValues are replaced with the newValues.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="str"/> or <paramref name="replacements"/> was null.</exception>
+        public static string Replace(this string str, IEnumerable<Tuple<string, string>> replacements)
+        {
+            if (str == null)
+            {
+                throw new ArgumentNullException(nameof(str),
+                    $"Unable to Replace string, {nameof(str)} parameter cannot be null");
+            }
+            if(replacements == null)
+            {
+                throw new ArgumentNullException(nameof(replacements),
+                    $"Unable to Replace string, {nameof(replacements)} parameter cannot be null");
+            }
+            foreach (Tuple<string, string> replacement in replacements)
+            {
+                str = str.Replace(replacement.Item1, replacement.Item2);
+            }
+            return str;
+        }
+
+        /// <summary>
+        /// Performs multiple <see cref="string"/>.Replace operations on this string.
+        /// </summary>
+        /// <param name="str">The original string.</param>
+        /// <param name="replacements">
+        /// A collection of <see cref="Tuple{T1, T2}"/> representing the old chars to be replaced
+        /// and the new chars to replace them with.
+        /// 
+        /// The 1st item of the Tuple represents the oldValue, the chars to be replaced, and
+        /// The 2nd item of the Tuple represents the newValue, the chars to replace all occurrences of the 
+        /// oldValue. 
+        /// </param>
+        /// <returns>
+        /// A string that is equivalent to the current string except that all instances of the
+        /// oldValues are replaced with the newValues.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="str"/> or <paramref name="replacements"/> was null.</exception>
+        public static string Replace(this string str, IEnumerable<Tuple<char,char>> replacements)
+        {
+            if (str == null)
+            {
+                throw new ArgumentNullException(nameof(str),
+                    $"Unable to Replace string, {nameof(str)} parameter cannot be null");
+            }
+            if (replacements == null)
+            {
+                throw new ArgumentNullException(nameof(replacements),
+                    $"Unable to Replace string, {nameof(replacements)} parameter cannot be null");
+            }
+            foreach (Tuple<char, char> replacement in replacements)
+            {
+                str = str.Replace(replacement.Item1, replacement.Item2);
+            }
+            return str;
         }
     }
 }
