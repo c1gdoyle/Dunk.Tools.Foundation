@@ -266,5 +266,42 @@ namespace Dunk.Tools.Foundation.Test.Extensions
 
             Assert.AreEqual(expected, value);
         }
+
+        [Test]
+        public void DefaultUnderlineThrowsIfStringIsNull()
+        {
+            string s = null;
+            Assert.Throws<ArgumentNullException>(() => s.Underline());
+        }
+
+        [Test]
+        public void DefaultUnderlineApplysUnderlineToString()
+        {
+            string expected = "Aardvark" + Environment.NewLine + "--------";
+            string s = "Aardvark";
+
+            string value = s.Underline();
+
+            Assert.AreEqual(expected, value);
+        }
+
+        [Test]
+        public void CustomUnderlineThrowsIfStringIsNull()
+        {
+            string s = null;
+
+            Assert.Throws<ArgumentNullException>(() => s.Underline('_'));
+        }
+
+        [Test]
+        public void CustomUnderlineApplysUnderlineToString()
+        {
+            string expected = "Aardvark" + Environment.NewLine + "________";
+            string s = "Aardvark";
+
+            string value = s.Underline('_');
+
+            Assert.AreEqual(expected, value);
+        }
     }
 }

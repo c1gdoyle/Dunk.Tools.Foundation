@@ -219,5 +219,37 @@ namespace Dunk.Tools.Foundation.Extensions
             }
             return str;
         }
+        /// <summary>
+        /// Underlines a string with a series of hypen characters ("-").
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <returns>
+        /// The string, a newline, and a series of underline characters.
+        /// </returns>
+        public static string Underline(this string str)
+        {
+            return str.Underline('-');
+        }
+
+        /// <summary>
+        /// Underlines a string with a specified character.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="underlineChar">The character to use in the underline.</param>
+        /// <returns>
+        /// The string, a newline, and a series of underline characters.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="str"/> was null.</exception>
+        public static string Underline(this string str, char underlineChar)
+        {
+            if(str == null)
+            {
+                throw new ArgumentNullException(nameof(str),
+                    $"Unable to perform Underline, {nameof(str)} parameter cannot be null.");
+            }
+            int length = str.Length;
+            var underline = string.Empty.PadLeft(length, underlineChar);
+            return str + System.Environment.NewLine + underline;
+        }
     }
 }
