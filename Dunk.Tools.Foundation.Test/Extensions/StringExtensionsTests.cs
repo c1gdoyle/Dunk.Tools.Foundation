@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Dunk.Tools.Foundation.Extensions;
 using NUnit.Framework;
@@ -168,6 +169,745 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         {
             Assert.Throws<ArgumentOutOfRangeException>(
                 () => StringExtensions.GenerateRandomAsciiString(-1));
+        }
+
+        [Test]
+        public void UnquoteThrowsIfStringIsNull()
+        {
+            string s = null;
+
+            Assert.Throws<ArgumentNullException>(() => s.Unquote());
+        }
+
+        [Test]
+        public void UnquoteRemovesSingleQuotationMarksFromString()
+        {
+            const string expected = "foo";
+            string s = "\'foo\'";
+
+            string value = s.Unquote();
+
+            Assert.AreEqual(expected, value);
+        }
+
+        [Test]
+        public void UnquoteRemovesDoubleQuotationMarksFromString()
+        {
+            const string expected = "foo";
+            string s = "\"foo\"";
+
+            string value = s.Unquote();
+
+            Assert.AreEqual(expected, value);
+        }
+
+        [Test]
+        public void ReplaceThrowsIfStringIsNull()
+        {
+            string s = null;
+            var replacements = new List<Tuple<string, string>>();
+
+            Assert.Throws<ArgumentNullException>(() => s.Replace(replacements));
+        }
+
+        [Test]
+        public void ReplaceThrowsIfReplacementsIsNull()
+        {
+            string s = "bbbb";
+            List<Tuple<string, string>> replacements = null;
+
+            Assert.Throws<ArgumentNullException>(() => s.Replace(replacements));
+        }
+
+        [Test]
+        public void ReplaceReplacesStrings()
+        {
+            const string expected = "AAAA";
+            string s = "bbbb";
+            List<Tuple<string, string>> replacements = new List<Tuple<string, string>>
+            {
+                new Tuple<string, string>("bb", "AA")
+            };
+
+            string value = s.Replace(replacements);
+
+            Assert.AreEqual(expected, value);
+        }
+
+        [Test]
+        public void ReplaceCharThrowsIfStringIsNull()
+        {
+            string s = null;
+            var replacements = new List<Tuple<char, char>>();
+
+            Assert.Throws<ArgumentNullException>(() => s.Replace(replacements));
+        }
+
+        [Test]
+        public void ReplaceCharThrowsIfReplacementsIsNull()
+        {
+            string s = "bbbb";
+            List<Tuple<char, char>> replacements = null;
+
+            Assert.Throws<ArgumentNullException>(() => s.Replace(replacements));
+        }
+
+        [Test]
+        public void ReplaceCharReplacesStrings()
+        {
+            const string expected = "AAAA";
+            string s = "bbbb";
+            List<Tuple<char, char>> replacements = new List<Tuple<char, char>>
+            {
+                new Tuple<char, char>('b', 'A')
+            };
+
+            string value = s.Replace(replacements);
+
+            Assert.AreEqual(expected, value);
+        }
+
+        [Test]
+        public void DefaultUnderlineThrowsIfStringIsNull()
+        {
+            string s = null;
+            Assert.Throws<ArgumentNullException>(() => s.Underline());
+        }
+
+        [Test]
+        public void DefaultUnderlineApplysUnderlineToString()
+        {
+            string expected = "Aardvark" + Environment.NewLine + "--------";
+            string s = "Aardvark";
+
+            string value = s.Underline();
+
+            Assert.AreEqual(expected, value);
+        }
+
+        [Test]
+        public void CustomUnderlineThrowsIfStringIsNull()
+        {
+            string s = null;
+
+            Assert.Throws<ArgumentNullException>(() => s.Underline('_'));
+        }
+
+        [Test]
+        public void CustomUnderlineApplysUnderlineToString()
+        {
+            string expected = "Aardvark" + Environment.NewLine + "________";
+            string s = "Aardvark";
+
+            string value = s.Underline('_');
+
+            Assert.AreEqual(expected, value);
+        }
+
+        [Test]
+        public void ComputeLevenshteinDistanceThrowsIfFirstStringIsNull()
+        {
+            string s = null;
+            string neighbour = "Aardvark";
+
+            Assert.Throws<ArgumentNullException>(() => s.ComputeLevenshteinDistance(neighbour));
+        }
+
+        [Test]
+        public void ComputeLevenshteinDistanceThrowsIfNeightbourIsNull()
+        {
+            string s = "Aardvark";
+            string neighbour = null;
+
+            Assert.Throws<ArgumentNullException>(() => s.ComputeLevenshteinDistance(neighbour));
+        }
+
+        [Test]
+        public void ComputeLevenshteinDistanceReturnsExpectedNumberIfStringAndNeighbourAreSame()
+        {
+            const int expected = 0;
+
+            string s = "Aardvark";
+            string neighbour = "Aardvark";
+
+            int distance = s.ComputeLevenshteinDistance(neighbour);
+
+            Assert.AreEqual(expected, distance);
+        }
+
+        [Test]
+        public void ComputeLevenshteinDistanceReturnsExpectedNumberIfStringAndNeighbourAreDifferent()
+        {
+            const int expected = 6;
+
+            string s = "Aardvark";
+            string neighbour = "kravdraA";
+
+            int distance = s.ComputeLevenshteinDistance(neighbour);
+
+            Assert.AreEqual(expected, distance);
+        }
+
+        [Test]
+        public void ComputeLevenshteinDistanceReturnsExpectedNumberIfStringAndNeighbourAreBothEmpty()
+        {
+            const int expected = 0;
+
+            string s = string.Empty;
+            string neighbour = string.Empty;
+
+            int distance = s.ComputeLevenshteinDistance(neighbour);
+
+            Assert.AreEqual(expected, distance);
+        }
+
+        [Test]
+        public void ComputeLevenshteinDistanceReturnsExpectedNumberIfStringIsEmpty()
+        {
+            const int expected = 8;
+
+            string s = string.Empty;
+            string neighbour = "Aardvark";
+
+            int distance = s.ComputeLevenshteinDistance(neighbour);
+
+            Assert.AreEqual(expected, distance);
+        }
+
+        [Test]
+        public void ComputeLevenshteinDistanceReturnsExpectedNumberIfNeighbourIsEmpty()
+        {
+            const int expected = 8;
+
+            string s = "Aardvark";
+            string neighbour = string.Empty;
+
+            int distance = s.ComputeLevenshteinDistance(neighbour);
+
+            Assert.AreEqual(expected, distance);
+        }
+
+        [Test]
+        public void ComputeLevenshteinDistanceReturnsExpectedNumberIfStringContainsWhiteSpace()
+        {
+            const int expected = 8;
+
+            string s = "Tom the Aardvark";
+            string neighbour = "Aardvark";
+
+            int distance = s.ComputeLevenshteinDistance(neighbour);
+
+            Assert.AreEqual(expected, distance);
+        }
+
+        [Test]
+        public void ComputeLevenshteinDistanceReturnsExpectedNumberIfNeighbourContainsWhiteSpace()
+        {
+            const int expected = 8;
+
+            string s = "Aardvark";
+            string neighbour = "Tom the Aardvark";
+
+            int distance = s.ComputeLevenshteinDistance(neighbour);
+
+            Assert.AreEqual(expected, distance);
+        }
+
+        [Test]
+        public void ComputeLevenshteinDistanceReturnsExpectedNumberIfStringContainsSpecialCharacter()
+        {
+            const int expected = 1;
+
+            string s = "Aardvark!";
+            string neighbour = "Aardvark";
+
+            int distance = s.ComputeLevenshteinDistance(neighbour);
+
+            Assert.AreEqual(expected, distance);
+        }
+
+        [Test]
+        public void ComputeLevenshteinDistanceReturnsExpectedNumberIfNeighbourContainsSpecialCharacter()
+        {
+            const int expected = 1;
+
+            string s = "Aardvark";
+            string neighbour = "Aardvark!";
+
+            int distance = s.ComputeLevenshteinDistance(neighbour);
+
+            Assert.AreEqual(expected, distance);
+        }
+
+        [Test]
+        public void ToTitleCaseThrowsIfStringIsNull()
+        {
+            string s = null;
+
+            Assert.Throws<ArgumentNullException>(() => s.ToTitleCase());
+        }
+
+        [Test]
+        public void ToTitleCaseConvertsToTitleCase()
+        {
+            const string expected = "To Title Case";
+
+            string s = "to title case";
+            Assert.AreEqual(expected, s.ToTitleCase());
+        }
+
+        [Test]
+        public void ToTitleCaseDoesNotAlterTitleCaseString()
+        {
+            const string expected = "To Title Case";
+
+            string s = "To Title Case";
+            Assert.AreEqual(expected, s.ToTitleCase());
+        }
+
+        [Test]
+        public void ToTitleCaseConvertsUpperCaseWord()
+        {
+            const string expected = "To Title Case";
+
+            var s = "To TITLE Case";
+            Assert.AreEqual(expected, s.ToTitleCase());
+        }
+
+        [Test]
+        public void ToTitleCaseConvertsCamelCaseString()
+        {
+            const string expected = "Totitlecase";
+
+            string s = "ToTitleCase";
+            Assert.AreEqual(expected, s.ToTitleCase());
+        }
+
+        [Test]
+        public void ToTitleCaseConvertsUpperCaseCamelCaseString()
+        {
+            const string expected = "Totitlecase";
+
+            string s = "TOTITLECASE";
+            Assert.AreEqual(expected, s.ToTitleCase());
+        }
+
+        [Test]
+        public void ToTitleCaseHandlesEmptyString()
+        {
+            const string expected = "";
+
+            var s = string.Empty;
+            Assert.AreEqual(expected, s.ToTitleCase());
+        }
+
+        [Test]
+        public void ToTitleCaseRecognisesSpecialCharactersAsWhiteSpace()
+        {
+            const string expected = "To      Title\tCase";
+
+            string s = "To      Title\tcase";
+            Assert.AreEqual(expected, s.ToTitleCase());
+        }
+
+        [Test]
+        public void ToTitleCaseChompsWhiteSpace()
+        {
+            const string expected = "To Title Case";
+
+            string s = "To      Title\tcase";
+            Assert.AreEqual(expected, s.ToTitleCase(true));
+        }
+
+        [Test]
+        public void ToCamelCaseThrowsIfStringIsNull()
+        {
+            string s = null;
+            Assert.Throws<ArgumentNullException>(() => s.ToCamelCase());
+        }
+
+        [Test]
+        public void ToCamelCaseThrowsIfStringIsNullAndCustomDelimiter()
+        {
+            string s = null;
+            Assert.Throws<ArgumentNullException>(() => s.ToCamelCase('_'));
+        }
+
+        [Test]
+        public void ToCamelCaseReturnsCamelCaseString()
+        {
+            const string expected = "ToCamelCase";
+
+            string s = "to camel case";
+
+            Assert.AreEqual(expected, s.ToCamelCase());
+        }
+
+        [Test]
+        public void ToCamelCaseReturnsCamelCaseStringWithCustomDelimiter()
+        {
+            const string expected = "ToCamelCase";
+
+            string s = "to_camel_case";
+
+            Assert.AreEqual(expected, s.ToCamelCase('_'));
+        }
+
+        [Test]
+        public void ToCamelCaseReturnsExpectedStringIfLettersAreUpperCase()
+        {
+            const string expected = "ToCamelCase";
+
+            string s = "TO CAMEL CASE";
+
+            Assert.AreEqual(expected, s.ToCamelCase());
+        }
+
+        [Test]
+        public void ToCamelCaseReturnsExpectedStringIfLettersAreUpperCaseWithCustomDelimiter()
+        {
+            const string expected = "ToCamelCase";
+
+            string s = "TO_CAMEL_CASE";
+
+            Assert.AreEqual(expected, s.ToCamelCase('_'));
+        }
+
+        [Test]
+        public void ToCamelCaseReturnsCamelCaseStringIfStringStartsWithDefaultDelimiter()
+        {
+            const string expected = "ToCamelCase";
+
+            string s = " to camel case";
+
+            Assert.AreEqual(expected, s.ToCamelCase());
+        }
+
+        [Test]
+        public void ToCamelCaseReturnsCamelCaseStringIfStringStartsWithCustomDelimiter() 
+        {
+            const string expected = "ToCamelCase";
+
+            string s = "_to_camel_case";
+
+            Assert.AreEqual(expected, s.ToCamelCase('_'));
+        }
+
+        [Test]
+        public void ToCamelCaseReturnsCamelCaseStringIfStringEndsWithDefaultDelimiter() 
+        {
+            const string expected = "ToCamelCase";
+
+            string s = "to camel case ";
+
+            Assert.AreEqual(expected, s.ToCamelCase());
+        }
+
+        [Test]
+        public void ToCamelCaseReturnsCamelCaseStringIfStringEndsWithCustomDelimiter() 
+        {
+            const string expected = "ToCamelCase";
+
+            string s = "to_camel_case_";
+
+            Assert.AreEqual(expected, s.ToCamelCase('_'));
+        }
+
+        [Test]
+        public void ToCamelCaseReturnsExpectedStringIfStringIsEmpty() 
+        {
+            const string expected = "";
+
+            string s = string.Empty;
+
+            Assert.AreEqual(expected, s.ToCamelCase());
+        }
+
+        [Test]
+        public void ToCamelCaseReturnsExpectedStringIfStringIsEmptyWithCustomDelimiter() 
+        {
+            const string expected = "";
+
+            string s = string.Empty;
+
+            Assert.AreEqual(expected, s.ToCamelCase('_'));
+        }
+
+        [Test]
+        public void ExpandCamelCaseThrowsIfStringIsNull()
+        {
+            string s = null;
+            Assert.Throws<ArgumentNullException>(() => s.ExpandCamelCase());
+        }
+
+        [Test]
+        public void ExpandCamelCaseThrowsIfStringIsNullAndCustomDelimiter()
+        {
+            string s = null;
+            Assert.Throws<ArgumentNullException>(() => s.ExpandCamelCase('-'));
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpands()
+        {
+            const string expected = "Expand Camel Case";
+
+            string s = "ExpandCamelCase";
+            Assert.AreEqual(expected, s.ExpandCamelCase());
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpandsWithSpecifedDelimiter()
+        {
+            const string expected = "Expand-Camel-Case";
+
+            string s = "ExpandCamelCase";
+            Assert.AreEqual(expected, s.ExpandCamelCase('-'));
+        }
+
+        [Test]
+        public void ExpandCamelCaseHandlesEmptString()
+        {
+            const string expected = "";
+
+            string s = string.Empty;
+            Assert.AreEqual(expected, s.ExpandCamelCase());
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpandsStringContainingWhitespace()
+        {
+            const string expected = "Expand Camel Case";
+
+            string s = "Expand CamelCase";
+            Assert.AreEqual(expected, s.ExpandCamelCase());
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpandsStringContainingWhitespaceWithCustomDelimiter()
+        {
+            const string expected = "Expand-Camel-Case";
+
+            string s = "Expand CamelCase";
+            Assert.AreEqual(expected, s.ExpandCamelCase('-'));
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpandsStringContainingNonLetterCharacter()
+        {
+            const string expected = "Expand Cam 3l Case";
+
+            string s = "ExpandCam3lCase";
+            Assert.AreEqual(expected, s.ExpandCamelCase());
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpandsStringContainingNonLetterCharacterWithCustomDelimiter()
+        {
+            const string expected = "Expand-Cam-3l-Case";
+
+            string s = "ExpandCam3lCase";
+            Assert.AreEqual(expected, s.ExpandCamelCase('-'));
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpandsStringContainingUpperLetterAtEndOfString()
+        {
+            const string expected = "Expand Camel Case S";
+
+            string s = "ExpandCamelCaseS";
+            Assert.AreEqual(expected, s.ExpandCamelCase());
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpandsStringContainingUpperLetterAtEndOfStringWithCustomDelimiter()
+        {
+            const string expected = "Expand-Camel-Case-S";
+
+            string s = "ExpandCamelCaseS";
+            Assert.AreEqual(expected, s.ExpandCamelCase('-'));
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpandsStringContainingNonLetterAtEndOfString()
+        {
+            const string expected = "Expand Camel Case 3";
+
+            string s = "ExpandCamelCase3";
+            Assert.AreEqual(expected, s.ExpandCamelCase());
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpandsStringContainingNonLetterAtEndOfStringWithCustomDelimiter()
+        {
+            const string expected = "Expand-Camel-Case-3";
+
+            string s = "ExpandCamelCase3";
+            Assert.AreEqual(expected, s.ExpandCamelCase('-'));
+        }
+
+        [Test]
+        public void ExpandCamelCaseDoesNotExpandsStringContainingOnlyUpperCaseLetters()
+        {
+            const string expected = "EXPANDCAMELCASE";
+
+            string s = "EXPANDCAMELCASE";
+            Assert.AreEqual(expected, s.ExpandCamelCase());
+        }
+
+        [Test]
+        public void ExpandCamelCaseDoesNotExpandsStringContainingOnlyUpperCaseLettersWithCustomDelimiter()
+        {
+            const string expected = "EXPANDCAMELCASE";
+
+            string s = "EXPANDCAMELCASE";
+            Assert.AreEqual(expected, s.ExpandCamelCase('-'));
+        }
+
+        [Test]
+        public void ExpandCamelCaseDoesNotExpandsStringContainingOnlyNonLetterCharacters()
+        {
+            const string expected = "12345678";
+
+            string s = "12345678";
+            Assert.AreEqual(expected, s.ExpandCamelCase());
+        }
+
+        [Test]
+        public void ExpandCamelCaseDoesNotExpandsStringContainingOnlyNonLetterCharactersWithCustomDelimiter()
+        {
+            const string expected = "12345678";
+
+            string s = "12345678";
+            Assert.AreEqual(expected, s.ExpandCamelCase('-'));
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpandsStringWithSameAdjacentUpperCaseLetter()
+        {
+            const string expected = "Expand Camel Case SS";
+
+            string s = "ExpandCamelCaseSS";
+            Assert.AreEqual(expected, s.ExpandCamelCase());
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpandsStringWithSameAdjacentUpperCaseLetterWithCustomDelimiter()
+        {
+            const string expected = "Expand-Camel-Case-SS";
+
+            string s = "ExpandCamelCaseSS";
+            Assert.AreEqual(expected, s.ExpandCamelCase('-'));
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpandsStringWithSameAdjacentNonLetterCharacter()
+        {
+            const string expected = "Expand Camel Case 22";
+
+            string s = "ExpandCamelCase22";
+            Assert.AreEqual(expected, s.ExpandCamelCase());
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpandsStringWithSameAdjacentNonLetterCharacterWithCustomDelimiter()
+        {
+            const string expected = "Expand-Camel-Case-22";
+
+            string s = "ExpandCamelCase22";
+            Assert.AreEqual(expected, s.ExpandCamelCase('-'));
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpandsStringWithDifferentAdjacentUpperCaseLetter()
+        {
+            const string expected = "Expand Camel Case SZ";
+
+            string s = "ExpandCamelCaseSZ";
+            Assert.AreEqual(expected, s.ExpandCamelCase());
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpandsStringWithDifferentAdjacentUpperCaseLetterWithCustomDelimiter()
+        {
+            const string expected = "Expand-Camel-Case-SZ";
+
+            string s = "ExpandCamelCaseSZ";
+            Assert.AreEqual(expected, s.ExpandCamelCase('-'));
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpandsStringWithDifferentAdjacentNonLetterCharacter()
+        {
+            const string expected = "Expand Camel Case 12";
+
+            string s = "ExpandCamelCase12";
+            Assert.AreEqual(expected, s.ExpandCamelCase());
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpandsStringWithDifferentAdjacentNonLetterCharacterWithCustomDelimiter()
+        {
+            const string expected = "Expand-Camel-Case-12";
+
+            string s = "ExpandCamelCase12";
+            Assert.AreEqual(expected, s.ExpandCamelCase('-'));
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpandsStringWithAdjacentUpperCaseAndNonLetterCharacter()
+        {
+            const string expected = "E 2pand Camel Case";
+
+            string s = "E2pandCamelCase";
+            Assert.AreEqual(expected, s.ExpandCamelCase());
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpandsStringWithAdjacentUpperCaseAndNonLetterCharacterWithCustomDelimiter()
+        {
+            const string expected = "E-2pand-Camel-Case";
+
+            string s = "E2pandCamelCase";
+            Assert.AreEqual(expected, s.ExpandCamelCase('-'));
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpandsStringWithAdjacentNonLetterAndUpperCaseCharacter()
+        {
+            const string expected = "3 Xpand Camel Case";
+
+            string s = "3XpandCamelCase";
+            Assert.AreEqual(expected, s.ExpandCamelCase());
+        }
+
+        [Test]
+        public void ExpandCamelCaseExpandsStringWithAdjacentNonLetterAndUpperCaseCharacterWithCustomDelimiter()
+        {
+            const string expected = "3-Xpand-Camel-Case";
+
+            string s = "3XpandCamelCase";
+            Assert.AreEqual(expected, s.ExpandCamelCase('-'));
+        }
+
+        [Test]
+        public void ToCamelCaseCreatesStringThatCanBeExpandedFromCamelCase()
+        {
+            const string expected = "To Camel Case And Back";
+
+            string camelCase = expected.ToCamelCase();
+
+            Assert.AreEqual(expected, camelCase.ExpandCamelCase());
+        }
+
+        [Test]
+        public void ToCamelCaseCreatesStringThatCanBeExpandedFromCamelCaseWithCustomDelimiter()
+        {
+            const string expected = "To_Camel_Case_And_Back";
+
+            string camelCase = expected.ToCamelCase('_');
+
+            Assert.AreEqual(expected, camelCase.ExpandCamelCase('_'));
         }
     }
 }
