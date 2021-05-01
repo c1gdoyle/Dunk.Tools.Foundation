@@ -303,5 +303,140 @@ namespace Dunk.Tools.Foundation.Test.Extensions
 
             Assert.AreEqual(expected, value);
         }
+
+        [Test]
+        public void ComputeLevenshteinDistanceThrowsIfFirstStringIsNull()
+        {
+            string s = null;
+            string neighbour = "Aardvark";
+
+            Assert.Throws<ArgumentNullException>(() => s.ComputeLevenshteinDistance(neighbour));
+        }
+
+        [Test]
+        public void ComputeLevenshteinDistanceThrowsIfNeightbourIsNull()
+        {
+            string s = "Aardvark";
+            string neighbour = null;
+
+            Assert.Throws<ArgumentNullException>(() => s.ComputeLevenshteinDistance(neighbour));
+        }
+
+        [Test]
+        public void ComputeLevenshteinDistanceReturnsExpectedNumberIfStringAndNeighbourAreSame()
+        {
+            const int expected = 0;
+
+            string s = "Aardvark";
+            string neighbour = "Aardvark";
+
+            int distance = s.ComputeLevenshteinDistance(neighbour);
+
+            Assert.AreEqual(expected, distance);
+        }
+
+        [Test]
+        public void ComputeLevenshteinDistanceReturnsExpectedNumberIfStringAndNeighbourAreDifferent()
+        {
+            const int expected = 6;
+
+            string s = "Aardvark";
+            string neighbour = "kravdraA";
+
+            int distance = s.ComputeLevenshteinDistance(neighbour);
+
+            Assert.AreEqual(expected, distance);
+        }
+
+        [Test]
+        public void ComputeLevenshteinDistanceReturnsExpectedNumberIfStringAndNeighbourAreBothEmpty()
+        {
+            const int expected = 0;
+
+            string s = string.Empty;
+            string neighbour = string.Empty;
+
+            int distance = s.ComputeLevenshteinDistance(neighbour);
+
+            Assert.AreEqual(expected, distance);
+        }
+
+        [Test]
+        public void ComputeLevenshteinDistanceReturnsExpectedNumberIfStringIsEmpty()
+        {
+            const int expected = 8;
+
+            string s = string.Empty;
+            string neighbour = "Aardvark";
+
+            int distance = s.ComputeLevenshteinDistance(neighbour);
+
+            Assert.AreEqual(expected, distance);
+        }
+
+        [Test]
+        public void ComputeLevenshteinDistanceReturnsExpectedNumberIfNeighbourIsEmpty()
+        {
+            const int expected = 8;
+
+            string s = "Aardvark";
+            string neighbour = string.Empty;
+
+            int distance = s.ComputeLevenshteinDistance(neighbour);
+
+            Assert.AreEqual(expected, distance);
+        }
+
+        [Test]
+        public void ComputeLevenshteinDistanceReturnsExpectedNumberIfStringContainsWhiteSpace()
+        {
+            const int expected = 8;
+
+            string s = "Tom the Aardvark";
+            string neighbour = "Aardvark";
+
+            int distance = s.ComputeLevenshteinDistance(neighbour);
+
+            Assert.AreEqual(expected, distance);
+        }
+
+        [Test]
+        public void ComputeLevenshteinDistanceReturnsExpectedNumberIfNeighbourContainsWhiteSpace()
+        {
+            const int expected = 8;
+
+            string s = "Aardvark";
+            string neighbour = "Tom the Aardvark";
+
+            int distance = s.ComputeLevenshteinDistance(neighbour);
+
+            Assert.AreEqual(expected, distance);
+        }
+
+        [Test]
+        public void ComputeLevenshteinDistanceReturnsExpectedNumberIfStringContainsSpecialCharacter()
+        {
+            const int expected = 1;
+
+            string s = "Aardvark!";
+            string neighbour = "Aardvark";
+
+            int distance = s.ComputeLevenshteinDistance(neighbour);
+
+            Assert.AreEqual(expected, distance);
+        }
+
+        [Test]
+        public void ComputeLevenshteinDistanceReturnsExpectedNumberIfNeighbourContainsSpecialCharacter()
+        {
+            const int expected = 1;
+
+            string s = "Aardvark";
+            string neighbour = "Aardvark!";
+
+            int distance = s.ComputeLevenshteinDistance(neighbour);
+
+            Assert.AreEqual(expected, distance);
+        }
     }
 }

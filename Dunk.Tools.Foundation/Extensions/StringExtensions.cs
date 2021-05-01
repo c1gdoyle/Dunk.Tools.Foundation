@@ -2,6 +2,7 @@
 using System.Text;
 using System.Linq;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Dunk.Tools.Foundation.Extensions
 {
@@ -93,13 +94,13 @@ namespace Dunk.Tools.Foundation.Extensions
         /// </returns>
         public static string GenerateRandomString(int length)
         {
-            if(length < 0)
+            if (length < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(length),
                     $"{nameof(length)} paramter for random string must be greater than or equal to 0");
             }
             var builder = new StringBuilder(length);
-            for(int i = 0; i < length; i++)
+            for (int i = 0; i < length; i++)
             {
                 builder.Append(GenerateRandomChar());
             }
@@ -172,7 +173,7 @@ namespace Dunk.Tools.Foundation.Extensions
                 throw new ArgumentNullException(nameof(str),
                     $"Unable to Replace string, {nameof(str)} parameter cannot be null");
             }
-            if(replacements == null)
+            if (replacements == null)
             {
                 throw new ArgumentNullException(nameof(replacements),
                     $"Unable to Replace string, {nameof(replacements)} parameter cannot be null");
@@ -201,7 +202,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// oldValues are replaced with the newValues.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="str"/> or <paramref name="replacements"/> was null.</exception>
-        public static string Replace(this string str, IEnumerable<Tuple<char,char>> replacements)
+        public static string Replace(this string str, IEnumerable<Tuple<char, char>> replacements)
         {
             if (str == null)
             {
@@ -242,7 +243,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <exception cref="ArgumentNullException"><paramref name="str"/> was null.</exception>
         public static string Underline(this string str, char underlineChar)
         {
-            if(str == null)
+            if (str == null)
             {
                 throw new ArgumentNullException(nameof(str),
                     $"Unable to perform Underline, {nameof(str)} parameter cannot be null.");
@@ -250,6 +251,84 @@ namespace Dunk.Tools.Foundation.Extensions
             int length = str.Length;
             var underline = string.Empty.PadLeft(length, underlineChar);
             return str + System.Environment.NewLine + underline;
+        }
+
+        /// <summary>
+        /// Calculates the Levenshtein distance (a rough measure of similiarity)
+        /// between two strings.
+        /// </summary>
+        /// <param name="str">The first string.</param>
+        /// <param name="neighbour">The second string.</param>
+        /// <returns>
+        /// A number representing the Levenshtein distance between the two
+        /// inputs. Smaller means more similiar.
+        /// </returns>
+        /// <remarks>
+        /// See http://www.dotnetperls.com/levenshtein
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="str"/> or <paramref name="neighbour"/> was null.</exception>
+        public static int ComputeLevenshteinDistance(this string str, string neighbour)
+        {
+            if (str == null)
+            {
+                throw new ArgumentNullException(nameof(str),
+                    $"Unable to compute Levenshtein Distance, {nameof(str)} parameter cannot be null.");
+            }
+            if (neighbour == null)
+            {
+                throw new ArgumentNullException(nameof(neighbour),
+                    $"Unable to compute Levenshtein Distance, {nameof(neighbour)} parameter cannot be null.");
+            }
+            int n = str.Length;
+            int m = neighbour.Length;
+
+            // Step 1, Check for empty strings.
+            if (n == 0)
+            {
+                return m;
+            }
+
+            if (m == 0)
+            {
+                return n;
+            }
+
+            // Step 2, Initialize distance array.
+            int[,] d = CreateLevenshteinDistanceArray(n, m);
+
+            // Step 3, Begin looping
+            for (int i = 1; i <= n; i++)
+            {
+                //Step 4
+                for (int j = 1; j <= m; j++)
+                {
+                    // Step 5, Compute cost.
+                    int cost = (neighbour[j - 1] == str[i - 1]) ? 0 : 1;
+
+                    // Step 6
+                    d[i, j] = Math.Min(
+                        Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1),
+                        d[i - 1, j - 1] + cost);
+                }
+            }
+            // Step 7, Return cost
+            return d[n, m];
+        }
+
+        private static int[,] CreateLevenshteinDistanceArray(int firstLength, int secondLength)
+        {
+            int[,] distance = new int[firstLength + 1, secondLength + 1];
+            for (int i = 0; i <= firstLength; distance[i, 0] = i++)
+            {
+                //ignore
+            }
+
+            for (int j = 0; j <= secondLength; distance[0, j] = j++)
+            {
+                //ignore
+            }
+
+            return distance;
         }
     }
 }
