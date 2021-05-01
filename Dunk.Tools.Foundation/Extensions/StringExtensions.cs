@@ -2,7 +2,6 @@
 using System.Text;
 using System.Linq;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 namespace Dunk.Tools.Foundation.Extensions
 {
@@ -254,6 +253,156 @@ namespace Dunk.Tools.Foundation.Extensions
         }
 
         /// <summary>
+        /// Converts a string to title case.
+        /// </summary>
+        /// <param name="str">The string to convert.</param>
+        /// <param name="chomp">
+        /// Whether to chomp whitespace. <c>true</c> if a run of whitespace 
+        /// characters should be converted to a single space
+        /// character (' '). 
+        /// </param>
+        /// <returns>The string in title case.</returns>
+        /// <remarks>
+        /// A title case string is defined as one where every non-whitespace
+        /// character following a whitespace character should be upper-case
+        /// and every other non-whitespace character should be lower-case.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="str"/> was null.</exception>
+        public static string ToTitleCase(this string str, bool chomp = false)
+        {
+            if (str == null)
+            {
+                throw new ArgumentNullException(nameof(str),
+                    $"Unable to Convert string to Title-Case, {nameof(str)} parameter cannot be null");
+            }
+            StringBuilder builder = new StringBuilder(str.Length);
+            bool setNextCharToUpper = true;
+
+            for (int i = 0; i < str.Length; i++)
+            {
+                char c = str[i];
+
+                if (char.IsWhiteSpace(c))
+                {
+                    if (chomp)
+                    {
+                        if (!setNextCharToUpper)
+                        {
+                            //this means the previous character was whitespace,
+                            //add one space then let setNetCharToUpper be set
+                            //to true below,
+                            builder.Append(' ');
+                        }
+                    }
+                    else
+                    {
+                        builder.Append(c);
+                    }
+                    setNextCharToUpper = true;
+                    continue;
+                }
+
+                if (setNextCharToUpper)
+                {
+                    builder.Append(c.ToString().ToUpper());
+                    setNextCharToUpper = false;
+                }
+                else
+                {
+                    builder.Append(c.ToString().ToLower());
+                }
+            }
+
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// Converts a string to camel case.
+        /// </summary>
+        /// <param name="str">The string to convert.</param>
+        /// <param name="delimiter">The delimiter to search for between the words. </param>
+        /// <returns>The string in camel case.</returns>
+        /// <remarks>
+        /// A camel case string is defined as one where each word
+        /// or abbreviation begins with a capital letter.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="str"/> was null.</exception>
+        public static string ToCamelCase(this string str, char delimiter = ' ')
+        {
+            if (str == null)
+            {
+                throw new ArgumentNullException(nameof(str),
+                    $"Unable to Convert string to Camel-Case, {nameof(str)} parameter cannot be null");
+            }
+            StringBuilder builder = new StringBuilder(str.Length);
+            bool setNextCharToUpper = true;
+
+            for (int i = 0; i < str.Length; i++)
+            {
+                char c = str[i];
+                if(c == delimiter)
+                {
+                    setNextCharToUpper = true;
+                    continue;
+                }
+
+                if (setNextCharToUpper)
+                {
+                    builder.Append(c.ToString().ToUpper());
+                    setNextCharToUpper = false;
+                }
+                else
+                {
+                    builder.Append(c.ToString().ToLower());
+                }
+            }
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// Expands a camel case string.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="delimiter">The delimiter to use between the words. </param>
+        /// <returns>The string in non camel case.</returns>
+        /// <remarks>
+        /// A camel case string is defined as one where each word
+        /// or abbreviation begins with a capital letter.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="str"/> was null.</exception>
+        public static string ExpandCamelCase(this string str, char delimiter = ' ')
+        {
+            if(str == null)
+            {
+                throw new ArgumentNullException(nameof(str),
+                    $"Unable to Expand string to Camel-Case, {nameof(str)} parameter cannot be null");
+            }
+            StringBuilder builder = new StringBuilder(str.Length + 3);
+
+            int lastSpaceIndex = -1;
+            for (int i = 0; i < str.Length; ++i)
+            {
+                char c = str[i];
+                if (char.IsWhiteSpace(c))
+                {
+                    continue;
+                }
+
+                if (char.IsUpper(c) || !char.IsLetter(c))
+                {
+                    if (ShouldAppendForCamelCase(str, i, c, lastSpaceIndex))
+                    {
+                        builder.Append(delimiter);
+                    }
+                    lastSpaceIndex = i;
+
+                }
+                builder.Append(c);
+            }
+            return builder.ToString();
+        }
+
+        /// <summary>
         /// Calculates the Levenshtein distance (a rough measure of similiarity)
         /// between two strings.
         /// </summary>
@@ -313,6 +462,25 @@ namespace Dunk.Tools.Foundation.Extensions
             }
             // Step 7, Return cost
             return d[n, m];
+        }
+
+        private static bool ShouldAppendForCamelCase(string originalString, int currentIndex, char currentChar, int lastSpaceIndex)
+        {
+            if(currentIndex == 0 || 
+                lastSpaceIndex < 0)
+            {
+                return false;
+            }
+            if (1 < (currentIndex - lastSpaceIndex))
+            {
+                return true;
+            }
+            else if (char.IsUpper(currentChar) != char.IsUpper(originalString, lastSpaceIndex) ||
+                char.IsLetter(currentChar) != char.IsLetter(originalString, lastSpaceIndex))
+            {
+                return true;
+            }
+            return false;
         }
 
         private static int[,] CreateLevenshteinDistanceArray(int firstLength, int secondLength)
