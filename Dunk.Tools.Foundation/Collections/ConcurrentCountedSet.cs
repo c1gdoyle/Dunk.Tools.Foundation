@@ -1,70 +1,73 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using Dunk.Tools.Foundation.Threading;
 
 namespace Dunk.Tools.Foundation.Collections
 {
     /// <summary>
-    /// A collection of unique items that maintains a count of how many times each item has been added 
+    /// A thread-safe collection of unique items that maintains a count of how many times each item has been added 
     /// and requires the objects to be removed the same number of times.
     /// </summary>
     /// <remarks>
     /// Inspired by IOS NSCountedSet, https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSCountedSet_Class/
     /// </remarks>
     [System.Diagnostics.DebuggerDisplay("Count={Count}")]
-    public sealed class CountedSet<T> : ICollection<T>
+    public sealed class ConcurrentCountedSet<T> : ICollection<T>
     {
-        private readonly Dictionary<T, int> _itemsAndCounts = new Dictionary<T, int>();
+        private readonly ConcurrentDictionary<T, AtomicInt32> _itemsAndCounts = new ConcurrentDictionary<T, AtomicInt32>();
 
         /// <summary>
-        /// Initialises a new default instance of <see cref="CountedSet{T}"/>
+        /// Initialises a new default instance of <see cref="ConcurrentCountedSet{T}"/>
         /// </summary>
-        public CountedSet()
+        public ConcurrentCountedSet()
         {
         }
 
         /// <summary>
-        /// Initialises a new instance of <see cref="CountedSet{T}"/> with a specified collection 
+        /// Initialises a new instance of <see cref="ConcurrentCountedSet{T}"/> with a specified collection 
         /// and default equality-comparer.
         /// </summary>
         /// <param name="collection">The collection of items to add.</param>
         /// <exception cref="ArgumentNullException"><paramref name="collection"/> was null.</exception>
-        public CountedSet(IEnumerable<T> collection)
-            :this(collection, EqualityComparer<T>.Default)
+        public ConcurrentCountedSet(IEnumerable<T> collection)
+            : this(collection, EqualityComparer<T>.Default)
         {
         }
 
         /// <summary>
-        /// Initialises a new empty instance of <see cref="CountedSet{T}"/> with a specified equality-comparer 
+        /// Initialises a new empty instance of <see cref="ConcurrentCountedSet{T}"/> with a specified equality-comparer 
         /// for comparing elements to add.
         /// </summary>
         /// <param name="comparer">The comparer for comparing elements.</param>
         /// <exception cref="ArgumentNullException"><paramref name="comparer"/> was null.</exception>
-        public CountedSet(IEqualityComparer<T> comparer)
-            :this(System.Array.Empty<T>(), comparer)
+        public ConcurrentCountedSet(IEqualityComparer<T> comparer)
+            : this(System.Array.Empty<T>(), comparer)
         {
         }
 
         /// <summary>
-        /// Initialises a new instance of <see cref="CountedSet{T}"/> with a specified collection and equality-comparer.
+        /// Initialises a new instance of <see cref="ConcurrentCountedSet{T}"/> with a specified collection and equality-comparer.
         /// </summary>
         /// <param name="collection">The collection of items to add.</param>
         /// <param name="comparer">The comparer for comparing elements.</param>
         /// <exception cref="ArgumentNullException"><paramref name="collection"/> or <paramref name="comparer"/> was null.</exception>
-        public CountedSet(IEnumerable<T> collection, IEqualityComparer<T> comparer)
+        public ConcurrentCountedSet(IEnumerable<T> collection, IEqualityComparer<T> comparer)
         {
-            if(collection == null)
+            if (collection == null)
             {
                 throw new ArgumentNullException(
-                    nameof(collection), $"Unable to initialise {typeof(CountedSet<T>).Name}. {nameof(collection)} cannot be null.");
+                    nameof(collection), $"Unable to initialise {typeof(ConcurrentCountedSet<T>).Name}. {nameof(collection)} cannot be null.");
             }
-            if(comparer == null)
+            if (comparer == null)
             {
                 throw new ArgumentNullException(
-                    nameof(comparer), $"Unable to initialise {typeof(CountedSet<T>).Name}. {nameof(comparer)} cannot be null.");
+                    nameof(comparer), $"Unable to initialise {typeof(ConcurrentCountedSet<T>).Name}. {nameof(comparer)} cannot be null.");
             }
 
-            _itemsAndCounts = new Dictionary<T, int>(comparer);
-            foreach(T item in collection)
+            _itemsAndCounts = new ConcurrentDictionary<T, AtomicInt32>(comparer);
+            foreach (T item in collection)
             {
                 Add(item);
             }
@@ -92,11 +95,18 @@ namespace Dunk.Tools.Foundation.Collections
         /// if the key is found; otherwise zero. This parameter is passed uninitialized.
         /// </param>
         /// <returns>
-        /// true if the <see cref="CountedSet{T}"/> contains the specified item; otherwise, false.
+        /// <c>true</c> if the <see cref="CountedSet{T}"/> contains the specified item; otherwise, <c>false</c>.
         /// </returns>
         public bool TryGetCount(T item, out int count)
         {
-            return _itemsAndCounts.TryGetValue(item, out count);
+            AtomicInt32 value;
+            if(_itemsAndCounts.TryGetValue(item, out value))
+            {
+                count = value;
+                return true;
+            }
+            count = 0;
+            return false;
         }
 
         #region ICollection<T> Members
@@ -122,14 +132,14 @@ namespace Dunk.Tools.Foundation.Collections
         /// </remarks>
         public void Add(T item)
         {
-            if (_itemsAndCounts.ContainsKey(item))
-            {
-                _itemsAndCounts[item]++;
-            }
-            else
-            {
-                _itemsAndCounts.Add(item, 1);
-            }
+            _itemsAndCounts.AddOrUpdate(
+                item, 
+                new AtomicInt32(1), 
+                (k, v) =>
+                {
+                    v.PreIncrement();
+                    return v;
+                });
         }
 
         /// <inheritdoc />
@@ -160,18 +170,13 @@ namespace Dunk.Tools.Foundation.Collections
         /// </remarks>
         public bool Remove(T item)
         {
-            int count;
-            if (_itemsAndCounts.TryGetValue(item, out count))
+            AtomicInt32 value;
+
+            if(_itemsAndCounts.TryGetValue(item, out value))
             {
-                count--;
-                if (count == 0)
+                if(value.PreDecrement() == 0)
                 {
-                    _itemsAndCounts.Remove(item);
-                }
-                else
-                {
-                    //update
-                    _itemsAndCounts[item] = count;
+                    return _itemsAndCounts.TryRemove(item, out value);
                 }
                 return true;
             }
@@ -179,20 +184,20 @@ namespace Dunk.Tools.Foundation.Collections
         }
         #endregion ICollection<T> Members
 
-        #region IEnumerable<T> Members
+        #region IEnumerator<T> Members
         /// <inheritdoc />
         public IEnumerator<T> GetEnumerator()
         {
             return _itemsAndCounts.Keys.GetEnumerator();
         }
-        #endregion IEnumerable<T> Members
+        #endregion IEnumerator<T> Members
 
-        #region IEnumerable Members
+        #region IEnumerator Members
         /// <inheritdoc />
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
-        #endregion IEnumerable Members
+        #endregion IEnumerator Members
     }
 }

@@ -34,6 +34,14 @@ namespace Dunk.Tools.Foundation.Test.Collections
         }
 
         [Test]
+        public void CountedSetInitialisesAsNotReadOnly()
+        {
+            var set = new CountedSet<string>();
+
+            Assert.IsFalse(set.IsReadOnly);
+        }
+
+        [Test]
         public void CountedSetThrowsIfCollectionIsNull()
         {
             Assert.Throws<ArgumentNullException>(() =>
@@ -180,6 +188,36 @@ namespace Dunk.Tools.Foundation.Test.Collections
             Assert.IsTrue(firstCheck);
             Assert.IsTrue(secondCheck);
             Assert.IsFalse(thirdCheck);
+        }
+
+
+        [Test]
+        public void CountedSetTryGetCountReturnsFalseIfItemIsNotPresent()
+        {
+            var set = new CountedSet<string>();
+
+            bool result = set.TryGetCount("foo", out _);
+
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void CountedSetTryGetCountReturnsZeroIfItemIsNotPresent()
+        {
+            var set = new CountedSet<string>();
+
+            int count;
+            Assert.IsFalse(set.TryGetCount("foo", out count));
+            Assert.AreEqual(0, count);
+        }
+
+        [Test]
+        public void CountedSetClearEmptiesSet()
+        {
+            var set = new CountedSet<string>(new[] { "foo", "foo", "bar" });
+            set.Clear();
+
+            Assert.IsEmpty(set);
         }
 
         [Test]
