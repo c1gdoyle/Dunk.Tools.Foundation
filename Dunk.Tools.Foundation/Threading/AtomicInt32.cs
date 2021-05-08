@@ -160,6 +160,14 @@ namespace Dunk.Tools.Foundation.Threading
             }
         }
 
+        #region Object Overrides
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return _value.ToString();
+        }
+        #endregion Object Overrides
+
         /// <summary>
         /// Implicitly converts a <see cref="AtomicInt32"/> instance into a 
         /// <see cref="int"/> value.

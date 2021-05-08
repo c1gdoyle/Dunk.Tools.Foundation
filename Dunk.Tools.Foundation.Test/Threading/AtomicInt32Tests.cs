@@ -29,6 +29,26 @@ namespace Dunk.Tools.Foundation.Test.Threading
         }
 
         [Test]
+        public void AtomicInt32ToStringReturnsExpectedStringForDefault()
+        {
+            const int expected = 0;
+
+            var i = new AtomicInt32();
+
+            Assert.AreEqual(expected.ToString(), i.ToString());
+        }
+
+        [Test]
+        public void AtomicInt32ToStringReturnsExpectedStringForSpecified()
+        {
+            const int expected = 47;
+
+            var i = new AtomicInt32(expected);
+
+            Assert.AreEqual(expected.ToString(), i.ToString());
+        }
+
+        [Test]
         public void AtomicInt32SupportsPostIncrement()
         {
             const int expected = 1000;

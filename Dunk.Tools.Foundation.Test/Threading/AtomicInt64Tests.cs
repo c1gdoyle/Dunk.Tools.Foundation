@@ -29,6 +29,26 @@ namespace Dunk.Tools.Foundation.Test.Threading
         }
 
         [Test]
+        public void AtomicInt64ToStringReturnsExpectedStringForDefault()
+        {
+            const long expected = 0;
+
+            var i = new AtomicInt64();
+
+            Assert.AreEqual(expected.ToString(), i.ToString());
+        }
+
+        [Test]
+        public void AtomicInt64ToStringReturnsExpectedStringForSpecified()
+        {
+            const long expected = 47;
+
+            var i = new AtomicInt64(expected);
+
+            Assert.AreEqual(expected.ToString(), i.ToString());
+        }
+
+        [Test]
         public void AtomicInt64SupportsPostIncrement()
         {
             const long expected = 1000;
