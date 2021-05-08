@@ -6,7 +6,8 @@ namespace Dunk.Tools.Foundation.Threading
     /// Provides a lock free atomic wrapper over a <see cref="int"/> value.
     /// </summary>
     /// <remarks>
-    /// Equivalent of Java https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/AtomicInteger.html
+    /// Equivalent of Java https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/AtomicInteger.html.
+    /// Based on https://github.com/mbolt35/CSharp.Atomic.
     /// </remarks>
     public class AtomicInt32 
     {
@@ -32,24 +33,15 @@ namespace Dunk.Tools.Foundation.Threading
         }
 
         /// <summary>
-        /// Gets the underlying integer value.
+        /// Gets or atomically sets the underlying int value.
         /// </summary>
-        /// <returns>
-        /// The underlying value.
-        /// </returns>
-        public int Get()
+        public int Value
         {
-            return _value;
-        }
-
-        /// <summary>
-        /// Atomically sets the underlying integer to a new 
-        /// specified value.
-        /// </summary>
-        /// <param name="value">The new value.</param>
-        public void Set(int value)
-        {
-            Interlocked.Exchange(ref _value, value);
+            get { return _value; }
+            set
+            {
+                Interlocked.Exchange(ref _value, value);
+            }
         }
 
         /// <summary>
@@ -151,7 +143,7 @@ namespace Dunk.Tools.Foundation.Threading
         {
             while (true)
             {
-                int current = Get();
+                int current = _value;
                 int next = current + delta;
                 if (CompareAndSet(current, next))
                 {
@@ -160,6 +152,14 @@ namespace Dunk.Tools.Foundation.Threading
             }
         }
 
+        #region Object Overrides
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return _value.ToString();
+        }
+        #endregion Object Overrides
+
         /// <summary>
         /// Implicitly converts a <see cref="AtomicInt32"/> instance into a 
         /// <see cref="int"/> value.
@@ -167,7 +167,7 @@ namespace Dunk.Tools.Foundation.Threading
         /// <param name="atomicInt32">The Atomic-Int32 instance.</param>
         public static implicit operator int(AtomicInt32 atomicInt32)
         {
-            return atomicInt32.Get();
+            return atomicInt32.Value;
         }
     }
 }
