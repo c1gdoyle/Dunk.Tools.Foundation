@@ -12,7 +12,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
         {
             var b = new AtomicBoolean();
 
-            Assert.IsFalse(b.Get());
+            Assert.IsFalse(b.Value);
             Assert.IsFalse(b);
         }
 
@@ -21,7 +21,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
         {
             var b = new AtomicBoolean(true);
 
-            Assert.IsTrue(b.Get());
+            Assert.IsTrue(b.Value);
             Assert.IsTrue(b);
         }
 
@@ -48,10 +48,10 @@ namespace Dunk.Tools.Foundation.Test.Threading
 
             for (int i = 0; i < 1000; i++)
             {
-                b.Set(i % 2 == 0);
+                b.Value = i % 2 == 0;
             }
 
-            Assert.IsFalse(b.Get());
+            Assert.IsFalse(b.Value);
             Assert.IsFalse(b);
         }
 
@@ -60,9 +60,9 @@ namespace Dunk.Tools.Foundation.Test.Threading
         {
             var b = new AtomicBoolean();
 
-            System.Threading.Tasks.Parallel.For(0, 1000, i => b.Set(true));
+            System.Threading.Tasks.Parallel.For(0, 1000, i => b.Value = true);
 
-            Assert.IsTrue(b.Get());
+            Assert.IsTrue(b.Value);
             Assert.IsTrue(b);
         }
 
@@ -105,7 +105,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
             bool result = b.CompareAndSet(true, false);
 
             Assert.IsTrue(result);
-            Assert.IsFalse(b.Get());
+            Assert.IsFalse(b.Value);
             Assert.IsFalse(b);
         }
 
@@ -117,7 +117,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
             bool result = b.CompareAndSet(true, false);
 
             Assert.IsFalse(result);
-            Assert.IsFalse(b.Get());
+            Assert.IsFalse(b.Value);
             Assert.IsFalse(b);
         }
 

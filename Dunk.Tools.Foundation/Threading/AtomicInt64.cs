@@ -6,7 +6,8 @@ namespace Dunk.Tools.Foundation.Threading
     /// Provides a lock free atomic wrapper over a <see cref="long"/> value.
     /// </summary>
     /// <remarks>
-    /// Equivalent of Java https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/AtomicLong.html
+    /// Equivalent of Java https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/AtomicLong.html.
+    /// Based on https://github.com/mbolt35/CSharp.Atomic.
     /// </remarks>
     public class AtomicInt64
     {
@@ -32,24 +33,15 @@ namespace Dunk.Tools.Foundation.Threading
         }
 
         /// <summary>
-        /// Gets the underlying long value.
+        /// Gets or atomically sets the underlying long value.
         /// </summary>
-        /// <returns>
-        /// The underlying value.
-        /// </returns>
-        public long Get()
+        public long Value
         {
-            return _value;
-        }
-
-        /// <summary>
-        /// Atomically sets the underlying long to a new 
-        /// specified value.
-        /// </summary>
-        /// <param name="value">The new value.</param>
-        public void Set(long value)
-        {
-            Interlocked.Exchange(ref _value, value);
+            get { return _value; }
+            set
+            {
+                Interlocked.Exchange(ref _value, value);
+            }
         }
 
         /// <summary>
@@ -151,7 +143,7 @@ namespace Dunk.Tools.Foundation.Threading
         {
             while (true)
             {
-                long current = Get();
+                long current = _value;
                 long next = current + delta;
                 if (CompareAndSet(current, next))
                 {
@@ -175,7 +167,7 @@ namespace Dunk.Tools.Foundation.Threading
         /// <param name="atomicInt64">The Atomic-Int64 instance.</param>
         public static implicit operator long(AtomicInt64 atomicInt64)
         {
-            return atomicInt64.Get();
+            return atomicInt64.Value;
         }
     }
 }

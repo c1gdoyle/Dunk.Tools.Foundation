@@ -12,7 +12,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
         {
             var o = new AtomicObject<string>();
 
-            Assert.IsNull(o.Get());
+            Assert.IsNull(o.Value);
             Assert.IsNull((string)o);
         }
 
@@ -23,7 +23,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
 
             var o = new AtomicObject<string>(expected);
 
-            Assert.AreEqual(expected, o.Get());
+            Assert.AreEqual(expected, o.Value);
             Assert.AreEqual(expected, (string)o);
         }
 
@@ -54,10 +54,10 @@ namespace Dunk.Tools.Foundation.Test.Threading
 
             for (int i = 0; i < 1000; i++)
             {
-                o.Set(i.ToString());
+                o.Value = i.ToString();
             }
 
-            Assert.AreEqual(expected, o.Get());
+            Assert.AreEqual(expected, o.Value);
             Assert.AreEqual(expected, (string)o);
         }
 
@@ -66,9 +66,9 @@ namespace Dunk.Tools.Foundation.Test.Threading
         {
             var o = new AtomicObject<string>();
 
-            System.Threading.Tasks.Parallel.For(0, 1000, i => o.Set(i.ToString()));
+            System.Threading.Tasks.Parallel.For(0, 1000, i => o.Value = i.ToString());
 
-            Assert.IsNotNull(o.Get());
+            Assert.IsNotNull(o.Value);
             Assert.IsNotNull((string)o);
         }
 
@@ -111,7 +111,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
             bool result = o.CompareAndSet("foo", "bar");
 
             Assert.IsTrue(result);
-            Assert.AreEqual("bar", o.Get());
+            Assert.AreEqual("bar", o.Value);
             Assert.AreEqual("bar", (string)o);
         }
 
@@ -123,7 +123,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
             bool result = o.CompareAndSet("foo", "bar");
 
             Assert.IsFalse(result);
-            Assert.AreEqual("bar", o.Get());
+            Assert.AreEqual("bar", o.Value);
             Assert.AreEqual("bar", (string)o);
         }
 

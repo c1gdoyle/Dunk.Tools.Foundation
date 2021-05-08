@@ -6,7 +6,8 @@ namespace Dunk.Tools.Foundation.Threading
     /// Provides a lock free atomic wrapper over a <see cref="bool"/> value.
     /// </summary>
     /// <remarks>
-    /// Equivalent of Java https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/AtomicBoolean.html
+    /// Equivalent of Java https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/AtomicBoolean.html.
+    /// Based on https://github.com/mbolt35/CSharp.Atomic.
     /// </remarks>
     public class AtomicBoolean
     {
@@ -32,24 +33,15 @@ namespace Dunk.Tools.Foundation.Threading
         }
 
         /// <summary>
-        /// Gets the underlying bool value.
+        /// Gets or atomically sets the underlying bool value.
         /// </summary>
-        /// <returns>
-        /// The underlying value.
-        /// </returns>
-        public bool Get()
+        public bool Value
         {
-            return _value != 0;
-        }
-
-        /// <summary>
-        /// Atomically sets the underlying bool to a new 
-        /// specified value.
-        /// </summary>
-        /// <param name="value">The new value.</param>
-        public void Set(bool value)
-        {
-            Interlocked.Exchange(ref _value, value ? 1 : 0);
+            get { return _value != 0; }
+            set
+            {
+                Interlocked.Exchange(ref _value, value ? 1 : 0);
+            }
         }
 
         /// <summary>
@@ -96,7 +88,7 @@ namespace Dunk.Tools.Foundation.Threading
         /// <param name="atomicBoolean">The Atomic-Boolean instance.</param>
         public static implicit operator bool(AtomicBoolean atomicBoolean)
         {
-            return atomicBoolean.Get();
+            return atomicBoolean.Value;
         }
     }
 }

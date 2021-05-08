@@ -14,7 +14,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
             var i = new AtomicInt32();
 
             Assert.AreEqual(expected, (int)i);
-            Assert.AreEqual(expected, i.Get());
+            Assert.AreEqual(expected, i.Value);
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
             var i = new AtomicInt32(expected);
 
             Assert.AreEqual(expected, (int)i);
-            Assert.AreEqual(expected, i.Get());
+            Assert.AreEqual(expected, i.Value);
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
             }
 
             Assert.AreEqual(expected, (int)i);
-            Assert.AreEqual(expected, i.Get());
+            Assert.AreEqual(expected, i.Value);
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
             }
 
             Assert.AreEqual(expected, (int)i);
-            Assert.AreEqual(expected, i.Get());
+            Assert.AreEqual(expected, i.Value);
         }
 
         [Test]
@@ -90,7 +90,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
             System.Threading.Tasks.Parallel.For(0, expected, j => i.PostIncrement());
 
             Assert.AreEqual(expected, (int)i);
-            Assert.AreEqual(expected, i.Get());
+            Assert.AreEqual(expected, i.Value);
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
             System.Threading.Tasks.Parallel.For(0, expected, j => i.PreIncrement());
 
             Assert.AreEqual(expected, (int)i);
-            Assert.AreEqual(expected, i.Get());
+            Assert.AreEqual(expected, i.Value);
         }
 
         [Test]
@@ -112,7 +112,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
             const int expected = 0;
 
             var i = new AtomicInt32();
-            i.Set(1000);
+            i.Value = 1000;
 
             for (int j = 0; j < 1000; j++)
             {
@@ -120,7 +120,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
             }
 
             Assert.AreEqual(expected, (int)i);
-            Assert.AreEqual(expected, i.Get());
+            Assert.AreEqual(expected, i.Value);
         }
 
         [Test]
@@ -129,7 +129,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
             const int expected = 0;
 
             var i = new AtomicInt32();
-            i.Set(1000);
+            i.Value = 1000;
 
             for (int j = 0; j < 1000; j++)
             {
@@ -137,7 +137,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
             }
 
             Assert.AreEqual(expected, (int)i);
-            Assert.AreEqual(expected, i.Get());
+            Assert.AreEqual(expected, i.Value);
         }
 
         [Test]
@@ -146,12 +146,12 @@ namespace Dunk.Tools.Foundation.Test.Threading
             const int expected = 0;
 
             var i = new AtomicInt32();
-            i.Set(1000);
+            i.Value = 1000;
 
             System.Threading.Tasks.Parallel.For(0, 1000, j => i.PostDecrement());
 
             Assert.AreEqual(expected, (int)i);
-            Assert.AreEqual(expected, i.Get());
+            Assert.AreEqual(expected, i.Value);
         }
 
         [Test]
@@ -160,12 +160,12 @@ namespace Dunk.Tools.Foundation.Test.Threading
             const int expected = 0;
 
             var i = new AtomicInt32();
-            i.Set(1000);
+            i.Value = 1000;
 
             System.Threading.Tasks.Parallel.For(0, 1000, j => i.PreDecrement());
 
             Assert.AreEqual(expected, (int)i);
-            Assert.AreEqual(expected, i.Get());
+            Assert.AreEqual(expected, i.Value);
         }
 
         [Test]
@@ -181,7 +181,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
             }
 
             Assert.AreEqual(expected, (int)i);
-            Assert.AreEqual(expected, i.Get());
+            Assert.AreEqual(expected, i.Value);
         }
 
         [Test]
@@ -198,7 +198,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
             }
 
             Assert.AreEqual(expected, (int)i);
-            Assert.AreEqual(expected, i.Get());
+            Assert.AreEqual(expected, i.Value);
         }
 
         [Test]
@@ -211,7 +211,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
             System.Threading.Tasks.Parallel.For(0, expected, j => i.GetAndAdd(1));
 
             Assert.AreEqual(expected, (int)i);
-            Assert.AreEqual(expected, i.Get());
+            Assert.AreEqual(expected, i.Value);
         }
 
         [Test]
@@ -225,7 +225,7 @@ namespace Dunk.Tools.Foundation.Test.Threading
             System.Threading.Tasks.Parallel.For(0, 1000, j => i.GetAndAdd(-1));
 
             Assert.AreEqual(expected, (int)i);
-            Assert.AreEqual(expected, i.Get());
+            Assert.AreEqual(expected, i.Value);
         }
     }
 }

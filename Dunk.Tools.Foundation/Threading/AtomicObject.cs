@@ -6,7 +6,8 @@ namespace Dunk.Tools.Foundation.Threading
     /// Provides a lock free atomic wrapper over a <typeparamref name="T"/> reference.
     /// </summary>
     /// <remarks>
-    /// Equivalent of Java https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/AtomicReference.html
+    /// Equivalent of Java https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/AtomicReference.html.
+    /// Based on https://github.com/mbolt35/CSharp.Atomic.
     /// </remarks>
     public class AtomicObject<T>
         where T : class
@@ -32,26 +33,16 @@ namespace Dunk.Tools.Foundation.Threading
             _value = value;
         }
 
-
         /// <summary>
-        /// Gets the underlying reference object.
+        /// Gets or atomically sets the underlying reference value.
         /// </summary>
-        /// <returns>
-        /// The underlying reference object.
-        /// </returns>
-        public T Get()
+        public T Value
         {
-            return _value;
-        }
-
-        /// <summary>
-        /// Atomically sets the underlying reference to a new 
-        /// specified value.
-        /// </summary>
-        /// <param name="value">The new value.</param>
-        public void Set(T value)
-        {
-            Interlocked.Exchange(ref _value, value);
+            get { return _value; }
+            set
+            {
+                Interlocked.Exchange(ref _value, value);
+            }
         }
 
         /// <summary>
@@ -95,7 +86,7 @@ namespace Dunk.Tools.Foundation.Threading
         /// <param name="atomicObject">The Atomic-Object instance.</param>
         public static implicit operator T(AtomicObject<T> atomicObject)
         {
-            return atomicObject.Get();
+            return atomicObject.Value;
         }
     }
 }
