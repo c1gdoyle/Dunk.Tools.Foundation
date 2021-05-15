@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -117,6 +118,33 @@ namespace Dunk.Tools.Foundation.Extensions
             return GetMemberName((LambdaExpression)memberSelector);
         }
 
+        /// <summary>
+        /// Produces an expression identical to <paramref name="expression"/> except
+        /// with 'source' parameter replaced with 'target' parameter.
+        /// </summary>
+        /// <typeparam name="TInput">The Param type of the input expression.</typeparam>
+        /// <typeparam name="TOutput">The Param type of the output expression.</typeparam>
+        /// <param name="expression">The original expression.</param>
+        /// <param name="source">The Param type to be replaced.</param>
+        /// <param name="target">The Param type to use to replace.</param>
+        /// <returns>
+        /// An expression identical to <paramref name="expression"/> except
+        /// with 'source' parameter replaced with 'target' parameter.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="expression"/>, <paramref name="source"/> or <paramref name="target"/> was null.</exception>
+        public static Expression<TOutput> Replace<TInput, TOutput>(this Expression<TInput> expression, ParameterExpression source, ParameterExpression target)
+        {
+            expression.ThrowIfNull(nameof(expression),
+                $"Unable to Replace expression, {nameof(expression)} parameter cannot be null");
+            source.ThrowIfNull(nameof(source),
+                $"Unable to Replace expression, {nameof(source)} parameter cannot be null");
+            target.ThrowIfNull(nameof(target),
+                $"Unable to Replace expression, {nameof(target)} parameter cannot be null");
+
+            return new ParameterReplaceVisitor<TOutput>(source, target)
+                .VisitAndConvert(expression);
+        }
+
         private static MethodInfo GetMethodInfo(LambdaExpression methodSelector)
         {
             methodSelector.ThrowIfNull(nameof(methodSelector));
@@ -225,6 +253,51 @@ namespace Dunk.Tools.Foundation.Extensions
             }
             return ((MemberExpression)unaryExpression.Operand)
                 .Member.Name;
+        }
+
+        /// <summary>
+        /// An <see cref="ExpressionVisitor"/> implementation that replaces
+        /// a Parameter expression.
+        /// i.e.
+        /// Expression{Func{FromType}} to Expression{Func{ToType}} 
+        /// </summary>
+        /// <typeparam name="TOutput">The type of output expression.</typeparam>
+        /// <remarks>
+        /// See Ani's post at http://stackoverflow.com/questions/7051003/convert-expressionfuncfromtype-to-expressionfunctotype/7051104#7051104
+        /// </remarks>
+        private class ParameterReplaceVisitor<TOutput> : ExpressionVisitor
+        {
+            private readonly ParameterExpression _source;
+            private readonly ParameterExpression _target;
+
+            public ParameterReplaceVisitor(ParameterExpression source, ParameterExpression target)
+            {
+                _source = source;
+                _target = target;
+            }
+
+            internal Expression<TOutput> VisitAndConvert<T>(Expression<T> root)
+            {
+                return (Expression<TOutput>)VisitLambda(root);
+            }
+
+            protected override Expression VisitLambda<T>(Expression<T> node)
+            {
+                //leave all parameters alone except the one we want to replace.
+                var parameters = node.Parameters.Select(p => p == _source ? _target : p);
+
+                return Expression.Lambda<TOutput>(Visit(node.Body), parameters);
+            }
+
+            protected override Expression VisitParameter(ParameterExpression node)
+            {
+                //Replace the source with the target, visit other params as usual
+                if (node == _source)
+                {
+                    return _target;
+                }
+                return base.VisitParameter(node);
+            }
         }
     }
 }

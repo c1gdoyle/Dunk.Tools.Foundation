@@ -220,6 +220,71 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             Assert.Throws<ArgumentException>(() => ExpressionExtensions.GetMemberName<Person, int>(p => 2));
         }
 
+        [Test]
+        public void ReplaceThrowsIfOriginalExpressionIsNull()
+        {
+            Expression<Func<IEmployee, bool>> originalExpression = null;
+            ParameterExpression sourceParam = Expression.Parameter(typeof(IEmployee));
+            ParameterExpression targetParam = Expression.Parameter(typeof(Employee));
+
+            Assert.Throws<ArgumentNullException>(() => originalExpression.Replace<Func<IEmployee, bool>, Func<Employee, bool>>(
+                sourceParam,
+                targetParam));
+        }
+
+        [Test]
+        public void ReplaceThrowsIfSourceParameterIsNull()
+        {
+            Expression<Func<IEmployee, bool>> originalExpression = e => e.Name == "Bob";
+            ParameterExpression sourceParam = null;
+            ParameterExpression targetParam = Expression.Parameter(typeof(Employee));
+
+            Assert.Throws<ArgumentNullException>(() => originalExpression.Replace<Func<IEmployee, bool>, Func<Employee, bool>>(
+                sourceParam,
+                targetParam));
+        }
+
+        [Test]
+        public void ReplaceThrowsIfTargetParameterIsNull()
+        {
+            Expression<Func<IEmployee, bool>> originalExpression = e => e.Name == "Bob";
+            ParameterExpression sourceParam = Expression.Parameter(typeof(IEmployee));
+            ParameterExpression targetParam = null;
+
+            Assert.Throws<ArgumentNullException>(() => originalExpression.Replace<Func<IEmployee, bool>, Func<Employee, bool>>(
+                sourceParam,
+                targetParam));
+        }
+
+        [Test]
+        public void ReplaceReturnsExpectedExpression()
+        {
+            Expression<Func<IEmployee, bool>> originalExpression = e => e.Name == "Bob";
+            ParameterExpression sourceParam = Expression.Parameter(typeof(IEmployee));
+            ParameterExpression targetParam = Expression.Parameter(typeof(Employee));
+
+            var result = originalExpression.Replace<Func<IEmployee, bool>, Func<Employee, bool>>(
+                sourceParam,
+                targetParam);
+
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void ReplaceReturnsExpressionThatCompilesToExpectedFunc()
+        {
+            Expression<Func<IEmployee, bool>> originalExpression = e => e.Name == "Bob";
+            ParameterExpression sourceParam = Expression.Parameter(typeof(IEmployee));
+            ParameterExpression targetParam = Expression.Parameter(typeof(Employee));
+
+            var result = originalExpression.Replace<Func<IEmployee, bool>, Func<Employee, bool>>(
+                sourceParam,
+                targetParam).Compile();
+
+            Assert.IsFalse(result(new Employee { Name = "Tim" }));
+            Assert.IsTrue(result(new Employee { Name = "Bob" }));
+        }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2292: Allow backing fields for unit-testing")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S1144: Allow setter for unit-testing")]
         private class Person
@@ -253,6 +318,15 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             {
                 //do nothing
             }
+        }
+
+        private class Employee : IEmployee 
+        {
+            public string Name { get; set; }
+        }
+        private interface IEmployee 
+        {
+            string Name { get; }
         }
     }
 }
