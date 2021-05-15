@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using BenchmarkDotNet.Attributes;
 using Dunk.Tools.Foundation.Extensions;
 using NUnit.Framework;
