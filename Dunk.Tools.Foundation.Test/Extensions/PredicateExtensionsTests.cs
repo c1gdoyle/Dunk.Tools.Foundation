@@ -28,6 +28,95 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [Test]
+        public void PredicateExtensionBuildsAndExpressionWithTrue()
+        {
+            const string expected = "i => ((i > 0) AndAlso True)";
+
+            Expression<Func<int, bool>> exp1 = i => i > 0;
+            Expression<Func<int, bool>> trueExp = PredicateExtensions.True<int>();
+
+            Expression<Func<int, bool>> andExp = exp1.And(trueExp);
+            var results = _testArray.Where(andExp.Compile());
+
+            Assert.AreEqual(5, results.Count());
+            Assert.AreEqual(expected, andExp.ToString());
+        }
+
+        [Test]
+        public void PredicateExtensionBuildsAndExpressionWithFalse()
+        {
+            const string expected = "i => ((i > 0) AndAlso False)";
+
+            Expression<Func<int, bool>> exp1 = i => i > 0;
+            Expression<Func<int, bool>> falseExp = PredicateExtensions.False<int>();
+
+            Expression<Func<int, bool>> andExp = exp1.And(falseExp);
+            var results = _testArray.Where(andExp.Compile());
+
+            Assert.AreEqual(0, results.Count());
+            Assert.AreEqual(expected, andExp.ToString());
+        }
+
+        [Test]
+        public void PredicateExtensionAndExpressionsThrowsIfExpressionEnumerableIsNull()
+        {
+            Expression<Func<int, bool>>[] array = null;
+            Assert.Throws<ArgumentNullException>(() => array.And());
+        }
+
+        [Test]
+        public void PredicateExtensionAndExpressionsThrowsIfExpressionEnumerableIsEmpty()
+        {
+            Expression<Func<int, bool>>[] array = Array.Empty<Expression<Func<int, bool>>>();
+            Assert.Throws<ArgumentException>(() => array.And());
+        }
+
+        [Test]
+        public void PredicateExtensionBuildsAndExpressionFromExpressionEnumerable()
+        {
+            const string expected = "i => ((i > 0) AndAlso (i < 5))";
+
+            Expression<Func<int, bool>> exp1 = i => i > 0;
+            Expression<Func<int, bool>> exp2 = i => i < 5;
+
+            Expression<Func<int, bool>> andExp = new[] { exp1, exp2 }.And();
+            var results = _testArray.Where(andExp.Compile());
+
+            Assert.AreEqual(4, results.Count());
+            Assert.AreEqual(expected, andExp.ToString());
+        }
+
+        [Test]
+        public void PredicateExtensionBuildsAndExpressionWithTrueFromExpressionEnumerable()
+        {
+            const string expected = "i => ((i > 0) AndAlso True)";
+
+            Expression<Func<int, bool>> exp1 = i => i > 0;
+            Expression<Func<int, bool>> trueExp = PredicateExtensions.True<int>();
+
+            Expression<Func<int, bool>> andExp = new[] { exp1, trueExp }.And();
+            var results = _testArray.Where(andExp.Compile());
+
+            Assert.AreEqual(5, results.Count());
+            Assert.AreEqual(expected, andExp.ToString());
+        }
+
+        [Test]
+        public void PredicateExtensionBuildsAndExpressionWithFalseFromExpressionEnumerable()
+        {
+            const string expected = "i => ((i > 0) AndAlso False)";
+
+            Expression<Func<int, bool>> exp1 = i => i > 0;
+            Expression<Func<int, bool>> falseExp = PredicateExtensions.False<int>();
+
+            Expression<Func<int, bool>> andExp = new[] { exp1, falseExp }.And();
+            var results = _testArray.Where(andExp.Compile());
+
+            Assert.AreEqual(0, results.Count());
+            Assert.AreEqual(expected, andExp.ToString());
+        }
+
+        [Test]
         public void PredicateExtensionBuildsOrExpression()
         {
             const string expected = "i => ((i > 0) OrElse (i < 5))";
@@ -66,6 +155,65 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             Expression<Func<int, bool>> falseExp = PredicateExtensions.False<int>();
 
             Expression<Func<int, bool>> orExp = exp1.Or(falseExp);
+            var results = _testArray.Where(orExp.Compile());
+
+            Assert.AreEqual(5, results.Count());
+            Assert.AreEqual(expected, orExp.ToString());
+        }
+
+        [Test]
+        public void PredicateExtensionOrExpressionsThrowsIfExpressionEnumerableIsNull()
+        {
+            Expression<Func<int, bool>>[] array = null;
+            Assert.Throws<ArgumentNullException>(() => array.Or());
+        }
+
+        [Test]
+        public void PredicateExtensionOrExpressionsThrowsIfExpressionEnumerableIsEmpty()
+        {
+            Expression<Func<int, bool>>[] array = Array.Empty<Expression<Func<int,bool>>>();
+            Assert.Throws<ArgumentException>(() => array.Or());
+        }
+
+        [Test]
+        public void PredicateExtensionBuildsOrExpressionFromExpressionEnumerable()
+        {
+            const string expected = "i => ((i > 0) OrElse (i < 5))";
+
+            Expression<Func<int, bool>> exp1 = i => i > 0;
+            Expression<Func<int, bool>> exp2 = i => i < 5;
+
+            Expression<Func<int, bool>> orExp = new [] { exp1, exp2}.Or();
+            var results = _testArray.Where(orExp.Compile());
+
+            Assert.AreEqual(5, results.Count());
+            Assert.AreEqual(expected, orExp.ToString());
+        }
+
+        [Test]
+        public void PredicateExtensionBuildsOrExpressionWithTrueFromExpressionEnumerable()
+        {
+            const string expected = "i => ((i > 5) OrElse True)";
+
+            Expression<Func<int, bool>> exp1 = i => i > 5;
+            Expression<Func<int, bool>> trueExp = PredicateExtensions.True<int>();
+
+            Expression<Func<int, bool>> orExp = new[] { exp1, trueExp }.Or();
+            var results = _testArray.Where(orExp.Compile());
+
+            Assert.AreEqual(5, results.Count());
+            Assert.AreEqual(expected, orExp.ToString());
+        }
+
+        [Test]
+        public void PredicateExtensionBuildsOrExpressionWithFalseFromExpressionEnumerable()
+        {
+            const string expected = "i => ((i > 0) OrElse False)";
+
+            Expression<Func<int, bool>> exp1 = i => i > 0;
+            Expression<Func<int, bool>> falseExp = PredicateExtensions.False<int>();
+
+            Expression<Func<int, bool>> orExp = new[] { exp1, falseExp }.Or();
             var results = _testArray.Where(orExp.Compile());
 
             Assert.AreEqual(5, results.Count());

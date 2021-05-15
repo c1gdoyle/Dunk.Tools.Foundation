@@ -49,6 +49,40 @@ namespace Dunk.Tools.Foundation.Extensions
         }
 
         /// <summary>
+        /// Combines a sequence of expressions using the logical AND.
+        /// </summary>
+        /// <typeparam name="T">The type of parameter of the expressions.</typeparam>
+        /// <param name="expressions">The sequence of expressions to combine.</param>
+        /// <returns>
+        /// The combined expression.
+        /// </returns>
+        public static Expression<Func<T, bool>> And<T>(this IEnumerable<Expression<Func<T, bool>>> expressions)
+        {
+            if (expressions == null)
+            {
+                throw new ArgumentNullException(nameof(expressions),
+                    $"Unable to compose And, {nameof(expressions)} parameter cannot be null");
+            }
+            if (!expressions.Any())
+            {
+                throw new ArgumentException($"Unable to compose And, {nameof(expressions)} parameter cannot be empty",
+                    nameof(expressions));
+            }
+            var lambda = expressions.First();
+            var body = lambda.Body;
+            var parameter = lambda.Parameters[0];
+
+            foreach (var expression in expressions.Skip(1))
+            {
+                var visitor = new ParameterRebinder(expression.Parameters[0], parameter);
+                body = Expression.AndAlso(body, visitor.Visit(expression.Body));
+            }
+
+            lambda = Expression.Lambda<Func<T, bool>>(body, parameter);
+            return lambda;
+        }
+
+        /// <summary>
         /// Combines 2 specified expressions using the logical OR
         /// </summary>
         /// <typeparam name="T">The type of parameter of the expressions.</typeparam>
@@ -60,6 +94,40 @@ namespace Dunk.Tools.Foundation.Extensions
         public static Expression<Func<T, bool>> Or<T>(this Expression<Func<T, bool>> first, Expression<Func<T, bool>> second)
         {
             return first.Compose(second, Expression.OrElse);
+        }
+
+        /// <summary>
+        /// Combines a sequence of expressions using the logical OR.
+        /// </summary>
+        /// <typeparam name="T">The type of parameter of the expressions.</typeparam>
+        /// <param name="expressions">The sequence of expressions to combine.</param>
+        /// <returns>
+        /// The combined expression.
+        /// </returns>
+        public static Expression<Func<T,bool>> Or<T>(this IEnumerable<Expression<Func<T,bool>>> expressions) 
+        {
+            if(expressions == null)
+            {
+                throw new ArgumentNullException(nameof(expressions), 
+                    $"Unable to compose Or, {nameof(expressions)} parameter cannot be null");
+            }
+            if (!expressions.Any())
+            {
+                throw new ArgumentException($"Unable to compose Or, {nameof(expressions)} parameter cannot be empty",
+                    nameof(expressions));
+            }
+            var lambda = expressions.First();
+            var body = lambda.Body;
+            var parameter = lambda.Parameters[0];
+
+            foreach (var expression in expressions.Skip(1))
+            {
+                var visitor = new ParameterRebinder(expression.Parameters[0], parameter);
+                body = Expression.OrElse(body, visitor.Visit(expression.Body));
+            }
+
+            lambda = Expression.Lambda<Func<T, bool>>(body, parameter);
+            return lambda;
         }
 
         /// <summary>
@@ -93,6 +161,12 @@ namespace Dunk.Tools.Foundation.Extensions
         internal class ParameterRebinder : ExpressionVisitor
         {
             private readonly Dictionary<ParameterExpression, ParameterExpression> _paramMap;
+
+            public ParameterRebinder(ParameterExpression first, ParameterExpression second)
+            {
+                _paramMap = new Dictionary<ParameterExpression, ParameterExpression>();
+                _paramMap.Add(first, second);
+            }
 
             public ParameterRebinder(Dictionary<ParameterExpression, ParameterExpression> paramMap)
             {
