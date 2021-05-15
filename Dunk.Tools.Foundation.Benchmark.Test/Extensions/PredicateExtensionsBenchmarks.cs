@@ -17,14 +17,36 @@ namespace Dunk.Tools.Foundation.Benchmark.Test.Extensions
         public int Number { get; set; }
 
         [Benchmark]
-        public void ComposeAndAlso()
+        public void ComposeAndAlsoFromIndividualExpressions()
+        {
+            var result = _expressions[0];
+            for(int i = 1; i < _expressions.Length; i++)
+            {
+                result = result.And(_expressions[i]);
+            }
+            Assert.IsNotNull(result);
+        }
+
+        [Benchmark]
+        public void ComposeAndAlsoFromEnumerableOfExpressions()
         {
             var result = _expressions.And();
             Assert.IsNotNull(result);
         }
 
         [Benchmark]
-        public void ComposeOrElse()
+        public void ComposeOrElseFromIndividualExpressions()
+        {
+            var result = _expressions[0];
+            for (int i = 1; i < _expressions.Length; i++)
+            {
+                result = result.Or(_expressions[i]);
+            }
+            Assert.IsNotNull(result);
+        }
+
+        [Benchmark]
+        public void ComposeOrElseFromEnumerableOfExpressions()
         {
             var result = _expressions.Or();
             Assert.IsNotNull(result);
