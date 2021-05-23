@@ -10,6 +10,96 @@ namespace Dunk.Tools.Foundation.Test.Extensions
     public class StringExtensionsTests
     {
         [Test]
+        public void DeleteLastCharacterReturnsEmptyIfStringIsNull()
+        {
+            string s = null;
+            string result = s.DeleteLastCharacter();
+
+            Assert.AreEqual(string.Empty, result);
+        }
+
+        [Test]
+        public void DeleteLastCharacterReturnsEmptyIfStringIsEmpty()
+        {
+            string s = string.Empty;
+            string result = s.DeleteLastCharacter();
+
+            Assert.AreEqual(string.Empty, result);
+        }
+
+        [Test]
+        public void DeleteLastCharacterReturnsEmptyIfStringIsSingleCharacter()
+        {
+            string s = "s";
+            string result = s.DeleteLastCharacter();
+
+            Assert.AreEqual(string.Empty, result);
+        }
+
+        [Test]
+        public void DeleteLastCharacterReturnsExpectedString()
+        {
+            string s = "Hello World!";
+            string result = s.DeleteLastCharacter();
+
+            Assert.AreEqual("Hello World", result);
+        }
+
+        [Test]
+        public void DeleteLastCharacterReturnsExpectedStringForWhiteSpace()
+        {
+            string s = "      ";
+            string result = s.DeleteLastCharacter();
+
+            Assert.AreEqual("     ", result);
+        }
+
+        [Test]
+        public void TrimLastCharacterReturnsEmptyIfStringIsNull()
+        {
+            string s = null;
+            string result = s.TrimLastCharacter();
+
+            Assert.AreEqual(string.Empty, result);
+        }
+
+        [Test]
+        public void TrimLastCharacterReturnsEmptyIfStringIsEmpty()
+        {
+            string s = string.Empty;
+            string result = s.TrimLastCharacter();
+
+            Assert.AreEqual(string.Empty, result);
+        }
+
+        [Test]
+        public void TrimLastCharacterReturnsEmptyIfStringIsSingleCharacter()
+        {
+            string s = "s";
+            string result = s.TrimLastCharacter();
+
+            Assert.AreEqual(string.Empty, result);
+        }
+
+        [Test]
+        public void TrimLastCharacterReturnsExpectedString()
+        {
+            string s = "Hello World!";
+            string result = s.TrimLastCharacter();
+
+            Assert.AreEqual("Hello World", result);
+        }
+
+        [Test]
+        public void TrimeLastCharacterReturnsEmptyStringForWhiteSpace()
+        {
+            string s = "      ";
+            string result = s.TrimLastCharacter();
+
+            Assert.AreEqual(string.Empty, result);
+        }
+
+        [Test]
         public void IsASCIIReturnsTrueForASCIIString()
         {
             string value = "9quali52ty3";

@@ -20,7 +20,41 @@ namespace Dunk.Tools.Foundation.Extensions
         private static readonly Random Random = new Random();
 
         /// <summary>
-        /// Determines whether the arugment string can be represented with the ASCII (<see cref="Encoding.ASCII"/>) encoding.
+        /// Deletes the last character from a specified string.
+        /// </summary>
+        /// <param name="s">The string.</param>
+        /// <returns>
+        /// A string containing the characters from the original string expect the last, if 
+        /// original string is null or empty returns <see cref="string.Empty"/>.
+        /// </returns>
+        public static string DeleteLastCharacter(this string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return string.Empty;
+            }
+            return s.Remove(s.Length - 1);
+        }
+
+        /// <summary>
+        /// Trims the last character from a specified string.
+        /// </summary>
+        /// <param name="s">The string.</param>
+        /// <returns>
+        /// A string containing the characters from the original string expect the last, if 
+        /// original string is null or empty returns <see cref="string.Empty"/>.
+        /// </returns>
+        public static string TrimLastCharacter(this string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return string.Empty;
+            }
+            return s.Trim(s[s.Length - 1]);
+        }
+
+        /// <summary>
+        /// Determines whether the argument string can be represented with the ASCII (<see cref="Encoding.ASCII"/>) encoding.
         /// </summary>
         /// <param name="value">The value to check.</param>
         /// <returns>
