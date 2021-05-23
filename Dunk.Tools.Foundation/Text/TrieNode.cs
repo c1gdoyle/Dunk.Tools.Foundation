@@ -54,9 +54,9 @@ namespace Dunk.Tools.Foundation.Text
         }
 
         /// <summary>
-        /// Gets or sets whether this node is a leaf.
+        /// Gets or sets whether this node is a word.
         /// </summary>
-        internal bool IsLeaf
+        internal bool IsWord
         {
             get;
             set;

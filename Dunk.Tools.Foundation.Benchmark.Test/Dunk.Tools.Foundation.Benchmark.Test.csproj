@@ -28,6 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="vocabulary.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="words.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

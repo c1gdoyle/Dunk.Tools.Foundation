@@ -122,7 +122,7 @@ namespace Dunk.Tools.Foundation.Text
             var trieNode = GetTrieNode(word);
             return trieNode != null &&
                 !trieNode.IsRoot &&
-                trieNode.IsLeaf;
+                trieNode.IsWord;
         }
 
         /// <inheritdoc />
@@ -196,12 +196,12 @@ namespace Dunk.Tools.Foundation.Text
                 }
                 trieNode = child;
             }
-            trieNode.IsLeaf = true;
+            trieNode.IsWord = true;
         }
 
         private void DetermineCount(TrieNode node, ref int count)
         {
-            if (node.IsLeaf)
+            if (node.IsWord)
             {
                 count += 1;
             }
@@ -217,7 +217,7 @@ namespace Dunk.Tools.Foundation.Text
             {
                 yield break;
             }
-            if (trieNode.IsLeaf)
+            if (trieNode.IsWord)
             {
                 yield return buffer.ToString();
             }
@@ -269,7 +269,7 @@ namespace Dunk.Tools.Foundation.Text
                 nodes.Push(trieNode);
             }
 
-            return trieNode != null && !trieNode.IsLeaf ?
+            return trieNode != null && !trieNode.IsWord ?
                 new Stack<TrieNode>() :
                 nodes;
         }
@@ -277,7 +277,7 @@ namespace Dunk.Tools.Foundation.Text
         private void RemoveWord(Stack<TrieNode> trieNodes)
         {
             //mark the last node as not word
-            trieNodes.Peek().IsLeaf = false;
+            trieNodes.Peek().IsWord = false;
             Trim(trieNodes);
         }
 
@@ -295,7 +295,7 @@ namespace Dunk.Tools.Foundation.Text
             {
                 var trieNode = trieNodes.Pop();
                 var parentTrieNode = trieNodes.Peek();
-                if (trieNode.IsLeaf 
+                if (trieNode.IsWord 
                     || trieNode.GetChildren().Any())
                 {
                     break;
