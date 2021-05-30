@@ -11,6 +11,29 @@ namespace Dunk.Tools.Foundation.Test.Extensions
     public class TypeExtensionsTests
     {
         [Test]
+        public void GetAttributeFromTypeThrowsIfNull() 
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as Type).GetAttribute<TestClassAttribute>());
+        }
+
+        [Test]
+        public void GetAttributesFromMemberInfoThrowsIfNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as MemberInfo).GetAttributes<TestClassAttribute>());
+        }
+        [Test]
+        public void GetAttributesFromTypeThrowsIfNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as Type).GetAttributes<TestClassAttribute>());
+        }
+
+        [Test]
+        public void GetAttributeFromMemberInfoThrowsIfNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as MemberInfo).GetAttribute<TestClassAttribute>());
+        }
+
+        [Test]
         public void GetAttributeFromTypeReturnsAttribute()
         {
             Type type = typeof(Person);
@@ -121,7 +144,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         public void GetExtensionMethodsThrowsIfAssemblyIsNull()
         {
             Type t = typeof(Person);
-            Assert.Throws<ArgumentNullException>(() => t.GetExtensionMethods(null));
+            Assert.Throws<ArgumentNullException>(() => t.GetExtensionMethods(null as Assembly));
         }
 
         [Test]
@@ -145,6 +168,18 @@ namespace Dunk.Tools.Foundation.Test.Extensions
 
             Assert.IsNotNull(methods);
             Assert.AreEqual(1, methods.Count());
+        }
+
+        [Test]
+        public void GetBaseTypesThrowsIfTypeIsNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as Type).GetBaseTypes().ToList());
+        }
+
+        [Test]
+        public void GetBaseTypesExcludingObjectThrowsIfTypeIsNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => (null as Type).GetBaseTypesExcludingObject().ToList());
         }
 
         [Test]
@@ -276,6 +311,180 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             Assert.AreEqual("PropertyC", properties[0].Name);
             Assert.AreEqual("PropertyB", properties[1].Name);
             Assert.AreEqual("PropertyA", properties[2].Name);
+        }
+
+        [Test]
+        public void GetAllMethodsReturnsExpectedNumberOfMethodsFromInterface()
+        {
+            var methods = typeof(ITestDerivedDervied)
+                .GetAllMethods();
+
+            Assert.AreEqual(3, methods.Length);
+        }
+
+        [Test]
+        public void GetAllMethodsReturnsExpectedOrderOfMethodsFromInterface()
+        {
+            var methods = typeof(ITestDerivedDervied)
+                .GetAllMethods();
+
+            Assert.AreEqual("get_PropertyA", methods[0].Name);
+            Assert.AreEqual("get_PropertyB", methods[1].Name);
+            Assert.AreEqual("get_PropertyC", methods[2].Name);
+        }
+
+        [Test]
+        public void GetAllMethodsReturnsExpectedNumberOfMethodsFromClass()
+        {
+            var methods = typeof(TestDerivedDerived)
+                .GetAllMethods();
+
+            Assert.AreEqual(12, methods.Length);
+        }
+
+        [Test]
+        public void GetAllMethodsReturnsExpectedOrderOfMethodsFromClass()
+        {
+            var methods = typeof(TestDerivedDerived)
+                .GetAllMethods();
+
+            Assert.AreEqual("get_PropertyC", methods[0].Name);
+            Assert.AreEqual("set_PropertyC", methods[1].Name);
+            Assert.AreEqual("get_PropertyB", methods[2].Name);
+            Assert.AreEqual("set_PropertyB", methods[3].Name);
+            Assert.AreEqual("get_PropertyA", methods[4].Name);
+            Assert.AreEqual("set_PropertyA", methods[5].Name);
+        }
+
+        [Test]
+        public void GetAllMethodsExcludingObjectBaseReturnsExpectedNumberOfMethodsFromClass()
+        {
+            var methods = typeof(TestDerivedDerived)
+                .GetAllMethodsExcludingObjectBase();
+
+            Assert.AreEqual(6, methods.Length);
+        }
+
+        [Test]
+        public void GetAllMethodsExcludingObjectBaseReturnsExpectedOrderOfMethodsFromClass()
+        {
+            var methods = typeof(TestDerivedDerived)
+                .GetAllMethodsExcludingObjectBase();
+
+            Assert.AreEqual("get_PropertyC", methods[0].Name);
+            Assert.AreEqual("set_PropertyC", methods[1].Name);
+            Assert.AreEqual("get_PropertyB", methods[2].Name);
+            Assert.AreEqual("set_PropertyB", methods[3].Name);
+            Assert.AreEqual("get_PropertyA", methods[4].Name);
+            Assert.AreEqual("set_PropertyA", methods[5].Name);
+        }
+
+        [Test]
+        public void GetAllPublicMethodsReturnsExpectedNumberOfMethodsFromInterface()
+        {
+            var methods = typeof(ITestDerivedDervied)
+                .GetAllPublicMethods();
+
+            Assert.AreEqual(3, methods.Length);
+        }
+
+        [Test]
+        public void GetAllPublicMethodsReturnsExpectedOrderOfMethodsFromInterface()
+        {
+            var methods = typeof(ITestDerivedDervied)
+                .GetAllPublicMethods();
+
+            Assert.AreEqual("get_PropertyA", methods[0].Name);
+            Assert.AreEqual("get_PropertyB", methods[1].Name);
+            Assert.AreEqual("get_PropertyC", methods[2].Name);
+        }
+
+        [Test]
+        public void GetAllPublicMethodsReturnsExpectedNumberOfMethodsFromClass()
+        {
+            var methods = typeof(TestDerivedDerived)
+                .GetAllPublicMethods();
+
+            Assert.AreEqual(10, methods.Length);
+        }
+
+        [Test]
+        public void GetAllPublicMethodsReturnsExpectedOrderOfMethodsFromClass()
+        {
+            var methods = typeof(TestDerivedDerived)
+                .GetAllPublicMethods();
+
+            Assert.AreEqual("get_PropertyC", methods[0].Name);
+            Assert.AreEqual("set_PropertyC", methods[1].Name);
+            Assert.AreEqual("get_PropertyB", methods[2].Name);
+            Assert.AreEqual("set_PropertyB", methods[3].Name);
+            Assert.AreEqual("get_PropertyA", methods[4].Name);
+            Assert.AreEqual("set_PropertyA", methods[5].Name);
+        }
+
+        [Test]
+        public void GetAllPublicMethodsExcludingObjectBaseReturnsExpectedNumberOfMethodsFromClass()
+        {
+            var methods = typeof(TestDerivedDerived)
+                .GetAllPublicMethodsExcludingObjectBase();
+
+            Assert.AreEqual(6, methods.Length);
+        }
+
+        [Test]
+        public void GetAllPublicMethodsExcludingObjectBaseReturnsExpectedOrderOfMethodsFromClass()
+        {
+            var methods = typeof(TestDerivedDerived)
+                .GetAllPublicMethodsExcludingObjectBase();
+
+            Assert.AreEqual("get_PropertyC", methods[0].Name);
+            Assert.AreEqual("set_PropertyC", methods[1].Name);
+            Assert.AreEqual("get_PropertyB", methods[2].Name);
+            Assert.AreEqual("set_PropertyB", methods[3].Name);
+            Assert.AreEqual("get_PropertyA", methods[4].Name);
+            Assert.AreEqual("set_PropertyA", methods[5].Name);
+        }
+
+        [Test]
+        public void GetAllPropertiesThrowsIfTypeIsNull()
+        {
+            Type t = null;
+            Assert.Throws<ArgumentNullException>(() => t.GetAllProperties());
+        }
+
+        [Test]
+        public void GetAllPublicPropertiesThrowsIfTypeIsNull()
+        {
+            Type t = null;
+            Assert.Throws<ArgumentNullException>(() => t.GetAllPublicProperties());
+        }
+
+        [Test]
+        public void GetAllMethodsThrowsIfTypeIsNull()
+        {
+            Type t = null;
+            Assert.Throws<ArgumentNullException>(() => t.GetAllMethods());
+        }
+
+        [Test]
+        public void GetAllMethodsExcludingObjectBaseThrowsIfTypeIsNull()
+        {
+            Type t = null;
+            Assert.Throws<ArgumentNullException>(() => t.GetAllMethodsExcludingObjectBase());
+        }
+
+        [Test]
+        public void GetAllPublicMethodsThrowsIfTypeIsNull()
+        {
+            Type t = null;
+            Assert.Throws<ArgumentNullException>(() => t.GetAllPublicMethods());
+        }
+
+        [Test]
+        public void GetAllPublicMethodsExcludingObjectBaseThrowsIfTypeIsNull()
+        {
+            Type t = null;
+            Assert.Throws<ArgumentNullException>(() => t.GetAllPublicMethodsExcludingObjectBase());
         }
 
         [TestClass(Id = 1)]

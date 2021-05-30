@@ -19,6 +19,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <returns>
         /// An instance of <typeparamref name="TAttribute"/> if it was found on the type; otherwise null.
         /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> was null.</exception>
         public static TAttribute GetAttribute<TAttribute>(this Type type)
             where TAttribute : Attribute
         {
@@ -34,6 +35,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <returns>
         /// An instance of <typeparamref name="TAttribute"/> if it was found on the member; otherwise null.
         /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="member"/> was null.</exception>
         public static TAttribute GetAttribute<TAttribute>(this MemberInfo member)
             where TAttribute : Attribute
         {
@@ -49,10 +51,12 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <returns>
         /// An array of <typeparamref name="TAttribute"/> if any were found on the type; otherwise an empty array.
         /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> was null.</exception>
         public static TAttribute[] GetAttributes<TAttribute>(this Type type)
             where TAttribute : Attribute
         {
-            type.ThrowIfNull(nameof(type));
+            type.ThrowIfNull(nameof(type),
+                $"Unable to get Attributes from type, {nameof(type)} parameter cannot be null");
 
             Attribute[] attributes = Attribute.GetCustomAttributes(type, typeof(TAttribute), false);
 
@@ -67,10 +71,12 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <returns>
         /// An array of <typeparamref name="TAttribute"/> if any were found on the member; otherwise an empty array.
         /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="member"/> was null.</exception>
         public static TAttribute[] GetAttributes<TAttribute>(this MemberInfo member)
             where TAttribute : Attribute
         {
-            member.ThrowIfNull(nameof(member));
+            member.ThrowIfNull(nameof(member), 
+                $"Unable to get Attributes from member, {nameof(member)} parameter cannot be null");
 
             Attribute[] attributes = Attribute.GetCustomAttributes(member, typeof(TAttribute), false);
 
@@ -84,9 +90,11 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <returns>
         /// A collection of <see cref="MethodInfo"/>'s representing the extension methods of this type.
         /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="extendedType"/> was null.</exception>
         public static IEnumerable<MethodInfo> GetExtensionMethods(this Type extendedType)
         {
-            extendedType.ThrowIfNull(nameof(extendedType));
+            extendedType.ThrowIfNull(nameof(extendedType),
+                $"Unable to get Extension methods, {nameof(extendedType)} parameter cannot be null.");
 
             List<Type> types = new List<Type>();
 
@@ -109,10 +117,13 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <returns>
         /// A collection of <see cref="MethodInfo"/>'s representing the extension methods of this type.
         /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="extendedType"/> or <paramref name="assembly"/> was null.</exception>
         public static IEnumerable<MethodInfo> GetExtensionMethods(this Type extendedType, Assembly assembly)
         {
-            extendedType.ThrowIfNull(nameof(extendedType));
-            assembly.ThrowIfNull(nameof(assembly));
+            extendedType.ThrowIfNull(nameof(extendedType),
+                $"Unable to get Extension methods, {nameof(extendedType)} parameter cannot be null.");
+            assembly.ThrowIfNull(nameof(assembly),
+                $"Unable to get Extension methods, {nameof(assembly)} parameter cannot be null.");
 
             return assembly.GetTypes()
                 .Where(t => t.IsSealed && !t.IsGenericType && !t.IsNested)
@@ -129,6 +140,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <returns>
         /// A sequence containing the base types.
         /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> was null.</exception>
         public static IEnumerable<Type> GetBaseTypes(this Type type)
         {
             return GetBaseTypes(type, true);
@@ -143,8 +155,12 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <returns>
         /// A sequence containing the base types.
         /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> was null.</exception>
         public static IEnumerable<Type> GetBaseTypes(this Type type, bool includeSelf)
         {
+            type.ThrowIfNull(nameof(type),
+                $"Unable to get Base-Types, {nameof(type)} cannot be null");
+
             if (includeSelf)
             {
                 yield return type;
@@ -166,6 +182,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <returns>
         /// A sequence containing the base types.
         /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> was null.</exception>
         public static IEnumerable<Type> GetBaseTypesExcludingObject(this Type type)
         {
             return GetBaseTypesExcludingObject(type, true);
@@ -180,8 +197,12 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <returns>
         /// A sequence containing the base types.
         /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> was null.</exception>
         public static IEnumerable<Type> GetBaseTypesExcludingObject(this Type type, bool includeSelf)
         {
+            type.ThrowIfNull(nameof(type),
+                $"Unable to get Base-Types, {nameof(type)} cannot be null");
+
             if (includeSelf &&
                 type != typeof(object))
             {
@@ -204,43 +225,17 @@ namespace Dunk.Tools.Foundation.Extensions
         /// An array of properties from the given type.
         /// </returns>
         /// <remarks>
-        /// Note if the type is a non-interface the flat hierarchy will be ordered from derived class propertoes to base class properties,
+        /// Note if the type is a non-interface the flat hierarchy will be ordered from derived class properties to base class properties,
         /// whilst if the type is an interface that flat hierarchy will be ordered from base class properties to derived class properties.
         /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> was null.</exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S3011:Method is intended to expose all properties.")]
         public static PropertyInfo[] GetAllProperties(this Type type)
         {
-            if (type.IsInterface)
-            {
-                var properties = new List<PropertyInfo>();
+            type.ThrowIfNull(nameof(type),
+                   $"Unable to get Properties, {nameof(type)} cannot be null");
 
-                var considered = new List<Type>(new Type[] { type });
-                var queue = new Queue<Type>(new Type[] { type });
-
-                while (queue.Count != 0)
-                {
-                    var subType = queue.Dequeue();
-                    foreach (var subInterface in subType.GetInterfaces())
-                    {
-                        if (considered.Contains(subInterface))
-                        {
-                            continue;
-                        }
-                        considered.Add(subInterface);
-                        queue.Enqueue(subInterface);
-                    }
-
-                    var newProperties = subType.GetProperties(BindingFlags.FlattenHierarchy
-                        | BindingFlags.Public
-                        | BindingFlags.NonPublic
-                        | BindingFlags.Instance)
-                        .Where(x => !properties.Contains(x));
-
-                    properties.InsertRange(0, newProperties);
-                }
-                return properties.ToArray();
-            }
-            return type.GetProperties(BindingFlags.FlattenHierarchy
+            return GetProperties(type, BindingFlags.FlattenHierarchy
                         | BindingFlags.Public
                         | BindingFlags.NonPublic
                         | BindingFlags.Instance);
@@ -249,7 +244,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <summary>
         /// Gets all public instance properties of a type in a flat hierarchy.
         /// </summary>
-        /// <param name="type">The typeo.</param>
+        /// <param name="type">The type.</param>
         /// <returns>
         /// An array of properties from the given type.
         /// </returns>
@@ -257,7 +252,109 @@ namespace Dunk.Tools.Foundation.Extensions
         /// Note if the type is a non-interface the flat hierarchy will be ordered from derived class propertoes to base class properties,
         /// whilst if the type is an interface that flat hierarchy will be ordered from base class properties to derived class properties.
         /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> was null.</exception>
         public static PropertyInfo[] GetAllPublicProperties(this Type type)
+        {
+            type.ThrowIfNull(nameof(type),
+                   $"Unable to get Properties, {nameof(type)} cannot be null");
+
+            return GetProperties(type, BindingFlags.FlattenHierarchy
+                        | BindingFlags.Public
+                        | BindingFlags.Instance);
+        }
+
+        /// <summary>
+        /// Gets all instance methods of a type in a flat hierarchy.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns>
+        /// An array of methods from the given type.
+        /// </returns>
+        /// <remarks>
+        /// Note if the type is a non-interface the flat hierarchy will be ordered from derived class methods to base class methods,
+        /// whilst if the type is an interface that flat hierarchy will be ordered from base class methods to derived class methods.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> was null.</exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S3011:Method is intended to expose all methods.")]
+        public static MethodInfo[] GetAllMethods(this Type type)
+        {
+            type.ThrowIfNull(nameof(type),
+                   $"Unable to get Methods, {nameof(type)} cannot be null");
+
+            return GetMethods(type, BindingFlags.FlattenHierarchy
+                        | BindingFlags.Public
+                        | BindingFlags.NonPublic
+                        | BindingFlags.Instance);
+        }
+
+        /// <summary>
+        /// Gets all instance methods of a type in a flat hierarchy excluding the <see cref="object"/> methods.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns>
+        /// An array of methods from the given type.
+        /// </returns>
+        /// <remarks>
+        /// Note if the type is a non-interface the flat hierarchy will be ordered from derived class methods to base class methods,
+        /// whilst if the type is an interface that flat hierarchy will be ordered from base class methods to derived class methods.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> was null.</exception>
+        public static MethodInfo[] GetAllMethodsExcludingObjectBase(this Type type)
+        {
+            type.ThrowIfNull(nameof(type),
+                   $"Unable to get Methods, {nameof(type)} cannot be null");
+
+            return GetAllMethods(type)
+                .Where(m => m.DeclaringType != typeof(object))
+                .ToArray();
+        }
+
+        /// <summary>
+        /// Gets all public instance methods of a type in a flat hierarchy.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns>
+        /// An array of methods from the given type.
+        /// </returns>
+        /// <remarks>
+        /// Note if the type is a non-interface the flat hierarchy will be ordered from derived class methods to base class methods,
+        /// whilst if the type is an interface that flat hierarchy will be ordered from base class methods to derived class methods.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> was null.</exception>
+        public static MethodInfo[] GetAllPublicMethods(this Type type)
+        {
+            type.ThrowIfNull(nameof(type),
+                   $"Unable to get Methods, {nameof(type)} cannot be null");
+
+            return GetMethods(type, BindingFlags.FlattenHierarchy
+                        | BindingFlags.Public
+                        | BindingFlags.Instance);
+        }
+
+        /// <summary>
+        /// Gets all public instance methods of a type in a flat hierarchy excluding the <see cref="object"/> methods.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns>
+        /// An array of methods from the given type.
+        /// </returns>
+        /// <remarks>
+        /// Note if the type is a non-interface the flat hierarchy will be ordered from derived class methods to base class methods,
+        /// whilst if the type is an interface that flat hierarchy will be ordered from base class methods to derived class methods.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> was null.</exception>
+        public static MethodInfo[] GetAllPublicMethodsExcludingObjectBase(this Type type)
+        {
+            type.ThrowIfNull(nameof(type),
+                   $"Unable to get Methods, {nameof(type)} cannot be null");
+
+            return GetAllPublicMethods(type)
+                .Where(m => m.DeclaringType != typeof(object))
+                .ToArray();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static PropertyInfo[] GetProperties(Type type, BindingFlags bindingFlags)
         {
             if (type.IsInterface)
             {
@@ -279,18 +376,47 @@ namespace Dunk.Tools.Foundation.Extensions
                         queue.Enqueue(subInterface);
                     }
 
-                    var newProperties = subType.GetProperties(BindingFlags.FlattenHierarchy
-                        | BindingFlags.Public
-                        | BindingFlags.Instance)
+                    var newProperties = subType.GetProperties(bindingFlags)
                         .Where(x => !properties.Contains(x));
 
                     properties.InsertRange(0, newProperties);
                 }
                 return properties.ToArray();
             }
-            return type.GetProperties(BindingFlags.FlattenHierarchy
-                        | BindingFlags.Public
-                        | BindingFlags.Instance);
+            return type.GetProperties(bindingFlags);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static MethodInfo[] GetMethods(Type type, BindingFlags bindingFlags)
+        {
+            if (type.IsInterface)
+            {
+                var methods = new List<MethodInfo>();
+
+                var considered = new List<Type>(new Type[] { type });
+                var queue = new Queue<Type>(new Type[] { type });
+
+                while (queue.Count != 0)
+                {
+                    var subType = queue.Dequeue();
+                    foreach (var subInterface in subType.GetInterfaces())
+                    {
+                        if (considered.Contains(subInterface))
+                        {
+                            continue;
+                        }
+                        considered.Add(subInterface);
+                        queue.Enqueue(subInterface);
+                    }
+
+                    var newMethods = subType.GetMethods(bindingFlags)
+                        .Where(x => !methods.Contains(x));
+
+                    methods.InsertRange(0, newMethods);
+                }
+                return methods.ToArray();
+            }
+            return type.GetMethods(bindingFlags);
         }
     }
 }
