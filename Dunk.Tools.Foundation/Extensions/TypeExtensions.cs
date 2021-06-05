@@ -354,6 +354,23 @@ namespace Dunk.Tools.Foundation.Extensions
         }
 
         /// <summary>
+        /// Returns the underlying element type for a specified sequence type.
+        /// </summary>
+        /// <param name="sequenceType">The sequence type.</param>
+        /// <returns>
+        /// The underlying element type of the original sequence.
+        /// </returns>
+        public static Type GetEnumerableElementType(this Type sequenceType)
+        {
+            Type ienum = FindEnumerable(sequenceType);
+            if (ienum == null)
+            {
+                return null;
+            }
+            return ienum.GetGenericArguments()[0];
+        }
+
+        /// <summary>
         /// Returns the underlying type for a specified sequence type.
         /// </summary>
         /// <param name="sequenceType">The sequence type.</param>

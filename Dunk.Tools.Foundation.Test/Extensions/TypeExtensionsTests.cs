@@ -597,6 +597,114 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             Assert.AreEqual(expected, result);
         }
 
+        [Test]
+        public void GetEnumerableElementTypeReturnsNullIfTypeIsNull()
+        {
+            Type sequenceType = null;
+
+            Type result = sequenceType.GetEnumerableElementType();
+
+            Assert.IsNull(result);
+        }
+
+        [Test]
+        public void GetEnumerableElementTypeReturnsNullIfTypeIsString()
+        {
+            Type sequenceType = typeof(string);
+
+            Type result = sequenceType.GetEnumerableElementType();
+
+            Assert.IsNull(result);
+        }
+
+        [Test]
+        public void GetEnumerableElementTypeReturnsNullForNonEnumerableType()
+        {
+            Type sequenceType = typeof(DateTime);
+
+            Type result = sequenceType.GetEnumerableElementType();
+
+            Assert.IsNull(result);
+        }
+
+        [Test]
+        public void GetEnumerableElementTypeReturnsExpectedTypeIfSequenceTypeIsEnumerable()
+        {
+            Type expected = typeof(int);
+
+            Type sequenceType = typeof(int[]);
+
+            Type result = sequenceType.GetEnumerableElementType();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetEnumerableElementTypeReturnsExpectedTypeIfSequenceIsList()
+        {
+            Type expected = typeof(int);
+
+            Type sequenceType = typeof(List<int>);
+
+            Type result = sequenceType.GetEnumerableElementType();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetEnumerableElementTypeReturnsExpectedTypeIfSequenceIsDictionary()
+        {
+            Type expected = typeof(KeyValuePair<string, int>);
+
+            Type sequenceType = typeof(Dictionary<string, int>);
+
+            Type result = sequenceType.GetEnumerableElementType();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetEnumerableElementTypeReturnsExpectedTypeIfSequenceIsIList()
+        {
+            Type expected = typeof(string);
+
+            Type sequenceType = typeof(IList<string>);
+
+            Type result = sequenceType.GetEnumerableElementType();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetEnumerableElementTypeReturnsExpectedTypeIfSequenceIsIDictionary()
+        {
+            Type expected = typeof(KeyValuePair<string, int>);
+
+            Type sequenceType = typeof(IDictionary<string, int>);
+
+            Type result = sequenceType.GetEnumerableElementType();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetEnumerableElementTypeReturnsExpectedTypeIfSequenceIsCustomEnumerable()
+        {
+            Type expected = typeof(string);
+
+            Type sequenceType = typeof(MaxDHeap<string>);
+
+            Type result = sequenceType.GetEnumerableElementType();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expected, result);
+        }
+
         [TestClass(Id = 1)]
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2292: Allow backing fields for unit-testing")]
