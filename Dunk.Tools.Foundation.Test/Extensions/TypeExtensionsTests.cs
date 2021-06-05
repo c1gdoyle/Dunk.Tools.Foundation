@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using Dunk.Tools.Foundation.Collections;
 using Dunk.Tools.Foundation.Extensions;
 using NUnit.Framework;
 
@@ -11,7 +13,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
     public class TypeExtensionsTests
     {
         [Test]
-        public void GetAttributeFromTypeThrowsIfNull() 
+        public void GetAttributeFromTypeThrowsIfNull()
         {
             Assert.Throws<ArgumentNullException>(() => (null as Type).GetAttribute<TestClassAttribute>());
         }
@@ -485,6 +487,114 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         {
             Type t = null;
             Assert.Throws<ArgumentNullException>(() => t.GetAllPublicMethodsExcludingObjectBase());
+        }
+
+        [Test]
+        public void FindEnumerableReturnsNullIfTypeIsNull()
+        {
+            Type sequenceType = null;
+
+            Type result = sequenceType.FindEnumerable();
+
+            Assert.IsNull(result);
+        }
+
+        [Test]
+        public void FindEnumerableReturnsNullIfTypeIsString()
+        {
+            Type sequenceType = typeof(string);
+
+            Type result = sequenceType.FindEnumerable();
+
+            Assert.IsNull(result);
+        }
+
+        [Test]
+        public void FindEnumerableReturnsNullForNonEnumerableType()
+        {
+            Type sequenceType = typeof(DateTime);
+
+            Type result = sequenceType.FindEnumerable();
+
+            Assert.IsNull(result);
+        }
+
+        [Test]
+        public void FindEnumerableReturnsExpectedTypeIfSequenceTypeIsEnumerable()
+        {
+            Type expected = typeof(IEnumerable<int>);
+
+            Type sequenceType = typeof(int[]);
+
+            Type result = sequenceType.FindEnumerable();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void FindEnumerableReturnsExpectedTypeIfSequenceIsList()
+        {
+            Type expected = typeof(IEnumerable<int>);
+
+            Type sequenceType = typeof(List<int>);
+
+            Type result = sequenceType.FindEnumerable();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void FindEnumerableReturnsExpectedTypeIfSequenceIsDictionary()
+        {
+            Type expected = typeof(IEnumerable<KeyValuePair<string,int>>);
+
+            Type sequenceType = typeof(Dictionary<string, int>);
+
+            Type result = sequenceType.FindEnumerable();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void FindEnumerableReturnsExpectedTypeIfSequenceIsIList()
+        {
+            Type expected = typeof(IEnumerable<string>);
+
+            Type sequenceType = typeof(IList<string>);
+
+            Type result = sequenceType.FindEnumerable();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void FindEnumerableReturnsExpectedTypeIfSequenceIsIDictionary()
+        {
+            Type expected = typeof(IEnumerable<KeyValuePair<string, int>>);
+
+            Type sequenceType = typeof(IDictionary<string, int>);
+
+            Type result = sequenceType.FindEnumerable();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void FindEnumerableReturnsExpectedTypeIfSequenceIsCustomEnumerable()
+        {
+            Type expected = typeof(IEnumerable<string>);
+
+            Type sequenceType = typeof(MaxDHeap<string>);
+
+            Type result = sequenceType.FindEnumerable();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expected, result);
         }
 
         [TestClass(Id = 1)]

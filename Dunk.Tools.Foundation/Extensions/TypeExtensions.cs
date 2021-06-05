@@ -353,6 +353,52 @@ namespace Dunk.Tools.Foundation.Extensions
                 .ToArray();
         }
 
+        /// <summary>
+        /// Returns the underlying type for a specified sequence type.
+        /// </summary>
+        /// <param name="sequenceType">The sequence type.</param>
+        /// <returns>
+        /// The underlying type of the original sequence.
+        /// </returns>
+        public static Type FindEnumerable(this Type sequenceType)
+        {
+            if (sequenceType == null || 
+                sequenceType == typeof(string))
+            {
+                return null;
+            }
+
+            // array type
+            if (sequenceType.IsArray)
+            {
+                return typeof(IEnumerable<>)
+                    .MakeGenericType(sequenceType.GetElementType());
+            }
+
+            // generic enumerable type
+            Type genericType = FindEnumerableForGeneric(sequenceType);
+            if(genericType != null)
+            {
+                return genericType;
+            }
+
+            // interface type
+            Type interfaceType = FindEnumerableForInterface(sequenceType);
+            if(interfaceType != null)
+            {
+                return interfaceType;
+            }
+
+            // base type
+            if (sequenceType.BaseType != null && 
+                sequenceType.BaseType != typeof(object))
+            {
+                return FindEnumerable(sequenceType.BaseType);
+            }
+
+            return null;
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static PropertyInfo[] GetProperties(Type type, BindingFlags bindingFlags)
         {
@@ -417,6 +463,40 @@ namespace Dunk.Tools.Foundation.Extensions
                 return methods.ToArray();
             }
             return type.GetMethods(bindingFlags);
+        }
+
+        private static Type FindEnumerableForGeneric(Type sequenceType)
+        {
+            if (sequenceType.IsGenericType)
+            {
+                foreach (Type arg in sequenceType.GetGenericArguments())
+                {
+                    Type ienum = typeof(IEnumerable<>).MakeGenericType(arg);
+                    if (ienum.IsAssignableFrom(sequenceType))
+                    {
+                        return ienum;
+                    }
+                }
+            }
+            return null;
+        }
+
+        private static Type FindEnumerableForInterface(Type sequenceType)
+        {
+            Type[] interfaceTypes = sequenceType.GetInterfaces();
+            if (interfaceTypes != null &&
+                interfaceTypes.Length != 0)
+            {
+                foreach (Type interfaceType in interfaceTypes)
+                {
+                    Type ienum = FindEnumerable(interfaceType);
+                    if (ienum != null)
+                    {
+                        return ienum;
+                    }
+                }
+            }
+            return null;
         }
     }
 }
