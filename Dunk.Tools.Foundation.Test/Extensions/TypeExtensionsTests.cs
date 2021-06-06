@@ -705,6 +705,106 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             Assert.AreEqual(expected, result);
         }
 
+        [Test]
+        public void ToReadableStringReturnsExpectedStringIfTypeIsNull()
+        {
+            const string expected = "";
+
+            string result = (null as Type).ToReadableString();
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void ToReadableStringReturnsExpectedStringIfTypeIsString()
+        {
+            const string expected = "String";
+
+            string result = typeof(string).ToReadableString();
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void ToReadableStringReturnsExpectedStringIfTypeIsArray()
+        {
+            const string expected = "Int32[]";
+
+            string result = typeof(int[]).ToReadableString();
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void ToReadableStringReturnsExpectedStringIfTypeIsList()
+        {
+            const string expected = "List<Int32>";
+
+            string result = typeof(List<int>).ToReadableString();
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void ToReadableStringReturnsExpectedStringIfTypeIsDictionary()
+        {
+            const string expected = "Dictionary<String, Int32>";
+
+            string result = typeof(Dictionary<string, int>).ToReadableString();
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void ToReadableStringReturnsExpectedStringIfTypeIsIList()
+        {
+            const string expected = "IList<Int32>";
+
+            string result = typeof(IList<int>).ToReadableString();
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void ToReadableStringReturnsExpectedStringIfTypeIsIDictionary()
+        {
+            const string expected = "IDictionary<String, Int32>";
+
+            string result = typeof(IDictionary<string, int>).ToReadableString();
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void ToReadableStringReturnsExpectedStringIfTypeIsCustomType()
+        {
+            const string expected = "AtomicInt64";
+
+            string result = typeof(Foundation.Threading.AtomicInt64).ToReadableString();
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void ToReadableStringReturnsExpectedStringIfTypeIsCustomEnumerableType()
+        {
+            const string expected = "MaxDHeap<Int32>";
+
+            string result = typeof(MaxDHeap<int>).ToReadableString();
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void ToReadableStringReturnsExpectedStringIfTypeIsCustomInterface()
+        {
+            const string expected = "IHeap<Int32>";
+
+            string result = typeof(IHeap<int>).ToReadableString();
+
+            Assert.AreEqual(expected, result);
+        }
+
         [TestClass(Id = 1)]
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2292: Allow backing fields for unit-testing")]

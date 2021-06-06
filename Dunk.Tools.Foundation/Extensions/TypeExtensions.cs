@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace Dunk.Tools.Foundation.Extensions
 {
@@ -363,11 +364,11 @@ namespace Dunk.Tools.Foundation.Extensions
         public static Type GetEnumerableElementType(this Type sequenceType)
         {
             Type ienum = FindEnumerable(sequenceType);
-            if (ienum == null)
+            if (ienum != null)
             {
-                return null;
+                return ienum.GetGenericArguments()[0];
             }
-            return ienum.GetGenericArguments()[0];
+            return null;            
         }
 
         /// <summary>
@@ -414,6 +415,25 @@ namespace Dunk.Tools.Foundation.Extensions
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Returns a string representation of the given type suitable for use in logging
+        /// and in messages, with generic type parameters printed as they are in code.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns>The string.</returns>
+        public static string ToReadableString(this Type type)
+        {
+            if(type == null)
+            {
+                return string.Empty;
+            }
+
+            StringBuilder sb = new StringBuilder();
+            GetResolvedTypeName(type, ref sb);
+
+            return sb.ToString();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -514,6 +534,38 @@ namespace Dunk.Tools.Foundation.Extensions
                 }
             }
             return null;
+        }
+
+        private static void GetResolvedTypeName(Type t, ref StringBuilder stringBuilder)
+        {
+            if (t.IsGenericType)
+            {
+                //type name
+                string name = t.Name;
+
+                //strip off the `1, `2, etc.
+                string chopped = name.Substring(0, name.IndexOf("`"));
+
+                stringBuilder.Append(chopped);
+                stringBuilder.Append('<');
+                Type[] genericParameters = t.GetGenericArguments();
+                for (int i = 0; i < genericParameters.Length; i++)
+                {
+                    if (i != 0)
+                    {
+                        stringBuilder.Append(',');
+                        stringBuilder.Append(' ');
+                    }
+
+                    Type underlyingType = genericParameters[i];
+                    GetResolvedTypeName(underlyingType, ref stringBuilder); // add the next type
+                }
+                stringBuilder.Append('>');
+            }
+            else
+            {
+                stringBuilder.Append(t.Name); //otherwise just the classname itself
+            }
         }
     }
 }
