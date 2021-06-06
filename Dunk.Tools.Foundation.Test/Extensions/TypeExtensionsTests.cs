@@ -805,6 +805,124 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             Assert.AreEqual(expected, result);
         }
 
+        [Test]
+        public void CanBeExplicitlyCastToThrowsIfTypeIsNull()
+        {
+            Type type = null;
+
+            Assert.Throws<ArgumentNullException>(() => type.CanBeExplicitlyCastTo<TestImplicitCast>());
+        }
+
+        [Test]
+        public void CanBeExplicitlyCastToReturnsTrueIfTypeCanBeCast()
+        {
+            Type type = typeof(TestExplicitCast);
+
+            bool result = type.CanBeExplicitlyCastTo<TestImplicitCast>();
+
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void CanBeExplicitlyCastToReturnsFalseIfTypeCannotBeCast()
+        {
+            Type type = typeof(TestImplicitCast);
+
+            bool result = type.CanBeExplicitlyCastTo<TestExplicitCast>();
+
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void GetExplicitConversionReturnsDelegateForCasting()
+        {
+            TestExplicitCast x = new TestExplicitCast(1);
+
+            Func<TestExplicitCast, TestImplicitCast> castFunc = x.GetType()
+                .GetExplicitConversion<TestExplicitCast, TestImplicitCast>();
+
+            TestImplicitCast y = castFunc(x);
+
+            Assert.IsNotNull(y);
+        }
+
+        [Test]
+        public void GetExplicitConversionThrowsIfTypeIsNull()
+        {
+            Type type = null;
+
+            Assert.Throws<ArgumentNullException>(() => type.
+                GetExplicitConversion<TestExplicitCast, TestImplicitCast>());
+        }
+
+        [Test]
+        public void GetExplicitConversionThrowsIfExplicitCastNotAvailable()
+        {
+            TestImplicitCast x = new TestImplicitCast(1);
+
+            Assert.Throws<InvalidCastException>(() => x.GetType()
+                .GetExplicitConversion<TestImplicitCast, TestExplicitCast>());
+        }
+
+        [Test]
+        public void CanBeImplicitlyCastToThrowsIfTypeIsNull()
+        {
+            Type type = null;
+
+            Assert.Throws<ArgumentNullException>(() => type.CanBeImplicitlyCastTo<TestExplicitCast>());
+        }
+
+        [Test]
+        public void CanBeImplicitlyCastToReturnsTrueIfTypeCanBeCast()
+        {
+            Type type = typeof(TestImplicitCast);
+
+            bool result = type.CanBeImplicitlyCastTo<TestExplicitCast>();
+
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void CanBeImplicitlyCastToReturnsFalseIfTypeCannotBeCast()
+        {
+            Type type = typeof(TestExplicitCast);
+
+            bool result = type.CanBeImplicitlyCastTo<TestImplicitCast>();
+
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void GetImplicitConversionReturnsDelegateForCasting()
+        {
+            TestImplicitCast x = new TestImplicitCast(1);
+
+            Func<TestImplicitCast, TestExplicitCast> castFunc = x.GetType().
+                GetImplicitConversion<TestImplicitCast, TestExplicitCast>();
+
+            TestExplicitCast y = castFunc(x);
+
+            Assert.IsNotNull(y);
+        }
+
+        [Test]
+        public void GetImplicitConversionThrowsIfTypeIsNull()
+        {
+            Type type = null;
+
+            Assert.Throws<ArgumentNullException>(() => type.
+                GetImplicitConversion<TestExplicitCast, TestImplicitCast>());
+        }
+
+        [Test]
+        public void GetImplicitConversionThrowsIfImplicitCastNotAvailable()
+        {
+            TestExplicitCast x = new TestExplicitCast(1);
+
+            Assert.Throws<InvalidCastException>(() => x.GetType().
+                GetImplicitConversion<TestExplicitCast, TestImplicitCast>());
+        }
+
         [TestClass(Id = 1)]
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2292: Allow backing fields for unit-testing")]
@@ -880,6 +998,36 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         public interface ITestBase
         {
             int PropertyA { get; }
+        }
+
+        public class TestExplicitCast
+        {
+            private readonly int _id;
+
+            public TestExplicitCast(int id)
+            {
+                _id = id;
+            }
+
+            public static explicit operator TestImplicitCast(TestExplicitCast o)
+            {
+                return new TestImplicitCast(o._id);
+            }
+        }
+
+        public class TestImplicitCast
+        {
+            private readonly int _id;
+
+            public TestImplicitCast(int id)
+            {
+                _id = id;
+            }
+
+            public static implicit operator TestExplicitCast(TestImplicitCast o)
+            {
+                return new TestExplicitCast(o._id);
+            }
         }
     }
 }

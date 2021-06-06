@@ -85,6 +85,126 @@ namespace Dunk.Tools.Foundation.Extensions
         }
 
         /// <summary>
+        /// Checks if a given <see cref="Type"/> can be explicitly cast to
+        /// a specified type.
+        /// </summary>
+        /// <typeparam name="T">The type we are attempting to convert to.</typeparam>
+        /// <param name="type">The type we are attempting to convert from.</param>
+        /// <returns>True if there is an explicit conversion from the given type to the specified type; otherwise returns false.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> parameter was null.</exception>
+        public static bool CanBeExplicitlyCastTo<T>(this Type type)
+        {
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type), 
+                    $"Unable to determine Explicit Cast, {nameof(type)} parameter was null");
+            }
+
+            var returnType = typeof(T);            
+
+            MethodInfo castOperator = type.GetMethods()
+                .SingleOrDefault(m => m.Name == "op_Explicit" //verify that the method is an explicit operator
+                    && m.ReturnType == returnType // verify that the return type matches what we are trying to convert to
+                    && m.GetParameters()[0].ParameterType == type); // finally verify that the parameter type matches the object we're converting from
+
+            if (castOperator == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Uses reflection to create a delegate representing an explicit operator on a given type.
+        /// </summary>
+        /// <typeparam name="T">The type we are attempting to convert from.</typeparam>
+        /// <typeparam name="TOut">The type we are attempting to convert to.</typeparam>
+        /// <param name="type">The type we are trying to convert.</param>
+        /// <returns>A delegate representing the explicit cast.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> was null.</exception>
+        /// <exception cref="InvalidCastException"><paramref name="type"/> cannot be explicitly cast to specified type.</exception>
+        public static Func<T, TOut> GetExplicitConversion<T, TOut>(this Type type)
+        {
+            if(type == null)
+            {
+                throw new ArgumentNullException(nameof(type),
+                    $"Unable to get Explicit Cast delegate, {nameof(type)} parameter cannot be null");
+            }
+            MethodInfo methodInfo = type.GetMethods()
+                .SingleOrDefault(m => m.Name == "op_Explicit" //verify that the method is an explicit operator
+                    && m.ReturnType == typeof(TOut) // verify that the return type matches what we are trying to convert to
+                    && m.GetParameters()[0].ParameterType == typeof(T)); // finally verify that the parameter type matches the object we're converting from
+
+            if (methodInfo == null)
+            {
+                throw new InvalidCastException(
+                    $"Cannot explicitly cast {type.Name} to {typeof(TOut).Name}.");
+            }
+
+            return (Func<T, TOut>)Delegate.CreateDelegate(typeof(Func<T, TOut>), methodInfo);
+        }
+
+        /// <summary>
+        /// Checks if a given <see cref="Type"/> can be implicitly cast to
+        /// a specified type.
+        /// </summary>
+        /// <typeparam name="T">The type we are attempting to convert to.</typeparam>
+        /// <param name="type">The type we are attempting to convert from.</param>
+        /// <returns>True if there is an implicit conversion from the given type to the specified type; otherwise returns false.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> parameter was null.</exception>
+        public static bool CanBeImplicitlyCastTo<T>(this Type type)
+        {
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type),
+                    $"Unable to determine Implicit Cast, {nameof(type)} parameter was null");
+            }
+
+            var returnType = typeof(T);
+
+            MethodInfo castOperator = type.GetMethods()
+                .SingleOrDefault(m => m.Name == "op_Implicit" //verify that the method is an implicit operator
+                    && m.ReturnType == returnType // verify that the return type matches what we are trying to convert to
+                    && m.GetParameters()[0].ParameterType == type); // finally verify that the parameter type matches the object we're converting from
+
+            if (castOperator == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Uses reflection to create a delegate representing an implicit operator on a given type.
+        /// </summary>
+        /// <typeparam name="T">The type we are attempting to convert from.</typeparam>
+        /// <typeparam name="TOut">The type we are attempting to convert to.</typeparam>
+        /// <param name="type">The type we are trying to convert.</param>
+        /// <returns>A delegate representing the implicit cast.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> was null.</exception>
+        /// <exception cref="InvalidCastException"><paramref name="type"/> cannot be implicitly cast to specified type.</exception>
+        public static Func<T, TOut> GetImplicitConversion<T, TOut>(this Type type)
+        {
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type),
+                    $"Unable to get Implicit Cast delegate, {nameof(type)} parameter cannot be null");
+            }
+            MethodInfo methodInfo = type.GetMethods()
+                .SingleOrDefault(m => m.Name == "op_Implicit" //verify that the method is an implicit operator
+                    && m.ReturnType == typeof(TOut) // verify that the return type matches what we are trying to convert to
+                    && m.GetParameters()[0].ParameterType == typeof(T)); // finally verify that the parameter type matches the object we're converting from
+
+            if (methodInfo == null)
+            {
+                throw new InvalidCastException(
+                    $"Cannot implicitly cast {type.Name} to {typeof(TOut).Name}.");
+            }
+
+            return (Func<T, TOut>)Delegate.CreateDelegate(typeof(Func<T, TOut>), methodInfo);
+        }
+
+        /// <summary>
         /// Gets public extension methods for this type.
         /// </summary>
         /// <param name="extendedType">The type whose extension methods we are looking for.</param>
