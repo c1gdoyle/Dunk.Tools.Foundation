@@ -498,6 +498,92 @@ namespace Dunk.Tools.Foundation.Extensions
             return d[n, m];
         }
 
+        /// <summary>
+        /// Gets a substring of all characters that occur before a specified string.
+        /// </summary>
+        /// <param name="text">The original string.</param>
+        /// <param name="stopAt">The string to search for.</param>
+        /// <returns>
+        /// A substring from the original string containing all characters that occur before <paramref name="stopAt"/>.
+        /// Returns <see cref="string.Empty"/> if the original string is null or empty or does not contain stopAt string.
+        /// </returns>
+        public static string GetSubStringBeforeOrEmpty(this string text, string stopAt)
+        {
+            return text.GetSubStringBeforeOrEmpty(stopAt, StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// Gets a substring of all characters that occur before a specified string using a specified <see cref="StringComparison"/>.
+        /// </summary>
+        /// <param name="text">The original string.</param>
+        /// <param name="stopAt">The string to search for.</param>
+        /// <param name="comparisonType">The string comparison to use.</param>
+        /// <returns>
+        /// A substring from the original string containing all characters that occur before <paramref name="stopAt"/>.
+        /// Returns <see cref="string.Empty"/> if the original string is null or empty or does not contain stopAt string.
+        /// </returns>
+        public static string GetSubStringBeforeOrEmpty(this string text, string stopAt, StringComparison comparisonType)
+        {
+            if (stopAt == null)
+            {
+                throw new ArgumentNullException(nameof(stopAt),
+                    $"Unable to get SubString Before, {nameof(stopAt)} parameter cannot be null");
+            }
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                int charLocation = text.IndexOf(stopAt, comparisonType);
+
+                if (charLocation > 0)
+                {
+                    return text.Substring(0, charLocation);
+                }
+            }
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Gets a substring of all characters that occur after a specified string.
+        /// </summary>
+        /// <param name="text">The original string.</param>
+        /// <param name="startFrom">The string to search for.</param>
+        /// <returns>
+        /// A substring from the original string containing all characters that occur after <paramref name="startFrom"/>.
+        /// Returns <see cref="string.Empty"/> if the original string is null or empty or does not contain startFrom string.
+        /// </returns>
+        public static string GetSubStringAfterOrEmpty(this string text, string startFrom)
+        {
+            return text.GetSubStringAfterOrEmpty(startFrom, StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// Gets a substring of all characters that occur after a specified string.
+        /// </summary>
+        /// <param name="text">The original string.</param>
+        /// <param name="startFrom">The string to search for.</param>
+        /// <param name="comparisonType">The string comparison to use.</param>
+        /// <returns>
+        /// A substring from the original string containing all characters that occur after <paramref name="startFrom"/>.
+        /// Returns <see cref="string.Empty"/> if the original string is null or empty or does not contain startFrom string.
+        /// </returns>
+        public static string GetSubStringAfterOrEmpty(this string text, string startFrom, StringComparison comparisonType)
+        {
+            if (startFrom == null)
+            {
+                throw new ArgumentNullException(nameof(startFrom),
+                    $"Unable to get SubString After, {nameof(startFrom)} parameter cannot be null");
+            }
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                int charLocation = text.IndexOf(startFrom, comparisonType);
+
+                if (charLocation > 0)
+                {
+                    return text.Substring(charLocation + startFrom.Length);
+                }
+            }
+            return string.Empty;
+        }
+
         private static bool ShouldAppendForCamelCase(string originalString, int currentIndex, char currentChar, int lastSpaceIndex)
         {
             if(currentIndex == 0 || 

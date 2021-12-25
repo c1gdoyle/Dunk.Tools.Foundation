@@ -674,7 +674,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [Test]
-        public void ToCamelCaseReturnsCamelCaseStringIfStringStartsWithCustomDelimiter() 
+        public void ToCamelCaseReturnsCamelCaseStringIfStringStartsWithCustomDelimiter()
         {
             const string expected = "ToCamelCase";
 
@@ -684,7 +684,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [Test]
-        public void ToCamelCaseReturnsCamelCaseStringIfStringEndsWithDefaultDelimiter() 
+        public void ToCamelCaseReturnsCamelCaseStringIfStringEndsWithDefaultDelimiter()
         {
             const string expected = "ToCamelCase";
 
@@ -694,7 +694,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [Test]
-        public void ToCamelCaseReturnsCamelCaseStringIfStringEndsWithCustomDelimiter() 
+        public void ToCamelCaseReturnsCamelCaseStringIfStringEndsWithCustomDelimiter()
         {
             const string expected = "ToCamelCase";
 
@@ -704,7 +704,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [Test]
-        public void ToCamelCaseReturnsExpectedStringIfStringIsEmpty() 
+        public void ToCamelCaseReturnsExpectedStringIfStringIsEmpty()
         {
             const string expected = "";
 
@@ -714,7 +714,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [Test]
-        public void ToCamelCaseReturnsExpectedStringIfStringIsEmptyWithCustomDelimiter() 
+        public void ToCamelCaseReturnsExpectedStringIfStringIsEmptyWithCustomDelimiter()
         {
             const string expected = "";
 
@@ -998,6 +998,236 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             string camelCase = expected.ToCamelCase('_');
 
             Assert.AreEqual(expected, camelCase.ExpandCamelCase('_'));
+        }
+
+        [Test]
+        public void GetSubStringBeforeOrEmptyThrowsIfStopAtIsNull()
+        {
+            string text = "abcdefg";
+            Assert.Throws<ArgumentNullException>(() => text.GetSubStringBeforeOrEmpty(null));
+        }
+
+        [Test]
+        public void GetSubStringBeforeOrEmptyReturnsEmptyForNullString()
+        {
+            const string expected = "";
+
+            string text = null;
+
+            string result = text.GetSubStringBeforeOrEmpty("cd");
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetSubStringBeforeOrEmptyReturnsEmptyForEmptyString()
+        {
+            const string expected = "";
+
+            string text = string.Empty;
+
+            string result = text.GetSubStringBeforeOrEmpty("cd");
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetSubStringBeforeOrEmptyReturnsEmptyForWhiteSpace()
+        {
+            const string expected = "";
+
+            string text = "  ";
+
+            string result = text.GetSubStringBeforeOrEmpty("cd");
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetSubStringBeforeOrEmptyReturnsEmptyIfTextDoesNotContainStopAtString()
+        {
+            const string expected = "";
+
+            string text = "abcdefg";
+
+            string result = text.GetSubStringBeforeOrEmpty("yz");
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetSubStringBeforeOrEmptyReturnsExpectedSubStringForSpecifiedStopAtCharacter()
+        {
+            const string expected = "ab";
+
+            string text = "abcdefg";
+
+            string result = text.GetSubStringBeforeOrEmpty("c");
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetSubStringBeforeOrEmptyReturnsExpectedSubStringForSpecifiedStopAtString()
+        {
+            const string expected = "ab";
+
+            string text = "abcdefg";
+
+            string result = text.GetSubStringBeforeOrEmpty("cd");
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetSubStringBeforeOrEmptyReturnsExpectedSubStringForSpecifiedComparison()
+        {
+            const string expected = "ab";
+
+            string text = "abcdefg";
+
+            string result = text.GetSubStringBeforeOrEmpty("CD", StringComparison.InvariantCultureIgnoreCase);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetSubStringBeforeOrEmptyReturnsEmptyIfSubStringOccursAtStartOfString()
+        {
+            const string expected = "";
+
+            string text = "abcdefg";
+
+            string result = text.GetSubStringBeforeOrEmpty("ab");
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetSubStringBeforeOrEmptyReturnsEmptyIfSubStringOccursAtStartOfStringUsingSpecifiedStringComparison()
+        {
+            const string expected = "";
+
+            string text = "abcdefg";
+
+            string result = text.GetSubStringBeforeOrEmpty("AB", StringComparison.InvariantCultureIgnoreCase);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetSubStringAfterOrEmptyThrowsIfStartAtIsNull()
+        {
+            string text = "abcdefg";
+            Assert.Throws<ArgumentNullException>(() => text.GetSubStringAfterOrEmpty(null));
+        }
+
+        [Test]
+        public void GetSubStringAfterOrEmptyReturnsEmptyForNullString()
+        {
+            const string expected = "";
+
+            string text = null;
+
+            string result = text.GetSubStringAfterOrEmpty("cd");
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetSubStringAfterOrEmptyReturnsEmptyForEmptyString()
+        {
+            const string expected = "";
+
+            string text = string.Empty;
+
+            string result = text.GetSubStringAfterOrEmpty("cd");
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetSubStringAfterOrEmptyReturnsEmptyForWhiteSpace()
+        {
+            const string expected = "";
+
+            string text = "  ";
+
+            string result = text.GetSubStringAfterOrEmpty("cd");
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetSubStringAfterOrEmptyReturnsEmptyIfTextDoesNotContainStartFromString()
+        {
+            const string expected = "";
+
+            string text = "abcdefg";
+
+            string result = text.GetSubStringAfterOrEmpty("yz");
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetSubStringAfterOrEmptyReturnsExpectedSubStringForSpecifiedStartFromCharacter()
+        {
+            const string expected = "defg";
+
+            string text = "abcdefg";
+
+            string result = text.GetSubStringAfterOrEmpty("c");
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetSubStringAfterOrEmptyReturnsExpectedSubStringForSpecifiedStartFromString()
+        {
+            const string expected = "efg";
+
+            string text = "abcdefg";
+
+            string result = text.GetSubStringAfterOrEmpty("cd");
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetSubStringAfterOrEmptyReturnsExpectedSubStringForSpecifiedComparison()
+        {
+            const string expected = "efg";
+
+            string text = "abcdefg";
+
+            string result = text.GetSubStringAfterOrEmpty("CD", StringComparison.InvariantCultureIgnoreCase);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetSubStringAfterOrEmptyReturnsEmptyIfSubStringOccursAtEndOfString()
+        {
+            const string expected = "";
+
+            string text = "abcdefg";
+
+            string result = text.GetSubStringAfterOrEmpty("fg");
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void GetSubStringAfterOrEmptyReturnsEmptyIfSubStringOccursAtEndOfStringUsingSpecifiedStringComparison()
+        {
+            const string expected = "";
+
+            string text = "abcdefg";
+
+            string result = text.GetSubStringAfterOrEmpty("FG", StringComparison.InvariantCultureIgnoreCase);
+
+            Assert.AreEqual(expected, result);
         }
     }
 }
