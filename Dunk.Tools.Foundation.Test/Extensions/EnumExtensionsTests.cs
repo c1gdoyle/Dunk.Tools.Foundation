@@ -76,7 +76,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S1144: Allow constructors for unit-testing")]
-        private class TestEnumOneAttribute : Attribute
+        private sealed class TestEnumOneAttribute : Attribute
         {
             public TestEnumOneAttribute(string text)
             {

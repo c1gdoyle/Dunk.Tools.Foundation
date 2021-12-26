@@ -117,7 +117,7 @@ namespace Dunk.Tools.Foundation.Test.Comparers
             Assert.AreEqual(0, result);
         }
 
-        private class ChainedComparerTestItem
+        private sealed class ChainedComparerTestItem
         {
             public int A { get; set; }
 

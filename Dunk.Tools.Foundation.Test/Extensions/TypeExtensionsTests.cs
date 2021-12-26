@@ -951,7 +951,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S3459: Allow auto-property for unit-testing")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S1144: Allow auto-property for unit-testing")]
-        private class TestClassAttribute : Attribute
+        private sealed class TestClassAttribute : Attribute
         {
             public int Id { get; set; }
         }
@@ -963,10 +963,10 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             public int Id { get; set; }
         }
 
-        private class TestMember1Attribute : TestMemberBaseAttribute { }
+        private sealed class TestMember1Attribute : TestMemberBaseAttribute { }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S1144: Allow attribute type for unit-testing")]
-        private class TestMember2Attribute : TestMemberBaseAttribute { }
+        private sealed class TestMember2Attribute : TestMemberBaseAttribute { }
 
         public class TestDerivedDerivedDerived : TestDerivedDerived { }
 

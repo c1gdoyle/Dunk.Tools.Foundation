@@ -118,6 +118,6 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             Assert.DoesNotThrow(() => sequence.ThrowIfNullOrContainsNull("param1"));
         }
 
-        private class TestArgumentItem { }
+        private sealed class TestArgumentItem { }
     }
 }

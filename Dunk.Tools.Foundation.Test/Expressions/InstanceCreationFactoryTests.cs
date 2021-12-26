@@ -73,7 +73,7 @@ namespace Dunk.Tools.Foundation.Test.Expressions
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S1144: Allow constructors for unit-testing")]
-        private class TestClass
+        private sealed class TestClass
         {
             public TestClass()
             {

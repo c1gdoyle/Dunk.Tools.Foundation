@@ -217,7 +217,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             Assert.AreEqual(expectedFirst, mergeOrdered.First().Id);
         }
 
-        private class MergeByTestItem
+        private sealed class MergeByTestItem
         {
             public int Id { get; set; }
         }

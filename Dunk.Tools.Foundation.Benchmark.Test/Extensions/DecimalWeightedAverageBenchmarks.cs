@@ -55,7 +55,7 @@ namespace Dunk.Tools.Foundation.Benchmark.Test.Extensions
             }
         }
 
-        private class TestItem
+        private sealed class TestItem
         {
             public TestItem(decimal value)
             {

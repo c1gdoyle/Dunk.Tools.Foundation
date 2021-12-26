@@ -74,7 +74,7 @@ namespace Dunk.Tools.Foundation.Test.Expressions
             Assert.IsTrue(newFunction(new EvaluatorTestItem { Id = localId * 2 }));
         }
 
-        private class EvaluatorTestItem
+        private sealed class EvaluatorTestItem
         {
             public int Id { get; set; }
         }

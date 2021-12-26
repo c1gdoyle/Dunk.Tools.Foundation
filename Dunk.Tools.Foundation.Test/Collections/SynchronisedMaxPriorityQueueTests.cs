@@ -606,7 +606,7 @@ namespace Dunk.Tools.Foundation.Test.Collections
             Assert.AreEqual("A_50", newHead);
         }
 
-        private class TestPriority : IComparable<TestPriority>
+        private sealed class TestPriority : IComparable<TestPriority>
         {
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S3459:Ignore for test")]
             public int Id { get; }

@@ -147,7 +147,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             Assert.AreEqual("English", language);
         }
 
-        private class TestLanguageChangedEventArgs : EventArgs
+        private sealed class TestLanguageChangedEventArgs : EventArgs
         {
             public string Language { get; set; }
         }

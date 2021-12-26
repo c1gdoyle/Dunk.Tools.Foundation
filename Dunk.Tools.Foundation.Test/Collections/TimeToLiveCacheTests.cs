@@ -347,7 +347,7 @@ namespace Dunk.Tools.Foundation.Test.Collections
             }
         }
 
-        private class TimeToLiveTestItem
+        private sealed class TimeToLiveTestItem
         {
             public long Id { get; set; }
 
