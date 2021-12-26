@@ -163,7 +163,7 @@ namespace Dunk.Tools.Foundation.Collections
             return result;
         }
 
-        private class MinPriorityQueueNode : IComparable<MinPriorityQueueNode>
+        private sealed class MinPriorityQueueNode : IComparable<MinPriorityQueueNode>
         {
             public TItem Data { get; set; }
 

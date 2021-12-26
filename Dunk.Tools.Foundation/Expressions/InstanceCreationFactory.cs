@@ -72,7 +72,7 @@ namespace Dunk.Tools.Foundation.Expressions
                 .CreateInstanceOf(type, argument1, argument2, argument3);
         }
 
-        private class TypeToIgnore { }
+        private sealed class TypeToIgnore { }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2436: Support multiple generic parameters for functional programming.")]
         private static class InstanceCreationFactoryCache<TArg1, TArg2, TArg3>

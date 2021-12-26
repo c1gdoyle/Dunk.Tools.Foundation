@@ -198,7 +198,7 @@ namespace Dunk.Tools.Foundation.Collections
             }
         }
 
-        private class SynchronisedMinPriorityQueueNode : IComparable<SynchronisedMinPriorityQueueNode>
+        private sealed class SynchronisedMinPriorityQueueNode : IComparable<SynchronisedMinPriorityQueueNode>
         {
             public TItem Data { get; set; }
 

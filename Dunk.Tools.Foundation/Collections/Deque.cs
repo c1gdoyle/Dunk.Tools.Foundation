@@ -302,7 +302,7 @@ namespace Dunk.Tools.Foundation.Collections
             }
         }
 
-        private class DequeNode
+        private sealed class DequeNode
         {
             private readonly T _value;
 

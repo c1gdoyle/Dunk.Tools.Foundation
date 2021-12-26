@@ -198,7 +198,7 @@ namespace Dunk.Tools.Foundation.Collections
             }
         }
 
-        private class SynchronisedMaxPriorityQueueNode : IComparable<SynchronisedMaxPriorityQueueNode>
+        private sealed class SynchronisedMaxPriorityQueueNode : IComparable<SynchronisedMaxPriorityQueueNode>
         {
             public TItem Data { get; set; }
 

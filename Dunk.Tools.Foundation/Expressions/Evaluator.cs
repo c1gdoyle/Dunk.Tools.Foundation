@@ -42,7 +42,7 @@ namespace Dunk.Tools.Foundation.Expressions
         /// <summary>
         /// Evaluates &amp; replaces sub-tress when first candidate is reached (top-down).
         /// </summary>
-        private class SubtreeEvaluator : ExpressionVisitor
+        private sealed class SubtreeEvaluator : ExpressionVisitor
         {
             private readonly HashSet<Expression> _candidates;
 
@@ -86,7 +86,7 @@ namespace Dunk.Tools.Foundation.Expressions
         /// Performs bottom-up analysis to determine which nodes can possibly
         /// be part of an evaluated sub-tree.
         /// </summary>
-        private class Nominator : ExpressionVisitor
+        private sealed class Nominator : ExpressionVisitor
         {
             private readonly Func<Expression, bool> _funcCanBeEvaluated;
             private HashSet<Expression> _candidates;
