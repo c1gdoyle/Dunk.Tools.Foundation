@@ -123,6 +123,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// An <see cref="IEnumerable{T}"/> that contains distinct elements from 
         /// the <paramref name="source"/> sequence.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S3267: Adding to hashset is intentional")]
         public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
         {
             CheckDistinctByArguments(source, keySelector);

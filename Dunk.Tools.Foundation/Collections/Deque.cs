@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Dunk.Tools.Foundation.Collections
 {
@@ -260,14 +261,7 @@ namespace Dunk.Tools.Foundation.Collections
         /// </returns>
         public bool Contains(T item)
         {
-            foreach (T i in this)
-            {
-                if (EqualityComparer<T>.Default.Equals(i, item))
-                {
-                    return true;
-                }
-            }
-            return false;
+            return this.Any(i => EqualityComparer<T>.Default.Equals(i, item));
         }
 
         /// <summary>
