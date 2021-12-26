@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace Dunk.Tools.Foundation.Collections
 {
@@ -259,9 +258,17 @@ namespace Dunk.Tools.Foundation.Collections
         /// <returns>
         /// <c>true</c> if the item is found in the <see cref="Deque{T}"/>; otherwise returns <c>false</c>.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S3267: Use loop over LINQ to avoid performance overhead.")]
         public bool Contains(T item)
         {
-            return this.Any(i => EqualityComparer<T>.Default.Equals(i, item));
+            foreach(T i in this)
+            {
+                if(EqualityComparer<T>.Default.Equals(i, item))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>
