@@ -201,7 +201,7 @@ namespace Dunk.Tools.Foundation.Test.Expressions
             Assert.AreEqual("bar", item.Name);
         }
 
-        private class CompiledExpTestEntity
+        private sealed class CompiledExpTestEntity
         {
             public int Id { get; set; }
 

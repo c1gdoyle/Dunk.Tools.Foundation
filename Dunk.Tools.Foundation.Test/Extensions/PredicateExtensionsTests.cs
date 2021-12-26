@@ -269,7 +269,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             Assert.AreEqual(expected, composedExp.ToString());
         }
 
-        private class Customer
+        private sealed class Customer
         {
             public string Name { get; set; }
 

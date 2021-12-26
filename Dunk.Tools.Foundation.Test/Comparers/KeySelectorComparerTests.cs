@@ -91,7 +91,7 @@ namespace Dunk.Tools.Foundation.Test.Comparers
             Assert.AreEqual(1, result);
         }
 
-        private class KeySelectorTestItem
+        private sealed class KeySelectorTestItem
         {
             public int Id { get; set; }
         }

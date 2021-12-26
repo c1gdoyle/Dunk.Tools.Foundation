@@ -220,7 +220,7 @@ namespace Dunk.Tools.Foundation.Test.Collections
             Assert.DoesNotThrow(() => cache.Dispose());
         }
 
-        private class TestCacheStub
+        private sealed class TestCacheStub
         {
             public int Id { get; set; }
 

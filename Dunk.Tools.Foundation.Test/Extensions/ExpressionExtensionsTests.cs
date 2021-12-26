@@ -287,7 +287,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S2292: Allow backing fields for unit-testing")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S1144: Allow setter for unit-testing")]
-        private class Person
+        private sealed class Person
         {
             public string _name = null;
             public int _age = 0;
@@ -320,7 +320,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             }
         }
 
-        private class Employee : IEmployee 
+        private sealed class Employee : IEmployee 
         {
             public string Name { get; set; }
         }

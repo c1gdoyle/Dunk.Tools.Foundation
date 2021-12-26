@@ -104,7 +104,7 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             Assert.Throws<ArgumentNullException>(() => queryable.Orderby(null as PropertyInfo, false));
         }
 
-        private class TestItem
+        private sealed class TestItem
         {
             public int Id { get; set; }
 

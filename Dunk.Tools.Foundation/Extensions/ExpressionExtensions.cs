@@ -265,7 +265,7 @@ namespace Dunk.Tools.Foundation.Extensions
         /// <remarks>
         /// See Ani's post at http://stackoverflow.com/questions/7051003/convert-expressionfuncfromtype-to-expressionfunctotype/7051104#7051104
         /// </remarks>
-        private class ParameterReplaceVisitor<TOutput> : ExpressionVisitor
+        private sealed class ParameterReplaceVisitor<TOutput> : ExpressionVisitor
         {
             private readonly ParameterExpression _source;
             private readonly ParameterExpression _target;

@@ -163,7 +163,7 @@ namespace Dunk.Tools.Foundation.Collections
             return result;
         }
 
-        private class MaxPriorityQueueNode : IComparable<MaxPriorityQueueNode>
+        private sealed class MaxPriorityQueueNode : IComparable<MaxPriorityQueueNode>
         {
             public TItem Data { get; set; }
 

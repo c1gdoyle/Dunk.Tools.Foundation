@@ -499,14 +499,14 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             Assert.IsTrue(new ListEqualityComparer<int>().Equals(expected, actual));
         }
 
-        private class TestItem
+        private sealed class TestItem
         {
             public int Id { get; set; }
 
             public string Name { get; set; }
         }
 
-        private class TestEmployee
+        private sealed class TestEmployee
         {
             public string Name { get; set; }
 

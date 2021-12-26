@@ -148,19 +148,19 @@ namespace Dunk.Tools.Foundation.Test.Monads
             };
         }
 
-        private class TestChildItem
+        private sealed class TestChildItem
         {
             public int Id { get; set; }
         }
 
-        private class TestParentItem
+        private sealed class TestParentItem
         {
             public int Id { get; set; }
 
             public IList<TestChildItem> Items { get; set; }
         }
 
-        private class TestGrandParentItem
+        private sealed class TestGrandParentItem
         {
             public int Id { get; set; }
 

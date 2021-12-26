@@ -347,7 +347,7 @@ namespace Dunk.Tools.Foundation.Collections
         }
         #endregion IDisposable Members
 
-        private class TimeToLiveCacheItem
+        private sealed class TimeToLiveCacheItem
         {
             public TValue Value { get; set; }
 

@@ -254,7 +254,7 @@ namespace Dunk.Tools.Foundation.Collections
         }
         #endregion IDisposable Members
 
-        private class LeastRecentlyUsedCacheNode
+        private sealed class LeastRecentlyUsedCacheNode
         {
             public TKey Key { get; set; }
 

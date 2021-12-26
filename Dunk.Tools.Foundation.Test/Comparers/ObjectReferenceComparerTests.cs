@@ -162,7 +162,7 @@ namespace Dunk.Tools.Foundation.Test.Comparers
         }
 
 
-        private class ObjRefComparerTestStub : IEquatable<ObjRefComparerTestStub>
+        private sealed class ObjRefComparerTestStub : IEquatable<ObjRefComparerTestStub>
         {
             public ObjRefComparerTestStub(int id)
             {
