@@ -198,18 +198,28 @@ namespace Dunk.Tools.Foundation.Collections
             }
         }
 
-        private sealed class SynchronisedMaxPriorityQueueNode : IComparable<SynchronisedMaxPriorityQueueNode>
+        private sealed class SynchronisedMaxPriorityQueueNode : Comparer<SynchronisedMaxPriorityQueueNode>
         {
             public TItem Data { get; set; }
 
             public TPriority Priority { get; set; }
 
-            #region IComparable<MaxPriorityQueueNode> Members
-            public int CompareTo(SynchronisedMaxPriorityQueueNode other)
+            public override int Compare(SynchronisedMaxPriorityQueueNode x, SynchronisedMaxPriorityQueueNode y)
             {
-                return Priority.CompareTo(other.Priority);
+                if (x == null && y == null)
+                {
+                    return 0;
+                }
+                if (x == null)
+                {
+                    return -1;
+                }
+                if (y == null)
+                {
+                    return 1;
+                }
+                return x.Priority.CompareTo(y.Priority);
             }
-            #endregion IComparable<MaxPriorityQueueNode> Members
         }
     }
 }
