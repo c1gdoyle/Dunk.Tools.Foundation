@@ -72,7 +72,7 @@ namespace Dunk.Tools.Foundation.Collections
                 throw new ArgumentOutOfRangeException(nameof(initialQueueSize),
                     $"Unable to initialise Maximum Priority-Queue. {nameof(initialQueueSize)} must be greater than zero.");
             }
-            _comparer = new Comparers.NonNullKeySelectorComparer<MaxPriorityQueueNode, TPriority>(x => x.Priority, priorityComparer);
+            _comparer = new Comparers.NonNullKeySelectorComparer<MaxPriorityQueueNode, TPriority>(x => x.Value, priorityComparer);
             _maxHeap = new MaxDHeap<MaxPriorityQueueNode>(2, initialQueueSize, _comparer);
         }
 
@@ -119,13 +119,7 @@ namespace Dunk.Tools.Foundation.Collections
                     $"Unable to enqueue item into Maximum Priority-Queue. {nameof(priority)} cannot be null.");
             }
 
-            var node = new MaxPriorityQueueNode
-            {
-                Data = item,
-                Priority = priority
-            };
-
-            _maxHeap.Insert(node);
+            _maxHeap.Insert(new MaxPriorityQueueNode(item, priority));
         }
 
         /// <summary>
@@ -163,28 +157,15 @@ namespace Dunk.Tools.Foundation.Collections
             return result;
         }
 
-        private sealed class MaxPriorityQueueNode : Comparer<MaxPriorityQueueNode>
+        private sealed class MaxPriorityQueueNode : Base.ComparableBase<TPriority>
         {
-            public TItem Data { get; set; }
-
-            public TPriority Priority { get; set; }
-
-            public override int Compare(MaxPriorityQueueNode x, MaxPriorityQueueNode y)
+            public MaxPriorityQueueNode(TItem data, TPriority priority)
+                : base(priority)
             {
-                if (x == null && y == null)
-                {
-                    return 0;
-                }
-                if (x == null)
-                {
-                    return -1;
-                }
-                if (y == null)
-                {
-                    return 1;
-                }
-                return x.Priority.CompareTo(y.Priority);
+                Data = data;
             }
+
+            public TItem Data { get; }
         }
     }
 }

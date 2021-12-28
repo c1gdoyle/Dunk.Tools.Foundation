@@ -74,7 +74,7 @@ namespace Dunk.Tools.Foundation.Collections
                 throw new ArgumentOutOfRangeException(nameof(initialQueueSize),
                     $"Unable to initialise Minimum Priority-Queue. {nameof(initialQueueSize)} must be greater than zero.");
             }
-            _comparer = new Comparers.NonNullKeySelectorComparer<SynchronisedMinPriorityQueueNode, TPriority>(x => x.Priority, priorityComparer);
+            _comparer = new Comparers.NonNullKeySelectorComparer<SynchronisedMinPriorityQueueNode, TPriority>(x => x.Value, priorityComparer);
             _minHeap = new MinDHeap<SynchronisedMinPriorityQueueNode>(2, initialQueueSize, _comparer);
         }
 
@@ -145,11 +145,7 @@ namespace Dunk.Tools.Foundation.Collections
                     $"Unable to enqueue item into Minimum Priority-Queue. {nameof(priority)} cannot be null.");
             }
 
-            var node = new SynchronisedMinPriorityQueueNode
-            {
-                Data = item,
-                Priority = priority
-            };
+            var node = new SynchronisedMinPriorityQueueNode(item, priority);
 
             lock (_sync)
             {
@@ -198,28 +194,15 @@ namespace Dunk.Tools.Foundation.Collections
             }
         }
 
-        private sealed class SynchronisedMinPriorityQueueNode : Comparer<SynchronisedMinPriorityQueueNode>
+        private sealed class SynchronisedMinPriorityQueueNode : Base.ComparableBase<TPriority>
         {
-            public TItem Data { get; set; }
-
-            public TPriority Priority { get; set; }
-
-            public override int Compare(SynchronisedMinPriorityQueueNode x, SynchronisedMinPriorityQueueNode y)
+            public SynchronisedMinPriorityQueueNode(TItem data, TPriority priority)
+                : base(priority)
             {
-                if (x == null && y == null)
-                {
-                    return 0;
-                }
-                if (x == null)
-                {
-                    return -1;
-                }
-                if (y == null)
-                {
-                    return 1;
-                }
-                return x.Priority.CompareTo(y.Priority);
+                Data = data;
             }
+
+            public TItem Data { get; }
         }
     }
 }
