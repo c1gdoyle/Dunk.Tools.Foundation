@@ -485,14 +485,24 @@ namespace Dunk.Tools.Foundation.Test.Base
             Assert.IsTrue(left >= right);
         }
 
-        private class Second : ComparableBase<int>
+        private class Second : ComparableBase<Second>
         {
             public Second(int value)
-                :base(value)
             {
+                Value = value;
             }
+            public int Value { get; }
 
-            public static implicit operator Second(int i) => new Second(i);
+            public override int GetHashCode() => Value.GetHashCode();
+
+            public override int CompareTo(Second other)
+            {
+                if (other == null)
+                {
+                    return 1;
+                }
+                return Value.CompareTo(other.Value);
+            }
         }
     }
 }

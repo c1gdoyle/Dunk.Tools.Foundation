@@ -6,60 +6,41 @@ namespace Dunk.Tools.Foundation.Base
     /// Provides a generic base class for types that implement <see cref="IComparable{T}"/>.
     /// </summary>
     /// <typeparam name="T">The underlying type to compare.</typeparam>
-    public abstract class ComparableBase<T> : IComparable, IComparable<ComparableBase<T>>, IEquatable<ComparableBase<T>>
-        where T : IComparable<T>
+    /// <remarks>
+    /// Derived class is required to provide implementation for <see cref="object.GetHashCode"/> 
+    /// and <see cref="IComparable{T}.CompareTo(T)"/>.
+    /// 
+    /// See https://codereview.stackexchange.com/questions/209976/base-class-for-implementing-icomparablet
+    /// </remarks>
+    public abstract class ComparableBase<T> : IComparable, IComparable<T>, IEquatable<T>
+        where T : ComparableBase<T>
     {
-        /// <summary>
-        /// Initialises a new instancec of <see cref="ComparableBase{T}"/> using a specified
-        /// value.
-        /// </summary>
-        /// <param name="value">The underlying value.</param>
-        protected ComparableBase(T value)
-        {
-            Value = value;
-        }
-
-        /// <summary>
-        /// Gets the underlying value.
-        /// </summary>
-        public T Value { get; }
-
         #region Object Overrides
         [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S4136: Equals to remain in Object Override and IEquatable<T> region")]
         public override bool Equals(object obj)
         {
-            return Equals(obj as ComparableBase<T>);
+            return Equals(obj as T);
         }
 
-        public override int GetHashCode()
-        {
-            return Value.GetHashCode();
-        }
+        public override abstract int GetHashCode();
         #endregion Object Overrides
 
         #region IComparable Members
         /// <inheritdoc />
         public int CompareTo(object obj)
         {
-            return CompareTo(obj as ComparableBase<T>);
+            return CompareTo(obj as T);
         }
         #endregion IComparable Members
 
         #region IComparable<T> Members
         /// <inheritdoc />
-        public int CompareTo(ComparableBase<T> other)
-        {
-            if (other is null)
-            {
-                return 1;
-            }
-            return Value.CompareTo(other.Value);
-        }
+        public abstract int CompareTo(T other);
         #endregion IComparable<T> Members
 
         #region IEquatable<ComparableBase<T>> Members
         /// <inheritdoc />
-        public virtual bool Equals(ComparableBase<T> other)
+        public virtual bool Equals(T other)
         {
             if (other == null)
             {
@@ -69,11 +50,9 @@ namespace Dunk.Tools.Foundation.Base
             {
                 return true;
             }
-            return Value.Equals(other.Value);
+            return CompareTo(other) == 0;
         }
         #endregion IEquatable<ComparableBase<T>> Members
-
-        public static implicit operator T(ComparableBase<T> c) => c.Value;
 
         /// <summary>
         /// Determines whether two specified instances of <see cref="ComparableBase{T}"/> are equal.
