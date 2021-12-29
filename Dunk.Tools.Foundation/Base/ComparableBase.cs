@@ -6,7 +6,7 @@ namespace Dunk.Tools.Foundation.Base
     /// Provides a generic base class for types that implement <see cref="IComparable{T}"/>.
     /// </summary>
     /// <typeparam name="T">The underlying type to compare.</typeparam>
-    public abstract class ComparableBase<T> : IComparable<T>, IEquatable<ComparableBase<T>>
+    public abstract class ComparableBase<T> : IComparable, IComparable<ComparableBase<T>>, IEquatable<ComparableBase<T>>
         where T : IComparable<T>
     {
         /// <summary>
@@ -37,11 +37,23 @@ namespace Dunk.Tools.Foundation.Base
         }
         #endregion Object Overrides
 
+        #region IComparable Members
+        /// <inheritdoc />
+        public int CompareTo(object obj)
+        {
+            return CompareTo(obj as ComparableBase<T>);
+        }
+        #endregion IComparable Members
+
         #region IComparable<T> Members
         /// <inheritdoc />
-        public int CompareTo(T other)
+        public int CompareTo(ComparableBase<T> other)
         {
-            return Value.CompareTo(other);
+            if (other is null)
+            {
+                return 1;
+            }
+            return Value.CompareTo(other.Value);
         }
         #endregion IComparable<T> Members
 
