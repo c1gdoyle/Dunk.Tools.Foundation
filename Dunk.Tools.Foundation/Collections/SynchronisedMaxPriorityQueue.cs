@@ -74,7 +74,7 @@ namespace Dunk.Tools.Foundation.Collections
                 throw new ArgumentOutOfRangeException(nameof(initialQueueSize),
                     $"Unable to initialise Maximum Priority-Queue. {nameof(initialQueueSize)} must be greater than zero.");
             }
-            _comparer = new Comparers.NonNullKeySelectorComparer<SynchronisedMaxPriorityQueueNode, TPriority>(x => x.Priority, priorityComparer);
+            _comparer = new SynchronisedMaxPriorityQueueNodeComparer(priorityComparer);
             _maxHeap = new MaxDHeap<SynchronisedMaxPriorityQueueNode>(2, initialQueueSize, _comparer);
         }
 
@@ -145,11 +145,7 @@ namespace Dunk.Tools.Foundation.Collections
                     $"Unable to enqueue item into Maximum Priority-Queue. {nameof(priority)} cannot be null.");
             }
 
-            var node = new SynchronisedMaxPriorityQueueNode
-            {
-                Data = item,
-                Priority = priority
-            };
+            var node = new SynchronisedMaxPriorityQueueNode(item, priority);
 
             lock (_sync)
             {
@@ -198,18 +194,31 @@ namespace Dunk.Tools.Foundation.Collections
             }
         }
 
-        private sealed class SynchronisedMaxPriorityQueueNode : IComparable<SynchronisedMaxPriorityQueueNode>
+        private sealed class SynchronisedMaxPriorityQueueNode
         {
-            public TItem Data { get; set; }
-
-            public TPriority Priority { get; set; }
-
-            #region IComparable<MaxPriorityQueueNode> Members
-            public int CompareTo(SynchronisedMaxPriorityQueueNode other)
+            public SynchronisedMaxPriorityQueueNode(TItem data, TPriority priority)
             {
-                return Priority.CompareTo(other.Priority);
+                Data = data;
+                Priority = priority;
             }
-            #endregion IComparable<MaxPriorityQueueNode> Members
+
+            public TItem Data { get; }
+            public TPriority Priority { get; }
+        }
+
+        private sealed class SynchronisedMaxPriorityQueueNodeComparer : IComparer<SynchronisedMaxPriorityQueueNode>
+        {
+            private readonly IComparer<TPriority> _priorityComparer;
+
+            public SynchronisedMaxPriorityQueueNodeComparer(IComparer<TPriority> priorityComparer)
+            {
+                _priorityComparer = priorityComparer;
+            }
+
+            public int Compare(SynchronisedMaxPriorityQueueNode x, SynchronisedMaxPriorityQueueNode y)
+            {
+                return _priorityComparer.Compare(x.Priority, y.Priority);
+            }
         }
     }
 }

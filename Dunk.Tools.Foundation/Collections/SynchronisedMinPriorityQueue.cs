@@ -74,7 +74,7 @@ namespace Dunk.Tools.Foundation.Collections
                 throw new ArgumentOutOfRangeException(nameof(initialQueueSize),
                     $"Unable to initialise Minimum Priority-Queue. {nameof(initialQueueSize)} must be greater than zero.");
             }
-            _comparer = new Comparers.NonNullKeySelectorComparer<SynchronisedMinPriorityQueueNode, TPriority>(x => x.Priority, priorityComparer);
+            _comparer = new SynchronisedMinPriorityQueueNodeComparer(priorityComparer);
             _minHeap = new MinDHeap<SynchronisedMinPriorityQueueNode>(2, initialQueueSize, _comparer);
         }
 
@@ -145,11 +145,7 @@ namespace Dunk.Tools.Foundation.Collections
                     $"Unable to enqueue item into Minimum Priority-Queue. {nameof(priority)} cannot be null.");
             }
 
-            var node = new SynchronisedMinPriorityQueueNode
-            {
-                Data = item,
-                Priority = priority
-            };
+            var node = new SynchronisedMinPriorityQueueNode(item, priority);
 
             lock (_sync)
             {
@@ -198,18 +194,31 @@ namespace Dunk.Tools.Foundation.Collections
             }
         }
 
-        private sealed class SynchronisedMinPriorityQueueNode : IComparable<SynchronisedMinPriorityQueueNode>
+        private sealed class SynchronisedMinPriorityQueueNode
         {
-            public TItem Data { get; set; }
-
-            public TPriority Priority { get; set; }
-
-            #region IComparable<MaxPriorityQueueNode> Members
-            public int CompareTo(SynchronisedMinPriorityQueueNode other)
+            public SynchronisedMinPriorityQueueNode(TItem data, TPriority priority)
             {
-                return Priority.CompareTo(other.Priority);
+                Data = data;
+                Priority = priority;
             }
-            #endregion IComparable<MaxPriorityQueueNode> Members
+
+            public TItem Data { get; }
+            public TPriority Priority { get; }
+        }
+
+        private sealed class SynchronisedMinPriorityQueueNodeComparer : IComparer<SynchronisedMinPriorityQueueNode>
+        {
+            private readonly IComparer<TPriority> _priorityComparer;
+
+            public SynchronisedMinPriorityQueueNodeComparer(IComparer<TPriority> priorityComparer)
+            {
+                _priorityComparer = priorityComparer;
+            }
+
+            public int Compare(SynchronisedMinPriorityQueueNode x, SynchronisedMinPriorityQueueNode y)
+            {
+                return _priorityComparer.Compare(x.Priority, y.Priority);
+            }
         }
     }
 }

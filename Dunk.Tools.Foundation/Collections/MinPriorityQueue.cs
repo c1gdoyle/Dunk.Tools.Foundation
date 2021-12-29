@@ -72,7 +72,7 @@ namespace Dunk.Tools.Foundation.Collections
                 throw new ArgumentOutOfRangeException(nameof(initialQueueSize),
                     $"Unable to initialise Minimum Priority-Queue. {nameof(initialQueueSize)} must be greater than zero.");
             }
-            _comparer = new Comparers.NonNullKeySelectorComparer<MinPriorityQueueNode, TPriority>(x => x.Priority, priorityComparer);
+            _comparer = new MinPriorityQueueNodeComparer(priorityComparer);
             _minHeap = new MinDHeap<MinPriorityQueueNode>(2, initialQueueSize, _comparer);
         }
 
@@ -119,13 +119,7 @@ namespace Dunk.Tools.Foundation.Collections
                     $"Unable to enqueue item into Minimum Priority-Queue. {nameof(priority)} cannot be null.");
             }
 
-            var node = new MinPriorityQueueNode
-            {
-                Data = item,
-                Priority = priority
-            };
-
-            _minHeap.Insert(node);
+            _minHeap.Insert(new MinPriorityQueueNode(item, priority));
         }
 
         /// <summary>
@@ -163,18 +157,31 @@ namespace Dunk.Tools.Foundation.Collections
             return result;
         }
 
-        private sealed class MinPriorityQueueNode : IComparable<MinPriorityQueueNode>
+        private sealed class MinPriorityQueueNode
         {
-            public TItem Data { get; set; }
-
-            public TPriority Priority { get; set; }
-
-            #region IComparable<MaxPriorityQueueNode> Members
-            public int CompareTo(MinPriorityQueueNode other)
+            public MinPriorityQueueNode(TItem data, TPriority priority)
             {
-                return Priority.CompareTo(other.Priority);
+                Data = data;
+                Priority = priority;
             }
-            #endregion IComparable<MaxPriorityQueueNode> Members
+
+            public TItem Data { get; }
+            public TPriority Priority { get; }
+        }
+
+        private sealed class MinPriorityQueueNodeComparer : IComparer<MinPriorityQueueNode>
+        {
+            private readonly IComparer<TPriority> _priorityComparer;
+
+            public MinPriorityQueueNodeComparer(IComparer<TPriority> priorityComparer)
+            {
+                _priorityComparer = priorityComparer;
+            }
+
+            public int Compare(MinPriorityQueueNode x, MinPriorityQueueNode y)
+            {
+                return _priorityComparer.Compare(x.Priority, y.Priority);
+            }
         }
     }
 }

@@ -72,7 +72,7 @@ namespace Dunk.Tools.Foundation.Collections
                 throw new ArgumentOutOfRangeException(nameof(initialQueueSize),
                     $"Unable to initialise Maximum Priority-Queue. {nameof(initialQueueSize)} must be greater than zero.");
             }
-            _comparer = new Comparers.NonNullKeySelectorComparer<MaxPriorityQueueNode, TPriority>(x => x.Priority, priorityComparer);
+            _comparer = new MaxPriorityQueueNodeComparer(priorityComparer);
             _maxHeap = new MaxDHeap<MaxPriorityQueueNode>(2, initialQueueSize, _comparer);
         }
 
@@ -119,13 +119,7 @@ namespace Dunk.Tools.Foundation.Collections
                     $"Unable to enqueue item into Maximum Priority-Queue. {nameof(priority)} cannot be null.");
             }
 
-            var node = new MaxPriorityQueueNode
-            {
-                Data = item,
-                Priority = priority
-            };
-
-            _maxHeap.Insert(node);
+            _maxHeap.Insert(new MaxPriorityQueueNode(item, priority));
         }
 
         /// <summary>
@@ -163,18 +157,31 @@ namespace Dunk.Tools.Foundation.Collections
             return result;
         }
 
-        private sealed class MaxPriorityQueueNode : IComparable<MaxPriorityQueueNode>
+        private sealed class MaxPriorityQueueNode
         {
-            public TItem Data { get; set; }
-
-            public TPriority Priority { get; set; }
-
-            #region IComparable<MaxPriorityQueueNode> Members
-            public int CompareTo(MaxPriorityQueueNode other)
+            public MaxPriorityQueueNode(TItem data, TPriority priority)
             {
-                return Priority.CompareTo(other.Priority);
+                Data = data;
+                Priority = priority;
             }
-            #endregion IComparable<MaxPriorityQueueNode> Members
+
+            public TItem Data { get; }
+            public TPriority Priority { get; }
+        }
+
+        private sealed class MaxPriorityQueueNodeComparer : IComparer<MaxPriorityQueueNode>
+        {
+            private readonly IComparer<TPriority> _priorityComparer;
+
+            public MaxPriorityQueueNodeComparer(IComparer<TPriority> priorityComparer)
+            {
+                _priorityComparer = priorityComparer;
+            }
+
+            public int Compare(MaxPriorityQueueNode x, MaxPriorityQueueNode y)
+            {
+                return _priorityComparer.Compare(x.Priority, y.Priority);
+            }
         }
     }
 }
