@@ -72,7 +72,7 @@ namespace Dunk.Tools.Foundation.Collections
                 throw new ArgumentOutOfRangeException(nameof(initialQueueSize),
                     $"Unable to initialise Minimum Priority-Queue. {nameof(initialQueueSize)} must be greater than zero.");
             }
-            _comparer = new Comparers.NonNullKeySelectorComparer<MinPriorityQueueNode, TPriority>(x => x.Value, priorityComparer);
+            _comparer = new MinPriorityQueueNodeComparer(priorityComparer);
             _minHeap = new MinDHeap<MinPriorityQueueNode>(2, initialQueueSize, _comparer);
         }
 
@@ -157,15 +157,31 @@ namespace Dunk.Tools.Foundation.Collections
             return result;
         }
 
-        private sealed class MinPriorityQueueNode : Base.ComparableBase<TPriority>
+        private sealed class MinPriorityQueueNode
         {
             public MinPriorityQueueNode(TItem data, TPriority priority)
-                : base(priority)
             {
                 Data = data;
+                Priority = priority;
             }
 
             public TItem Data { get; }
+            public TPriority Priority { get; }
+        }
+
+        private sealed class MinPriorityQueueNodeComparer : IComparer<MinPriorityQueueNode>
+        {
+            private readonly IComparer<TPriority> _priorityComparer;
+
+            public MinPriorityQueueNodeComparer(IComparer<TPriority> priorityComparer)
+            {
+                _priorityComparer = priorityComparer;
+            }
+
+            public int Compare(MinPriorityQueueNode x, MinPriorityQueueNode y)
+            {
+                return _priorityComparer.Compare(x.Priority, y.Priority);
+            }
         }
     }
 }
