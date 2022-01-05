@@ -24,6 +24,7 @@ namespace Dunk.Tools.Foundation.Comparers
         /// </summary>
         /// <param name="keySelector">The function for selecting the key to compare on.</param>
         public NonNullKeySelectorComparer(Func<T, TKey> keySelector)
+            :this(keySelector, null)
         {
         }
 
@@ -43,6 +44,16 @@ namespace Dunk.Tools.Foundation.Comparers
         /// <inheritdoc />
         public int Compare(T x, T y)
         {
+            if(x == null)
+            {
+                throw new ArgumentNullException(
+                    nameof(x), $"Unable to compare. {typeof(NonNullKeySelectorComparer<T, TKey>).Name} cannot compare if {nameof(x)} is null.");
+            }
+            if(y == null)
+            {
+                throw new ArgumentNullException(
+                    nameof(y), $"Unable to compare. {typeof(NonNullKeySelectorComparer<T, TKey>).Name} cannot compare if {nameof(y)} is null.");
+            }
             TKey xKey = _keySelector(x);
             TKey yKey = _keySelector(y);
 
