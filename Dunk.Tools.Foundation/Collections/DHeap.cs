@@ -33,7 +33,7 @@ namespace Dunk.Tools.Foundation.Collections
     [DebuggerDisplay("Count = {Count}")]
     public class DHeap<T> : IHeap<T>
     {
-        private readonly IComparer<T> _comparer;
+        private readonly IComparer<T> comparer;
         private readonly Func<int, bool> _resultComparer;
 
         private readonly int _order;
@@ -72,7 +72,7 @@ namespace Dunk.Tools.Foundation.Collections
         private DHeap(int order, Func<int, bool> resultComparer, IComparer<T> comparer = null)
         {
             _order = order;
-            _comparer = comparer ?? Comparer<T>.Default;
+            this.comparer = comparer ?? Comparer<T>.Default;
             _resultComparer = resultComparer;
         }
 
@@ -336,7 +336,7 @@ namespace Dunk.Tools.Foundation.Collections
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private bool DoCompare(T x, T y)
         {
-            return _resultComparer(_comparer.Compare(x, y));
+            return _resultComparer(comparer.Compare(x, y));
         }
 
         private void BubbleUp(int i)
