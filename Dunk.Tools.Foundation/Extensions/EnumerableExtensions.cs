@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Dunk.Tools.Foundation.Collections;
 
 namespace Dunk.Tools.Foundation.Extensions
@@ -366,6 +367,64 @@ namespace Dunk.Tools.Foundation.Extensions
             IList<TSource> list = new List<TSource>(count);
             list.AddRange(source);
             return list;
+        }
+
+        /// <summary>
+        /// Performs the specified action on each element of the <see cref="IEnumerable{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of elements.</typeparam>
+        /// <param name="source">The sequence of elements.</param>
+        /// <param name="action">The action to perform on each element.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="action"/> was null.</exception>
+        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source),
+                    $"Unable to perform foreach, {nameof(source)} parameter was null.");
+            }
+            if (action == null)
+            {
+                throw new ArgumentNullException(nameof(action),
+                    $"Unable to perform foreach, {nameof(action)} parameter was null.");
+            }
+            List<T> list = source as List<T>;
+            if (list != null)
+            {
+                list.ForEach(action);
+            }
+            else
+            {
+                foreach (T item in source)
+                {
+                    action(item);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Asynchronously performs an action on each element of a specified <see cref="IEnumerable{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of elements.</typeparam>
+        /// <param name="source">The sequence of elements.</param>
+        /// <param name="action">The action to perform on each element.</param>
+        /// <returns>
+        /// A <see cref="Task"/> representing the action performed on all elements.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="action"/> was null.</exception>
+        public static Task ForEachAsync<T>(this IEnumerable<T> source, Func<T, Task> action)
+        {
+            if(source == null)
+            {
+                throw new ArgumentNullException(nameof(source), 
+                    $"Unable to perform asynchronous foreach, {nameof(source)} parameter was null.");
+            }
+            if(action == null)
+            {
+                throw new ArgumentNullException(nameof(action),
+                    $"Unable to perform asynchronous foreach, {nameof(action)} parameter was null.");
+            }
+            return Task.WhenAll(source.Select(action));
         }
 
         private static void CheckPartitionArguments<T>(IEnumerable<T> source, int size)

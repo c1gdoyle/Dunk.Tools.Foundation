@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Dunk.Tools.Foundation.Comparers;
 using Dunk.Tools.Foundation.Extensions;
 using NUnit.Framework;
@@ -497,6 +499,82 @@ namespace Dunk.Tools.Foundation.Test.Extensions
             var actual = source.ToListWithCount(count);
 
             Assert.IsTrue(new ListEqualityComparer<int>().Equals(expected, actual));
+        }
+
+        [Test]
+        public void EnumerableForEachThrowsIfSourceIsNull()
+        {
+            int[] array = null;
+            Action<int> action = i => { };
+
+            Assert.Throws<ArgumentNullException>(() => array.ForEach(action));
+        }
+
+        [Test]
+        public void EnumerableForEachThrowsIfActionIsNull()
+        {
+            int[] array = Array.Empty<int>();
+            Action<int> action = null;
+
+            Assert.Throws<ArgumentNullException>(() => array.ForEach(action));
+        }
+
+        [Test]
+        public void EnumerableForEachPerformsActionOnEachElement()
+        {
+            int[] array = new[] { 1, 2, 3, 4, 5 };
+            List<int> list = new List<int>();
+            Action<int> action = i => list.Add(i);
+
+            array.ForEach(action);
+
+            Assert.AreEqual(5, list.Count);
+        }
+
+        [Test]
+        public void EnumerableForEachPerformsActionOnEachElementInList()
+        {
+            IEnumerable<int> enumerable = new List<int>(new [] { 1, 2, 3, 4, 5 });
+            List<int> list = new List<int>();
+            Action<int> action = i => list.Add(i);
+
+            enumerable.ForEach(action);
+
+            Assert.AreEqual(5, list.Count);
+        }
+
+        [Test]
+        public void EnumerableForAsyncEachThrowsIfSourceIsNull()
+        {
+            int[] array = null;
+            Func<int, Task> action = i => Task.CompletedTask;
+
+            Assert.ThrowsAsync<ArgumentNullException>(() => array.ForEachAsync(action));
+        }
+
+        [Test]
+        public void EnumerableForAsyncEachThrowsIfActionIsNull()
+        {
+            int[] array = Array.Empty<int>();
+            Func<int, Task> action = null;
+
+            Assert.ThrowsAsync<ArgumentNullException>(() => array.ForEachAsync(action));
+        }
+
+        [Test]
+        public async Task EnumerableForAsyncAppliesActionToEachElement()
+        {
+            int[] array = { 1, 2, 3, 4, 5 };
+            ConcurrentQueue<int> queue = new ConcurrentQueue<int>();
+            Func<int, Task> action = i =>
+            {
+                queue.Enqueue(i);
+                return Task.CompletedTask;
+            };
+
+            await array.ForEachAsync(action);
+
+            Assert.AreEqual(5, queue.Count);
         }
 
         private sealed class TestItem
